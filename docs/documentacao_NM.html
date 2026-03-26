@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: NM/serie_temporal - Processamento COMEX Nova Metodologia</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f7fa; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 4px solid #3498db; 
+            padding-bottom: 15px; 
+            margin-top: 0; 
+            font-size: 2.5em;
+        }
+        h2 { 
+            color: #34495e; 
+            margin-top: 50px; 
+            border-bottom: 3px solid #ecf0f1; 
+            padding-bottom: 10px; 
+            font-size: 1.8em; 
+        }
+        h3 { 
+            color: #7f8c8d; 
+            margin-top: 30px; 
+            font-size: 1.4em; 
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h4 { 
+            color: #95a5a6; 
+            margin-top: 20px; 
+            font-size: 1.2em; 
+        }
+        .nav-links { 
+            margin: 25px 0; 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 6px; 
+            border-left: 4px solid #3498db; 
+        }
+        .nav-links a { 
+            margin-right: 20px; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        .nav-links a:hover { 
+            text-decoration: underline; 
+        }
+        .info-box { 
+            background: #e8f4f8; 
+            padding: 20px; 
+            border-left: 4px solid #3498db; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .warning-box { 
+            background: #fff3cd; 
+            padding: 20px; 
+            border-left: 4px solid #ffc107; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .success-box { 
+            background: #d4edda; 
+            padding: 20px; 
+            border-left: 4px solid #28a745; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .code-block { 
+            background: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 20px; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            font-family: "Courier New", "Consolas", monospace; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            margin: 15px 0;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        .file-item { 
+            margin: 25px 0; 
+            padding: 25px; 
+            border: 2px solid #dee2e6; 
+            border-radius: 8px; 
+            background: #f8f9fa; 
+        }
+        .file-item h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .file-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        .file-path { 
+            font-family: "Courier New", monospace; 
+            color: #6c757d; 
+            font-size: 0.9em; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+        }
+        table th, table td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #dee2e6; 
+        }
+        table th { 
+            background: #f8f9fa; 
+            font-weight: 600; 
+            color: #495057; 
+        }
+        table tr:hover { background: #f8f9fa; }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            line-height: 2;
+        }
+        .flow-step {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .arrow {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        code { 
+            font-family: "Courier New", "Consolas", monospace; 
+            background: #f4f4f4; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-size: 0.9em; 
+            color: #e83e8c;
+        }
+        .section { margin: 40px 0; }
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .toc li:last-child { border-bottom: none; }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .method-list {
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+        .method-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 3px solid #3498db;
+            border-radius: 4px;
+        }
+        .method-signature {
+            font-family: "Courier New", monospace;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .footer { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 2px solid #ecf0f1; 
+            text-align: center; 
+            color: #7f8c8d; 
+            font-size: 0.9em; 
+        }
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .country-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .country-card h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+        .phase-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .phase-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">← Voltar ao Índice</a>
+            <a href="documentacao_OM.html">OM - Metodologia Antiga</a>
+            <a href="documentacao_globinho.html">NM/globinho</a>
+            <a href="documentacao_projecao_cif.html">Projeção CIF</a>
+        </div>
+
+        <h1>Documentação: NM/serie_temporal</h1>
+        <p style="font-size: 1.1em; color: #6c757d; margin-top: 10px;">
+            Módulo de processamento COMEX com Nova Metodologia Estatística
+        </p>
+
+        <!-- Índice -->
+        <div class="toc">
+            <h3>Índice</h3>
+            <ul>
+                <li><a href="#visao-geral">1. Visão Geral</a></li>
+                <li><a href="#nova-metodologia">2. Nova Metodologia Estatística</a></li>
+                <li><a href="#arquitetura">3. Arquitetura do Sistema</a></li>
+                <li><a href="#arquivos">4. Arquivos do Módulo</a></li>
+                <li><a href="#framework-base">5. Framework Base (costdrivers_comex_NM.py)</a></li>
+                <li><a href="#processadores-pais">6. Processadores por País</a></li>
+                <li><a href="#fluxo-processamento">7. Fluxo de Processamento</a></li>
+                <li><a href="#orquestrador">8. Orquestrador Europa</a></li>
+                <li><a href="#configuracao">9. Configuração</a></li>
+                <li><a href="#exemplos-uso">10. Exemplos de Uso</a></li>
+                <li><a href="#troubleshooting">11. Troubleshooting</a></li>
+            </ul>
+        </div>
+
+        <!-- Seção 1: Visão Geral -->
+        <div class="section" id="visao-geral">
+            <h2>1. Visão Geral</h2>
+            
+            <div class="info-box">
+                <h3>O que é o módulo serie_temporal?</h3>
+                <p>
+                    O módulo <strong>serie_temporal</strong> implementa a <strong>Nova Metodologia</strong> Estatística
+                    para processamento de dados de comércio exterior. Ele faz parte da <strong>Nova Metodologia (NM)</strong> 
+                    e utiliza técnicas de análise de séries temporais:
+                </p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>STL (Seasonal-Trend decomposition using Loess)</strong> para detecção de outliers</li>
+                    <li><strong>Top N Percent</strong> para agregação de dados por países relevantes</li>
+                    <li><strong>Cálculo de alpha</strong> (razão CIF/FOB) para valores CIF</li>
+                    <li><strong>Interpolação IQR</strong> para preenchimento de valores faltantes</li>
+                    <li><strong>Correção de valores negativos</strong> e ajustes no último mês</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <h3>Objetivo Principal</h3>
+                <p>
+                    Processar dados históricos de comércio exterior, aplicar metodologia estatística avançada para 
+                    detectar e corrigir outliers, calcular valores FOB e CIF normalizados, e enviar para a API de Cost Drivers.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Países Suportados</h3>
+                <div class="country-grid">
+                    <div class="country-card">
+                        <h4>🇧🇷 Brasil (BRA)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_BRA/COMEX_BRA_NM.py</code></p>
+                        <p>Coleta dados do portal COMEX do Brasil via web scraping.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇦🇹 Áustria (AUT)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_AUT/COMEX_AUT_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇮🇹 Itália (ITA)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_ITA/COMEX_ITA_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇫🇷 França (FRA)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_FRA/COMEX_FRA_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇧🇪 Bélgica (BEL)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_BEL/COMEX_BEL_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇩🇪 Alemanha (DEU)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_DEU/COMEX_DEU_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇵🇹 Portugal (PRT)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_PRT/COMEX_PRT_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇳🇱 Holanda (NLD)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_NLD/COMEX_NLD_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇭🇺 Hungria (HUN)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_HUN/COMEX_HUN_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇧🇬 Bulgária (BGR)</h4>
+                        <p><strong>Arquivo:</strong> <code>COMEX_BGR/COMEX_BGR_NM.py</code></p>
+                        <p>Usa arquivo histórico específico do país atualizado pelo processo EUR.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Diferença entre Países</h3>
+                <p>
+                    <strong>Países com coleta própria:</strong> Brasil (BRA) - implementa métodos <code>collect_import_data()</code> 
+                    e <code>collect_export_data()</code> para coletar dados diretamente da fonte.
+                </p>
+                <p>
+                    <strong>Países europeus:</strong> Todos os outros países usam <code>iso_database='EUR'</code>, o que significa 
+                    que eles processam dados já coletados e separados por país. Cada país europeu possui seu próprio arquivo 
+                    histórico em <code>NM/dados/{ISO_CODE}/database/historical.parquet</code>, que é atualizado pelo processo 
+                    <code>OM/COMEX_EUR/COMEX_EUR.py</code>. Isso evita processar os mesmos dados 9 vezes (uma vez para cada país).
+                </p>
+                <p>
+                    <strong>⚠️ Ponto de Atenção:</strong> Os arquivos históricos de cada país europeu devem ser atualizados 
+                    pelo processo <code>OM/COMEX_EUR/COMEX_EUR.py</code> antes de executar os pipelines da Nova Metodologia. 
+                    Não é necessário processar os dados do EUR 9 vezes separadamente.
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 2: Nova Metodologia -->
+        <div class="section" id="nova-metodologia">
+            <h2>2. Nova Metodologia Estatística</h2>
+
+            <div class="info-box">
+                <h3>Componentes da Nova Metodologia</h3>
+                <p>A nova metodologia é composta por várias etapas estatísticas avançadas:</p>
+            </div>
+
+            <h3>2.1. Top N Percent</h3>
+            <div class="file-item">
+                <p><strong>Função:</strong> <code>top_n_percent(df, threshold=0.8)</code></p>
+                <p><strong>Descrição:</strong> Agrega dados por país dentro de cada grupo (IDIndicePrincipal, Data), ordena por peso decrescente, calcula valores acumulativos e identifica quais grupos atingem o threshold especificado (padrão: 80%).</p>
+                <p><strong>Saída:</strong> DataFrame com colunas:</p>
+                <ul style="margin-left: 20px;">
+                    <li><code>IDIndicePrincipal</code> - ID do indicador</li>
+                    <li><code>Data</code> - Data do registro</li>
+                    <li><code>FOB_100</code> - Preço médio FOB do grupo total (valor/peso)</li>
+                    <li><code>FOB_80</code> - Preço médio FOB acumulativo (top 80%)</li>
+                    <li><code>CIF_80</code> - Preço médio CIF acumulativo (top 80%)</li>
+                    <li><code>pais_id_CUMUL</code> - Lista acumulativa de códigos de países</li>
+                </ul>
+            </div>
+
+            <h3>2.2. STL (Seasonal-Trend decomposition using Loess)</h3>
+            <div class="file-item">
+                <p><strong>Função:</strong> <code>outlier_testing_stl(series, period=12, z_threshold=2.5)</code></p>
+                <p><strong>Descrição:</strong> Decompõe a série temporal em três componentes: tendência, sazonalidade e resíduos. Identifica outliers usando z-score dos resíduos.</p>
+                <p><strong>Componentes:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>trend</code> - Tendência da série</li>
+                    <li><code>seasonality</code> - Componente sazonal</li>
+                    <li><code>residuals</code> - Resíduos (diferença entre valor real e tendência+sazonalidade)</li>
+                    <li><code>residuals_zscore</code> - Z-score dos resíduos (usado para detectar outliers)</li>
+                </ul>
+                <p><strong>Outliers:</strong> Valores com <code>abs(residuals_zscore) > z_threshold</code> são marcados como outliers.</p>
+            </div>
+
+            <h3>2.3. Interpolação IQR</h3>
+            <div class="file-item">
+                <p><strong>Função:</strong> <code>interpolation_iqr_stl(series, value_column='Valor_final')</code></p>
+                <p><strong>Descrição:</strong> Preenche valores faltantes (NaN) usando múltiplas estratégias:</p>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Histórico preservado:</strong> Valores históricos (Type='historic') nunca são alterados</li>
+                    <li><strong>Média móvel:</strong> Para NaN no início da série</li>
+                    <li><strong>Tendência + Sazonalidade + Resíduo suavizado:</strong> Para NaN no meio da série</li>
+                    <li><strong>Correção de outliers IQR:</strong> Se último mês é outlier por IQR, substitui por média móvel de 3 meses</li>
+                </ol>
+            </div>
+
+            <h3>2.4. Cálculo de Alpha</h3>
+            <div class="file-item">
+                <p><strong>Função:</strong> <code>find_alpha(series)</code></p>
+                <p><strong>Descrição:</strong> Calcula a razão CIF/FOB (alpha) para cada IDIndicePrincipal e Data.</p>
+                <p><strong>Fórmula:</strong> <code>alpha = CIF_80 / FOB_80</code></p>
+                <p><strong>Uso:</strong> Alpha é usado para calcular valores CIF quando apenas valores FOB estão disponíveis.</p>
+            </div>
+
+            <h3>2.5. Correções Finais</h3>
+            <div class="file-item">
+                <p><strong>Funções:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>fix_last_month_high_residual()</code> - Ajusta o último mês se for outlier</li>
+                    <li><code>fix_negative_values()</code> - Corrige valores negativos que podem ter sido gerados</li>
+                </ul>
+                <p><strong>Regras para último mês:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Se outlier por resíduos E por IQR → média móvel 3 meses</li>
+                    <li>Se outlier por resíduos → tendência + sazonalidade + resíduos suavizados</li>
+                    <li>Se outlier por IQR → média móvel 3 meses</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 3: Arquitetura -->
+        <div class="section" id="arquitetura">
+            <h2>3. Arquitetura do Sistema</h2>
+            
+            <div class="info-box">
+                <h3>Padrão de Design</h3>
+                <p>
+                    O módulo utiliza o padrão <strong>Template Method</strong> através de uma classe base abstrata 
+                    (<code>ComexPipelineNM</code>) que define o fluxo comum em 4 fases, enquanto cada país implementa 
+                    métodos específicos para suas particularidades.
+                </p>
+            </div>
+
+            <h3>Hierarquia de Classes</h3>
+            <div class="code-block">
+<pre>
+ComexPipelineNM (classe abstrata)
+    ├── COMEX_BRA_NM (Brasil - coleta própria)
+    ├── COMEX_AUT_NM (Áustria - usa EUR)
+    ├── COMEX_ITA_NM (Itália - usa EUR)
+    ├── COMEX_FRA_NM (França - usa EUR)
+    ├── COMEX_BEL_NM (Bélgica - usa EUR)
+    ├── COMEX_DEU_NM (Alemanha - usa EUR)
+    ├── COMEX_PRT_NM (Portugal - usa EUR)
+    ├── COMEX_NLD_NM (Holanda - usa EUR)
+    ├── COMEX_HUN_NM (Hungria - usa EUR)
+    └── COMEX_BGR_NM (Bulgária - usa EUR)
+</pre>
+            </div>
+
+            <h3>Métodos Abstratos (devem ser implementados)</h3>
+            <div class="method-list">
+                <div class="method-item">
+                    <div class="method-signature">collect_import_data() → pd.DataFrame</div>
+                    <p>Coleta dados brutos de importação. Deve ser implementado quando <code>iso_database != 'EUR'</code>.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">collect_export_data() → pd.DataFrame</div>
+                    <p>Coleta dados brutos de exportação. Deve ser implementado quando <code>iso_database != 'EUR'</code>.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">_get_country_name() → str</div>
+                    <p>Retorna nome do país para filtro na tabela de IDs.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">_country_specific_treatment(df) → pd.DataFrame</div>
+                    <p>Aplica tratamento específico do país após normalização de colunas.</p>
+                </div>
+            </div>
+
+            <h3>Métodos Comuns (implementados na classe base)</h3>
+            <div class="method-list">
+                <div class="method-item">
+                    <div class="method-signature">collect() → Tuple[pd.DataFrame, pd.DataFrame]</div>
+                    <p>Fase 1: Coleta dados brutos de importação e exportação.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">update_historical() → pd.DataFrame</div>
+                    <p>Atualiza histórico com dados novos coletados.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">normalize_historical() → pd.DataFrame</div>
+                    <p>Fase 2: Normaliza colunas usando data-contract.yaml e aplica tratamento específico.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">calculate() → pd.DataFrame</div>
+                    <p>Fase 3: Aplica nova metodologia estatística (top N percent, STL, interpolação).</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">upload(ExcluirHistorico, percentualOutlier) → bool</div>
+                    <p>Fase 4: Envia dados calculados para a API de Cost Drivers.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">run(skip_phases) → pd.DataFrame</div>
+                    <p>Método principal que orquestra todas as 4 fases.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Arquivos do Módulo -->
+        <div class="section" id="arquivos">
+            <h2>4. Arquivos do Módulo</h2>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>costdrivers_comex_NM.py</h3>
+                    <span class="file-path">NM/serie_temporal/costdrivers_comex_NM.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Classe base abstrata e funções da nova metodologia</p>
+                <p><strong>Descrição:</strong> Define a estrutura comum para todos os processadores de países e implementa todas as funções estatísticas da nova metodologia.</p>
+                <p><strong>Classe Principal:</strong> <code>ComexPipelineNM</code></p>
+                <p><strong>Funções Estatísticas Principais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>optimize_dtypes()</code> - Otimiza tipos de dados para economizar memória</li>
+                    <li><code>top_n_percent()</code> - Agrega dados por top N percent</li>
+                    <li><code>find_IDs()</code> - Encontra IDs válidos com mínimo de 24 meses</li>
+                    <li><code>outlier_testing_stl()</code> - Detecta outliers usando STL</li>
+                    <li><code>outlier_testing_iqr()</code> - Detecta outliers usando IQR</li>
+                    <li><code>preprocess_data()</code> - Pré-processa séries temporais</li>
+                    <li><code>interpolation_iqr_stl()</code> - Interpola valores faltantes</li>
+                    <li><code>final_interpolation()</code> - Interpolação final completa</li>
+                    <li><code>find_alpha()</code> - Calcula razão CIF/FOB</li>
+                    <li><code>fix_last_month_high_residual()</code> - Corrige último mês</li>
+                    <li><code>fix_negative_values()</code> - Corrige valores negativos</li>
+                </ul>
+                <p><strong>Métodos do Pipeline:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>collect()</code> - Fase 1: Coleta</li>
+                    <li><code>update_historical()</code> - Atualiza histórico</li>
+                    <li><code>normalize_historical()</code> - Fase 2: Normalização</li>
+                    <li><code>calculate()</code> - Fase 3: Cálculo</li>
+                    <li><code>upload()</code> - Fase 4: Upload</li>
+                    <li><code>run()</code> - Orquestra todas as fases</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>orquestrador_europa_NM.py</h3>
+                    <span class="file-path">NM/serie_temporal/orquestrador_europa_NM.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Script orquestrador</p>
+                <p><strong>Descrição:</strong> Executa pipelines de todos os países europeus sequencialmente.</p>
+                <p><strong>Países Configurados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Áustria (AUT)</li>
+                    <li>Itália (ITA)</li>
+                    <li>França (FRA)</li>
+                    <li>Bélgica (BEL)</li>
+                    <li>Alemanha (DEU)</li>
+                    <li>Portugal (PRT)</li>
+                    <li>Holanda (NLD)</li>
+                    <li>Hungria (HUN) - comentado</li>
+                    <li>Bulgária (BGR) - comentado</li>
+                </ul>
+                <p><strong>Funções Principais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>executar_pais()</code> - Executa pipeline de um país específico</li>
+                    <li><code>executar_todos_paises()</code> - Executa todos os países configurados</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>data-contract.yaml</h3>
+                    <span class="file-path">NM/serie_temporal/data-contract.yaml</span>
+                </div>
+                <p><strong>Tipo:</strong> Arquivo de configuração YAML</p>
+                <p><strong>Descrição:</strong> Define o mapeamento de colunas para cada país, especificando como colunas brutas são mapeadas para colunas normalizadas.</p>
+                <p><strong>Estrutura:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>schema</code> - Define tipos de dados esperados</li>
+                    <li><code>[PAIS]</code> - Seção por país</li>
+                    <li><code>export</code> / <code>import</code> - Mapeamento por tipo de comércio</li>
+                    <li><code>columns</code> - Lista de colunas esperadas após normalização</li>
+                </ul>
+                <p><strong>Países Suportados:</strong> ARG, BRA, EUR, DEU, NLD, AUT, ITA, FRA, BEL, PRT, HUN, BGR, USA, COL, IND</p>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>COMEX_BRA/COMEX_BRA_NM.py</h3>
+                    <span class="file-path">NM/serie_temporal/COMEX_BRA/COMEX_BRA_NM.py</span>
+                </div>
+                <p><strong>País:</strong> Brasil (BRA)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados do Brasil. Coleta dados diretamente do portal COMEX usando web scraping.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>collect_import_data()</code> - Coleta dados de importação via web scraping</li>
+                    <li><code>collect_export_data()</code> - Coleta dados de exportação via web scraping</li>
+                    <li><code>_get_available_files()</code> - Lista arquivos CSV disponíveis no portal</li>
+                    <li><code>_download_file()</code> - Baixa arquivo CSV do portal</li>
+                    <li><code>_country_specific_treatment()</code> - Tratamento específico do Brasil</li>
+                </ul>
+                <p><strong>Particularidades:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Único país que implementa coleta própria (não usa iso_database='EUR')</li>
+                    <li>Usa BeautifulSoup para parsing HTML</li>
+                    <li>Baixa arquivos CSV do portal COMEX</li>
+                    <li>Processa múltiplos anos de dados</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>COMEX_AUT/COMEX_AUT_NM.py</h3>
+                    <span class="file-path">NM/serie_temporal/COMEX_AUT/COMEX_AUT_NM.py</span>
+                </div>
+                <p><strong>País:</strong> Áustria (AUT)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados da Áustria. Usa arquivo histórico específico do país.</p>
+                <p><strong>Configuração:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>iso_code='AUT'</code></li>
+                    <li><code>iso_database='EUR'</code> - Indica que dados vêm do processo EUR (mas já separados por país)</li>
+                </ul>
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Arquivo: <code>NM/dados/AUT/database/historical.parquet</code></li>
+                    <li>Este arquivo é atualizado pelo processo <code>OM/COMEX_EUR/COMEX_EUR.py</code></li>
+                    <li>Dados já estão filtrados e separados por país (apenas dados da Áustria)</li>
+                </ul>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>_get_country_name()</code> - Retorna 'Áustria'</li>
+                    <li><code>_country_specific_treatment()</code> - Filtra TOTAL, mapeia TRADE_TYPE, remove REPORTER</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>Outros Países Europeus</h3>
+                    <span class="file-path">NM/serie_temporal/COMEX_[PAIS]/COMEX_[PAIS]_NM.py</span>
+                </div>
+                <p><strong>Países:</strong> ITA, FRA, BEL, DEU, PRT, NLD, HUN, BGR</p>
+                <p><strong>Estrutura Similar:</strong> Todos seguem o mesmo padrão do COMEX_AUT_NM:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Usam <code>iso_database='EUR'</code> (indica origem dos dados)</li>
+                    <li>Implementam apenas <code>_get_country_name()</code> e <code>_country_specific_treatment()</code></li>
+                    <li>Cada país possui seu próprio arquivo histórico em <code>NM/dados/{ISO_CODE}/database/historical.parquet</code></li>
+                </ul>
+                <p><strong>Arquivos por País:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Itália: <code>NM/dados/ITA/database/historical.parquet</code></li>
+                    <li>França: <code>NM/dados/FRA/database/historical.parquet</code></li>
+                    <li>Bélgica: <code>NM/dados/BEL/database/historical.parquet</code></li>
+                    <li>Alemanha: <code>NM/dados/DEU/database/historical.parquet</code></li>
+                    <li>Portugal: <code>NM/dados/PRT/database/historical.parquet</code></li>
+                    <li>Holanda: <code>NM/dados/NLD/database/historical.parquet</code></li>
+                    <li>Hungria: <code>NM/dados/HUN/database/historical.parquet</code></li>
+                    <li>Bulgária: <code>NM/dados/BGR/database/historical.parquet</code></li>
+                </ul>
+                <p><strong>Diferenças:</strong> Apenas o código ISO do país, o nome do país e o caminho do arquivo histórico mudam.</p>
+                <div class="warning-box" style="margin-top: 15px;">
+                    <p><strong>⚠️ Importante:</strong> Todos esses arquivos são atualizados pelo processo <code>OM/COMEX_EUR/COMEX_EUR.py</code>, 
+                    que coleta os dados do EUR uma única vez e os separa por país. Não é necessário processar os dados 9 vezes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: Framework Base -->
+        <div class="section" id="framework-base">
+            <h2>5. Framework Base (costdrivers_comex_NM.py)</h2>
+
+            <div class="info-box">
+                <h3>Classe ComexPipelineNM</h3>
+                <p>
+                    A classe <code>ComexPipelineNM</code> é uma classe abstrata que define todo o fluxo comum 
+                    de processamento em 4 fases. Ela utiliza o padrão Template Method, onde o fluxo geral é 
+                    definido na classe base, mas métodos específicos são implementados pelas classes filhas.
+                </p>
+            </div>
+
+            <h3>Inicialização</h3>
+            <div class="code-block">
+<pre>def __init__(self, iso_code: str, start_date: Optional[datetime] = None, 
+             data_contract_path: str = None, ids_table_path: str = None,
+             storage_base_path: str = "staging/comex",
+             use_azure: bool = True,
+             threshold_percent: float = 0.8,
+             min_months_required: int = 24,
+             developing: bool = False,
+             iso_database: Optional[str] = None):
+</pre>
+            </div>
+            <p><strong>Parâmetros Importantes:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li><code>iso_code</code> - Código ISO do país (ex: 'BRA', 'AUT')</li>
+                <li><code>iso_database</code> - Código ISO que indica origem dos dados (ex: 'EUR' para países europeus, que usam arquivos já separados por país em <code>NM/dados/{ISO_CODE}/database/historical.parquet</code>)</li>
+                <li><code>threshold_percent</code> - Threshold para top_n_percent (padrão: 0.8 = 80%)</li>
+                <li><code>min_months_required</code> - Mínimo de meses necessários para filtrar IDs (padrão: 24)</li>
+                <li><code>developing</code> - Se True, não usa ADLS e salva/carrega tudo localmente</li>
+            </ul>
+
+            <h3>Armazenamento</h3>
+            <div class="info-box">
+                <p>
+                    O framework suporta dois modos de armazenamento:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Azure Data Lake Storage (ADLS2):</strong> Quando <code>use_azure=True</code> e <code>developing=False</code></li>
+                    <li><strong>Armazenamento Local:</strong> Quando <code>developing=True</code> ou <code>use_azure=False</code></li>
+                </ul>
+                <p><strong>Estrutura de Pastas no ADLS:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>staging/comex/[ISO_CODE]/raw/</code> - Dados brutos coletados</li>
+                    <li><code>staging/comex/[ISO_CODE]/historical/</code> - Dados históricos</li>
+                    <li><code>staging/comex/[ISO_CODE]/normalized/</code> - Dados normalizados</li>
+                    <li><code>staging/comex/[ISO_CODE]/calculated/</code> - Dados calculados</li>
+                </ul>
+            </div>
+
+            <h3>Cache Local</h3>
+            <div class="info-box">
+                <p>
+                    Em modo desenvolvimento (<code>developing=True</code>), o framework usa cache local:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Cache salvo em <code>./cache_[ISO_CODE]_import.parquet</code> e <code>./cache_[ISO_CODE]_export.parquet</code></li>
+                    <li>Cache válido por 24 horas</li>
+                    <li>Útil para desenvolvimento e testes sem precisar coletar dados toda vez</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 6: Processadores por País -->
+        <div class="section" id="processadores-pais">
+            <h2>6. Processadores por País</h2>
+
+            <h3>Brasil (COMEX_BRA_NM)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Portal COMEX do Brasil: <code>https://www.gov.br/produtividade-e-comercio-exterior/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta</code></li>
+                    <li>Arquivos CSV com dados de importação e exportação por ano</li>
+                </ul>
+                <p><strong>Coleta:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa BeautifulSoup para parsing HTML</li>
+                    <li>Lista todos os links CSV disponíveis no portal</li>
+                    <li>Filtra por ano (desde start_date até ano atual)</li>
+                    <li>Baixa arquivos CSV e processa</li>
+                </ul>
+                <p><strong>Tratamento Específico:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Processa múltiplos arquivos CSV</li>
+                    <li>Normaliza colunas conforme data-contract.yaml</li>
+                    <li>Concatena dados de importação e exportação</li>
+                </ul>
+            </div>
+
+            <h3>Países Europeus (AUT, ITA, FRA, BEL, DEU, PRT, NLD, HUN, BGR)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Dados já coletados e separados por país pelo processo <code>OM/COMEX_EUR/COMEX_EUR.py</code></li>
+                    <li>Arquivo específico de cada país: <code>NM/dados/{ISO_CODE}/database/historical.parquet</code></li>
+                    <li>Exemplos:
+                        <ul style="margin-left: 20px;">
+                            <li>Áustria: <code>NM/dados/AUT/database/historical.parquet</code></li>
+                            <li>Itália: <code>NM/dados/ITA/database/historical.parquet</code></li>
+                            <li>França: <code>NM/dados/FRA/database/historical.parquet</code></li>
+                            <li>Alemanha: <code>NM/dados/DEU/database/historical.parquet</code></li>
+                            <li>E assim por diante para cada país...</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Processamento:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Carrega histórico específico do país (já filtrado e separado)</li>
+                    <li>Dados já foram filtrados por código ISO do país durante a coleta do EUR</li>
+                    <li>Aplica tratamento específico do país</li>
+                    <li>Cada país processa apenas seus próprios dados (não processa dados de outros países)</li>
+                </ul>
+                <p><strong>⚠️ Ponto de Atenção Importante:</strong></p>
+                <div class="warning-box" style="margin-top: 15px;">
+                    <p>
+                        Os arquivos históricos de cada país europeu devem ser atualizados pelo processo 
+                        <code>OM/COMEX_EUR/COMEX_EUR.py</code> antes de executar os pipelines da Nova Metodologia. 
+                        Este processo coleta os dados do EUR uma única vez e os separa por país, salvando em arquivos 
+                        individuais. Isso evita processar os mesmos dados 9 vezes (uma vez para cada país europeu).
+                    </p>
+                    <p style="margin-top: 10px;">
+                        <strong>Fluxo correto:</strong>
+                    </p>
+                    <ol style="margin-left: 20px;">
+                        <li>Executar <code>OM/COMEX_EUR/COMEX_EUR.py</code> para coletar e separar dados do EUR</li>
+                        <li>Este processo gera arquivos <code>NM/dados/{ISO_CODE}/database/historical.parquet</code> para cada país</li>
+                        <li>Executar pipelines individuais de cada país (COMEX_AUT_NM, COMEX_ITA_NM, etc.)</li>
+                        <li>Cada pipeline processa apenas seu próprio arquivo histórico</li>
+                    </ol>
+                </div>
+                <p><strong>Tratamento Específico (comum a todos):</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Filtra linhas onde NCM == "TOTAL"</li>
+                    <li>Converte PERIOD (YYYYMM) para Data</li>
+                    <li>Mapeia TRADE_TYPE para ImportExport</li>
+                    <li>Remove coluna REPORTER</li>
+                    <li>Define frete e seguro como NaN (não disponíveis nos dados EUR)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 7: Fluxo de Processamento -->
+        <div class="section" id="fluxo-processamento">
+            <h2>7. Fluxo de Processamento</h2>
+
+            <div class="flow-diagram">
+                <div class="phase-box">
+                    <h4>FASE 1: COLETA (collect)</h4>
+                    <div class="flow-step">1.1. Verificar cache local (se developing=True)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">1.2. Coletar dados de importação (collect_import_data)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">1.3. Coletar dados de exportação (collect_export_data)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">1.4. Concatenar import e export</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">1.5. Salvar dados brutos no storage</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">1.6. Atualizar histórico (update_historical)</div>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="phase-box">
+                    <h4>FASE 2: NORMALIZAÇÃO (normalize_historical)</h4>
+                    <div class="flow-step">2.1. Carregar histórico do storage</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">2.2. Carregar data-contract.yaml</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">2.3. Normalizar colunas conforme contrato</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">2.4. Aplicar tratamento específico do país (_country_specific_treatment)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">2.5. Salvar dados normalizados</div>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="phase-box">
+                    <h4>FASE 3: CÁLCULO (calculate)</h4>
+                    <div class="flow-step">3.1. Carregar dados normalizados</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.2. Encontrar IDs válidos (find_IDs) - mínimo 24 meses</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.3. Top N Percent (top_n_percent) - threshold 80%</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.4. Calcular alpha (razão CIF/FOB)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.5. Pré-processar séries FOB (preprocess_data)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.6. Detectar outliers STL (outlier_testing_stl)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.7. Detectar outliers IQR (outlier_testing_iqr)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.8. Interpolar valores faltantes (interpolation_iqr_stl)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.9. Corrigir último mês (fix_last_month_high_residual)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.10. Corrigir valores negativos (fix_negative_values)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.11. Calcular Valor_Cif usando alpha</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">3.12. Salvar dados calculados</div>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="phase-box">
+                    <h4>FASE 4: UPLOAD (upload)</h4>
+                    <div class="flow-step">4.1. Carregar dados calculados</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">4.2. Preparar dados para API (formato esperado)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">4.3. Obter token da API</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">4.4. Enviar dados em batches para API</div>
+                    <div class="arrow">↓</div>
+                    <div class="flow-step">4.5. Verificar resultados e tratar erros</div>
+                </div>
+            </div>
+
+            <h3>Detalhamento das Fases</h3>
+
+            <h4>Fase 1: Coleta</h4>
+            <div class="info-box">
+                <p>
+                    <strong>Para países com coleta própria (BRA):</strong>
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Implementa <code>collect_import_data()</code> e <code>collect_export_data()</code></li>
+                    <li>Coleta dados diretamente da fonte (web scraping, APIs, etc.)</li>
+                    <li>Salva dados brutos no storage</li>
+                    <li>Atualiza histórico concatenando com dados anteriores</li>
+                </ul>
+                <p>
+                    <strong>Para países europeus (iso_database='EUR'):</strong>
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Fase de coleta é pulada</li>
+                    <li>Dados são carregados diretamente do arquivo histórico específico do país: <code>NM/dados/{ISO_CODE}/database/historical.parquet</code></li>
+                    <li>Este arquivo é atualizado pelo processo <code>OM/COMEX_EUR/COMEX_EUR.py</code></li>
+                    <li>Cada país processa apenas seus próprios dados (já separados durante a coleta do EUR)</li>
+                </ul>
+            </div>
+
+            <h4>Fase 2: Normalização</h4>
+            <div class="info-box">
+                <p>
+                    Normaliza colunas usando <code>data-contract.yaml</code>:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Mapeia colunas brutas para colunas normalizadas</li>
+                    <li>Converte tipos de dados</li>
+                    <li>Aplica tratamento específico do país</li>
+                    <li>Garante estrutura consistente para cálculo</li>
+                </ul>
+            </div>
+
+            <h4>Fase 3: Cálculo</h4>
+            <div class="info-box">
+                <p>
+                    Aplica nova metodologia estatística completa:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li><strong>find_IDs:</strong> Filtra apenas IDs com mínimo de 24 meses de dados</li>
+                    <li><strong>top_n_percent:</strong> Agrega dados por top 80% de países por peso</li>
+                    <li><strong>find_alpha:</strong> Calcula razão CIF/FOB para cada ID</li>
+                    <li><strong>STL:</strong> Decompõe séries em tendência, sazonalidade e resíduos</li>
+                    <li><strong>Detecção de outliers:</strong> Identifica valores anômalos por STL e IQR</li>
+                    <li><strong>Interpolação:</strong> Preenche valores faltantes usando múltiplas estratégias</li>
+                    <li><strong>Correções:</strong> Ajusta último mês e valores negativos</li>
+                    <li><strong>Cálculo CIF:</strong> Calcula Valor_Cif usando alpha</li>
+                </ol>
+            </div>
+
+            <h4>Fase 4: Upload</h4>
+            <div class="info-box">
+                <p>
+                    Envia dados calculados para a API de Cost Drivers:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Prepara dados no formato esperado pela API</li>
+                    <li>Obtém token de autenticação</li>
+                    <li>Envia em batches para otimizar performance</li>
+                    <li>Trata erros e retries</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 8: Orquestrador -->
+        <div class="section" id="orquestrador">
+            <h2>8. Orquestrador Europa</h2>
+
+            <div class="file-item">
+                <h3>orquestrador_europa_NM.py</h3>
+                <p><strong>Propósito:</strong> Executar pipelines de todos os países europeus sequencialmente.</p>
+                
+                <h4>Função: executar_pais()</h4>
+                <div class="code-block">
+<pre>def executar_pais(config: Dict, start_date=None, use_azure=True, developing=False) 
+    -> Tuple[bool, str, pd.DataFrame]:
+    """
+    Executa o pipeline de um país específico.
+    
+    Returns:
+        Tupla (sucesso, mensagem, resultado_df)
+    """
+</pre>
+                </div>
+
+                <h4>Função: executar_todos_paises()</h4>
+                <div class="code-block">
+<pre>def executar_todos_paises(
+    start_date=None,
+    use_azure=True,
+    developing=False,
+    paises_especificos: List[str] = None
+) -> Dict[str, Tuple[bool, str, pd.DataFrame]]:
+    """
+    Executa pipelines de todos os países europeus configurados.
+    
+    Args:
+        paises_especificos: Lista de códigos ISO para executar apenas países específicos
+    
+    Returns:
+        Dicionário com resultados de cada país
+    """
+</pre>
+                </div>
+
+                <h4>Uso:</h4>
+                <div class="code-block">
+<pre># Executar todos os países
+resultados = executar_todos_paises(
+    start_date=None,
+    use_azure=True,
+    developing=False
+)
+
+# Executar apenas países específicos
+resultados = executar_todos_paises(
+    paises_especificos=['AUT', 'ITA', 'FRA']
+)
+</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 9: Configuração -->
+        <div class="section" id="configuracao">
+            <h2>9. Configuração</h2>
+
+            <h3>Arquivo data-contract.yaml</h3>
+            
+            <div class="info-box">
+                <h3>O que é o Contrato de Dados?</h3>
+                <p>
+                    O arquivo <code>data-contract.yaml</code> especifica como as colunas brutas de cada país 
+                    são mapeadas para as colunas normalizadas esperadas pelo pipeline.
+                    Este arquivo é fundamental para garantir que dados de diferentes 
+                    fontes e formatos sejam processados corretamente.
+                </p>
+            </div>
+
+            <h4>Estrutura do Contrato</h4>
+            <div class="file-item">
+                <p><strong>1. Schema (Definição de Tipos):</strong></p>
+                <p>Define os tipos de dados esperados para cada coluna normalizada:</p>
+                <div class="code-block">
+<pre>schema:
+  Data: datetime
+  ncm: int
+  pais_id: int
+  pais_name: str
+  peso: float
+  valor: float
+  valor_cif: float
+  frete: float
+  seguro: float
+</pre>
+                </div>
+                
+                <p><strong>2. Mapeamento por País:</strong></p>
+                <p>Cada país possui uma seção com mapeamentos específicos para <code>export</code> e <code>import</code>:</p>
+                <div class="code-block">
+<pre>[PAIS]:
+  export:
+    [COLUNA_BRUTA]: [COLUNA_NORMALIZADA]
+    columns: [lista de colunas esperadas após normalização]
+  import:
+    [COLUNA_BRUTA]: [COLUNA_NORMALIZADA]
+    columns: [lista de colunas esperadas após normalização]
+</pre>
+                </div>
+            </div>
+
+            <h4>Exemplos de Mapeamento por País</h4>
+            
+            <div class="file-item">
+                <h4>Brasil (BRA)</h4>
+                <p><strong>Características:</strong> Mesmas colunas para import e export, mas import tem colunas adicionais (frete e seguro)</p>
+                <div class="code-block">
+<pre>BRA:
+  export:
+    CO_NCM: ncm              # NCM do Brasil
+    CO_PAIS: pais_id         # Código do país
+    KG_LIQUIDO: peso        # Peso líquido
+    VL_FOB: valor           # Valor FOB
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']
+  
+  import:
+    CO_NCM: ncm              # Mesma coluna para NCM
+    CO_PAIS: pais_id         # Mesma coluna para país
+    KG_LIQUIDO: peso        # Mesma coluna para peso
+    VL_FOB: valor           # Mesma coluna para valor
+    VL_FRETE: frete         # ⚠️ APENAS em importação
+    VL_SEGURO: seguro       # ⚠️ APENAS em importação
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']
+</pre>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <h4>União Europeia (EUR) e Países Europeus</h4>
+                <p><strong>Características:</strong> Usa nomenclatura diferente, com <code>PRODUCT_NC</code> para NCM</p>
+                <div class="code-block">
+<pre>EUR:
+  export:
+    PRODUCT_NC: ncm          # ⚠️ Diferente do Brasil (CO_NCM)
+    REPORTER: pais_origem    # País de origem
+    PARTNER: pais_name       # Nome do país parceiro
+    VALUE_EUR: valor         # Valor em EUR
+    QUANTITY_KG: peso        # Quantidade em KG
+    PERIOD: Data             # Período (YYYYMM)
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  
+  import:
+    PRODUCT_NC: ncm          # Mesma coluna
+    REPORTER: pais_origem   # Mesma coluna
+    PARTNER: pais_name      # Mesma coluna
+    VALUE_EUR: valor        # Mesma coluna
+    QUANTITY_KG: peso       # Mesma coluna
+    PERIOD: Data            # Mesma coluna
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+</pre>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <h4>Colômbia (COL)</h4>
+                <p><strong>Características:</strong> ⚠️ <strong>COLUNAS DIFERENTES PARA IMPORT E EXPORT!</strong></p>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p><strong>⚠️ ATENÇÃO:</strong> Na Colômbia, as colunas brutas são diferentes para importação e exportação!</p>
+                </div>
+                <div class="code-block">
+<pre>COL:
+  export:
+    POSAR: ncm              # ⚠️ Coluna diferente para exportação
+    FOBDOL: valor           # Valor FOB em dólares
+    PBK: peso               # Peso
+    columns: ['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  
+  import:
+    NABAN: ncm              # ⚠️ Coluna DIFERENTE para importação!
+    VAFODO: valor           # Valor FOB em dólares (nome diferente)
+    PBK: peso               # Mesma coluna para peso
+    columns: ['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+</pre>
+                </div>
+                <p><strong>Diferenças Críticas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Export:</strong> Usa <code>POSAR</code> para NCM</li>
+                    <li><strong>Import:</strong> Usa <code>NABAN</code> para NCM (coluna completamente diferente!)</li>
+                    <li><strong>Export:</strong> Usa <code>FOBDOL</code> para valor</li>
+                    <li><strong>Import:</strong> Usa <code>VAFODO</code> para valor (nome diferente)</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <h4>Estados Unidos (USA)</h4>
+                <p><strong>Características:</strong> Colunas diferentes para import e export, import tem valor CIF</p>
+                <div class="code-block">
+<pre>USA:
+  export:
+    E_COMMODITY: ncm        # ⚠️ Prefixo 'E_' para exportação
+    CTY_CODE: pais_id       # Código do país
+    CTY_NAME: pais_name     # Nome do país
+    ALL_VAL_MO: valor       # Valor total
+    QTY_1_MO: peso          # Quantidade
+    time: Data              # Data
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+  
+  import:
+    I_COMMODITY: ncm        # ⚠️ Prefixo 'I_' para importação (diferente!)
+    CTY_CODE: pais_id       # Mesma coluna
+    CTY_NAME: pais_name     # Mesma coluna
+    GEN_VAL_MO: valor       # ⚠️ Nome diferente para valor
+    GEN_CIF_MO: valor_cif   # ⚠️ Valor CIF (apenas em importação)
+    GEN_QY1_MO: peso        # ⚠️ Nome diferente para peso
+    time: Data              # Mesma coluna
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'valor_cif']
+</pre>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <h4>Argentina (ARG)</h4>
+                <p><strong>Características:</strong> Colunas diferentes para país em import e export</p>
+                <div class="code-block">
+<pre>ARG:
+  export:
+    ncm: ncm                # NCM já está normalizado
+    pdes: pais_id           # ⚠️ 'pdes' para exportação
+    pnet(kg): peso          # Peso líquido
+    fob(usd): valor         # Valor FOB
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']
+  
+  import:
+    ncm: ncm                # Mesma coluna
+    porg: pais_id           # ⚠️ 'porg' para importação (diferente!)
+    pnet(kg): peso          # Mesma coluna
+    fob(usd): valor         # Mesma coluna
+    flete(usd): frete       # Frete (apenas importação)
+    seguro(usd): seguro     # Seguro (apenas importação)
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']
+</pre>
+                </div>
+            </div>
+
+            <h3>⚠️ Pontos de Atenção Críticos</h3>
+            
+            <div class="warning-box">
+                <h4>1. Diferenças entre Import e Export</h4>
+                <p>
+                    <strong>MUITO IMPORTANTE:</strong> Alguns países têm <strong>colunas completamente diferentes</strong> 
+                    para importação e exportação. Isso deve ser feito com <strong>muito cuidado</strong> ao configurar o contrato.
+                </p>
+                <p><strong>Exemplos de países com diferenças:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Colômbia:</strong> <code>POSAR</code> (export) vs <code>NABAN</code> (import) para NCM</li>
+                    <li><strong>Estados Unidos:</strong> <code>E_COMMODITY</code> (export) vs <code>I_COMMODITY</code> (import) para NCM</li>
+                    <li><strong>Argentina:</strong> <code>pdes</code> (export) vs <code>porg</code> (import) para país</li>
+                </ul>
+                <p><strong>Consequências de erro:</strong> Se você mapear incorretamente, os dados serão processados com valores errados ou colunas faltando, resultando em cálculos incorretos.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>2. Colunas Obrigatórias vs Opcionais</h4>
+                <p>
+                    Nem todos os países têm todas as colunas disponíveis:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Frete e Seguro:</strong> Geralmente disponíveis apenas em importação (ex: Brasil, Argentina)</li>
+                    <li><strong>Valor CIF:</strong> Disponível apenas em alguns países (ex: USA import tem <code>GEN_CIF_MO</code>)</li>
+                    <li><strong>País:</strong> Alguns países usam código (pais_id), outros usam nome (pais_name)</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>3. Como o Framework Usa o Contrato</h4>
+                <p>
+                    Durante a fase de normalização (<code>normalize_historical()</code>), o framework:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li>Carrega o arquivo <code>data-contract.yaml</code></li>
+                    <li>Identifica o país sendo processado</li>
+                    <li>Identifica se os dados são de importação ou exportação</li>
+                    <li>Aplica o mapeamento correto conforme o tipo de comércio</li>
+                    <li>Renomeia colunas brutas para colunas normalizadas</li>
+                    <li>Valida que todas as colunas esperadas estão presentes</li>
+                </ol>
+                <p><strong>Exemplo de uso:</strong></p>
+                <div class="code-block">
+<pre># Dados brutos do Brasil (importação)
+df_raw = pd.DataFrame({
+    'CO_NCM': [12345678],
+    'CO_PAIS': [23],
+    'KG_LIQUIDO': [1000.5],
+    'VL_FOB': [50000.0],
+    'VL_FRETE': [500.0],
+    'VL_SEGURO': [100.0]
+})
+
+# Após normalização usando data-contract.yaml
+df_normalized = pd.DataFrame({
+    'ncm': [12345678],        # CO_NCM → ncm
+    'pais_id': [23],          # CO_PAIS → pais_id
+    'peso': [1000.5],         # KG_LIQUIDO → peso
+    'valor': [50000.0],       # VL_FOB → valor
+    'frete': [500.0],         # VL_FRETE → frete
+    'seguro': [100.0]         # VL_SEGURO → seguro
+})
+</pre>
+                </div>
+            </div>
+
+            <h3>Boas Práticas</h3>
+            <div class="success-box">
+                <ul style="margin-left: 20px;">
+                    <li><strong>Sempre verifique:</strong> Se as colunas brutas realmente existem nos dados antes de mapear</li>
+                    <li><strong>Teste separadamente:</strong> Import e export podem ter estruturas diferentes</li>
+                    <li><strong>Valide tipos:</strong> Certifique-se de que os tipos de dados estão corretos após mapeamento</li>
+                    <li><strong>Documente mudanças:</strong> Se adicionar um novo país, documente as particularidades</li>
+                    <li><strong>Use exemplos:</strong> Inclua exemplos de dados brutos e normalizados na documentação</li>
+                </ul>
+            </div>
+
+            <h3>Estrutura Completa do Arquivo</h3>
+            <div class="code-block">
+<pre>schema:
+  Data: datetime
+  ncm: int
+  pais_id: int
+  pais_name: str
+  peso: float
+  valor: float
+  valor_cif: float
+  frete: float
+  seguro: float
+
+[PAIS]:
+  export:
+    [COLUNA_BRUTA_1]: [COLUNA_NORMALIZADA_1]
+    [COLUNA_BRUTA_2]: [COLUNA_NORMALIZADA_2]
+    ...
+    columns: [lista de colunas esperadas após normalização]
+  import:
+    [COLUNA_BRUTA_1]: [COLUNA_NORMALIZADA_1]  # Pode ser diferente de export!
+    [COLUNA_BRUTA_2]: [COLUNA_NORMALIZADA_2]
+    ...
+    columns: [lista de colunas esperadas após normalização]
+</pre>
+            </div>
+
+            <h3>Variáveis de Ambiente Necessárias</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variável</th>
+                        <th>Descrição</th>
+                        <th>Obrigatória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_KEY</code></td>
+                        <td>Chave da API de Cost Drivers</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_EMAIL</code></td>
+                        <td>Email para autenticação na API</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_PASSWORD</code></td>
+                        <td>Senha da API</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>AZURE_STORAGE_ACCOUNT_NAME</code></td>
+                        <td>Nome da conta Azure Storage (se use_azure=True)</td>
+                        <td>Condicional</td>
+                    </tr>
+                    <tr>
+                        <td><code>AZURE_STORAGE_ACCOUNT_KEY</code></td>
+                        <td>Chave da conta Azure Storage (se use_azure=True)</td>
+                        <td>Condicional</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Parâmetros de Inicialização</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Descrição</th>
+                        <th>Padrão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>iso_code</code></td>
+                        <td>Código ISO do país</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>Data inicial para coleta</td>
+                        <td>60 dias atrás</td>
+                    </tr>
+                    <tr>
+                        <td><code>threshold_percent</code></td>
+                        <td>Threshold para top_n_percent</td>
+                        <td>0.8 (80%)</td>
+                    </tr>
+                    <tr>
+                        <td><code>min_months_required</code></td>
+                        <td>Mínimo de meses para filtrar IDs</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>Usar Azure Storage</td>
+                        <td>True</td>
+                    </tr>
+                    <tr>
+                        <td><code>developing</code></td>
+                        <td>Modo desenvolvimento (usa cache local)</td>
+                        <td>False</td>
+                    </tr>
+                    <tr>
+                        <td><code>iso_database</code></td>
+                        <td>Código ISO que indica origem dos dados (ex: 'EUR' para países europeus)</td>
+                        <td>None (usa iso_code)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Seção 10: Exemplos de Uso -->
+        <div class="section" id="exemplos-uso">
+            <h2>10. Exemplos de Uso</h2>
+
+            <h3>Exemplo 1: Executar Pipeline do Brasil</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.COMEX_BRA.COMEX_BRA_NM import COMEX_BRA_NM
+
+# Criar pipeline
+pipeline = COMEX_BRA_NM(
+    start_date=None,
+    use_azure=True,
+    developing=False
+)
+
+# Executar pipeline completo
+result_df = pipeline.run()
+
+# Verificar resultado
+print(f"Total de registros calculados: {len(result_df)}")
+</pre>
+            </div>
+
+            <h3>Exemplo 2: Executar Pipeline da Áustria (modo desenvolvimento)</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.COMEX_AUT.COMEX_AUT_NM import COMEX_AUT_NM
+
+# Criar pipeline em modo desenvolvimento
+pipeline = COMEX_AUT_NM(
+    start_date=None,
+    use_azure=False,
+    developing=True  # Usa cache local
+)
+
+# Executar pipeline completo
+result_df = pipeline.run()
+
+# Verificar resultado
+print(f"Total de registros: {len(result_df)}")
+</pre>
+            </div>
+
+            <h3>Exemplo 3: Executar Apenas Fase de Cálculo</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.COMEX_DEU.COMEX_DEU_NM import COMEX_DEU_NM
+
+pipeline = COMEX_DEU_NM()
+
+# Executar apenas fase de cálculo (pular coleta e normalização)
+result_df = pipeline.run(skip_phases=['collect', 'normalize'])
+
+print(f"Registros calculados: {len(result_df)}")
+</pre>
+            </div>
+
+            <h3>Exemplo 4: Executar Orquestrador Europa</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.orquestrador_europa_NM import executar_todos_paises
+
+# Executar todos os países europeus
+resultados = executar_todos_paises(
+    start_date=None,
+    use_azure=True,
+    developing=False
+)
+
+# Verificar resultados
+for iso_code, (sucesso, mensagem, df) in resultados.items():
+    if sucesso:
+        print(f"{iso_code}: {mensagem}")
+    else:
+        print(f"{iso_code}: ERRO - {mensagem}")
+</pre>
+            </div>
+
+            <h3>Exemplo 5: Executar Apenas Países Específicos</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.orquestrador_europa_NM import executar_todos_paises
+
+# Executar apenas Áustria, Itália e França
+resultados = executar_todos_paises(
+    paises_especificos=['AUT', 'ITA', 'FRA'],
+    use_azure=True,
+    developing=False
+)
+</pre>
+            </div>
+
+            <h3>Exemplo 6: Executar Fases Separadamente</h3>
+            <div class="code-block">
+<pre>from NM.serie_temporal.COMEX_BRA.COMEX_BRA_NM import COMEX_BRA_NM
+
+pipeline = COMEX_BRA_NM()
+
+# Fase 1: Coleta
+import_df, export_df = pipeline.collect()
+
+# Fase 2: Normalização
+normalized_df = pipeline.normalize_historical()
+
+# Fase 3: Cálculo
+calculated_df = pipeline.calculate()
+
+# Fase 4: Upload
+success = pipeline.upload()
+</pre>
+            </div>
+        </div>
+
+        <!-- Seção 11: Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <h2>11. Troubleshooting</h2>
+
+            <h3>Problema: Erro ao carregar data-contract.yaml</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>FileNotFoundError: Arquivo data-contract.yaml não encontrado</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se <code>data-contract.yaml</code> existe em <code>NM/serie_temporal/</code></li>
+                    <li>Execute o script a partir da raiz do projeto</li>
+                    <li>Ou forneça o caminho absoluto: <code>COMEX_BRA_NM(data_contract_path='/caminho/absoluto/data-contract.yaml')</code></li>
+                </ol>
+            </div>
+
+            <h3>Problema: Nenhum ID válido encontrado após find_IDs</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>Warning: Nenhum ID válido encontrado após find_IDs</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se há dados históricos suficientes (mínimo 24 meses)</li>
+                    <li>Verifique se os NCMs nos dados correspondem aos NCMs em <code>IDS_comex.xlsx</code></li>
+                    <li>Verifique se o nome do país em <code>_get_country_name()</code> corresponde ao nome em <code>IDS_comex.xlsx</code></li>
+                    <li>Reduza <code>min_months_required</code> temporariamente para debug</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro STL durante cálculo</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>ValueError: Error during STL decomposition</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se há dados suficientes para decomposição STL (mínimo 2 períodos sazonais)</li>
+                    <li>Verifique se há valores NaN ou infinitos na série</li>
+                    <li>O erro é tratado automaticamente e a série original é retornada</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro ao acessar Azure Storage</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>AzureException: Erro ao acessar ADLS2</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se as variáveis de ambiente <code>AZURE_STORAGE_ACCOUNT_NAME</code> e <code>AZURE_STORAGE_ACCOUNT_KEY</code> estão configuradas</li>
+                    <li>Verifique se a conta de storage existe e está acessível</li>
+                    <li>Use <code>developing=True</code> para testar localmente sem Azure</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Upload falhando</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Status 401, 403 ou 500 nas requisições de upload</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se o token está sendo obtido corretamente</li>
+                    <li>Verifique se as credenciais da API estão corretas</li>
+                    <li>Verifique se o formato dos dados está correto (tipos, colunas obrigatórias)</li>
+                    <li>Verifique se há valores NaN ou infinitos nos dados</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro ao coletar dados do Brasil</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>RequestException: Erro ao acessar o portal COMEX</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique conexão com internet</li>
+                    <li>Verifique se o portal COMEX está acessível</li>
+                    <li>Verifique se a estrutura HTML do portal mudou (pode precisar atualizar código de scraping)</li>
+                    <li>Use cache local se disponível: <code>developing=True</code></li>
+                </ol>
+            </div>
+
+            <h3>Dicas de Debug</h3>
+            <div class="info-box">
+                <ul style="margin-left: 20px;">
+                    <li>Use <code>developing=True</code> para desenvolvimento local com cache</li>
+                    <li>Use <code>skip_phases</code> para executar apenas fases específicas</li>
+                    <li>Inspecione DataFrames intermediários usando <code>.head()</code> e <code>.info()</code></li>
+                    <li>Verifique logs detalhados usando <code>logging.setLevel(logging.DEBUG)</code></li>
+                    <li>Salve DataFrames intermediários em Parquet para inspeção: <code>df.to_parquet('debug.parquet')</code></li>
+                    <li>Para países europeus, verifique se o arquivo histórico específico do país existe: <code>NM/dados/{ISO_CODE}/database/historical.parquet</code></li>
+                    <li>Certifique-se de que o processo <code>OM/COMEX_EUR/COMEX_EUR.py</code> foi executado para atualizar os arquivos históricos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Módulo: NM/serie_temporal - Processamento COMEX Nova Metodologia</p>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                <p style="margin-bottom: 10px;"><strong>Navegação:</strong></p>
+                <a href="index.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Índice</a>
+                <a href="documentacao_OM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">OM</a>
+                <a href="documentacao_globinho.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM/globinho</a>
+                <a href="documentacao_projecao_cif.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Projeção CIF</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

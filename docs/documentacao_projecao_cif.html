@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: NM/projecao_cif - Projeção de Valores CIF</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f7fa; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 4px solid #3498db; 
+            padding-bottom: 15px; 
+            margin-top: 0; 
+            font-size: 2.5em;
+        }
+        h2 { 
+            color: #34495e; 
+            margin-top: 50px; 
+            border-bottom: 3px solid #ecf0f1; 
+            padding-bottom: 10px; 
+            font-size: 1.8em; 
+        }
+        h3 { 
+            color: #7f8c8d; 
+            margin-top: 30px; 
+            font-size: 1.4em; 
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h4 { 
+            color: #95a5a6; 
+            margin-top: 20px; 
+            font-size: 1.2em; 
+        }
+        .nav-links { 
+            margin: 25px 0; 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 6px; 
+            border-left: 4px solid #3498db; 
+        }
+        .nav-links a { 
+            margin-right: 20px; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        .nav-links a:hover { 
+            text-decoration: underline; 
+        }
+        .info-box { 
+            background: #e8f4f8; 
+            padding: 20px; 
+            border-left: 4px solid #3498db; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .warning-box { 
+            background: #fff3cd; 
+            padding: 20px; 
+            border-left: 4px solid #ffc107; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .success-box { 
+            background: #d4edda; 
+            padding: 20px; 
+            border-left: 4px solid #28a745; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .critical-box {
+            background: #f8d7da;
+            padding: 20px;
+            border-left: 4px solid #dc3545;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        .code-block { 
+            background: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 20px; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            font-family: "Courier New", "Consolas", monospace; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            margin: 15px 0;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        .file-item { 
+            margin: 25px 0; 
+            padding: 25px; 
+            border: 2px solid #dee2e6; 
+            border-radius: 8px; 
+            background: #f8f9fa; 
+        }
+        .file-item h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .file-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        .file-path { 
+            font-family: "Courier New", monospace; 
+            color: #6c757d; 
+            font-size: 0.9em; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+        }
+        table th, table td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #dee2e6; 
+        }
+        table th { 
+            background: #f8f9fa; 
+            font-weight: 600; 
+            color: #495057; 
+        }
+        table tr:hover { background: #f8f9fa; }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            line-height: 2;
+        }
+        .flow-step {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .arrow {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        code { 
+            font-family: "Courier New", "Consolas", monospace; 
+            background: #f4f4f4; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-size: 0.9em; 
+            color: #e83e8c;
+        }
+        .section { margin: 40px 0; }
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .toc li:last-child { border-bottom: none; }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .footer { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 2px solid #ecf0f1; 
+            text-align: center; 
+            color: #7f8c8d; 
+            font-size: 0.9em; 
+        }
+        .cte-box {
+            background: #fff9e6;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .cte-box h4 {
+            color: #856404;
+            margin-top: 0;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">← Voltar ao Índice</a>
+            <a href="documentacao_OM.html">OM - Metodologia Antiga</a>
+            <a href="documentacao_globinho.html">NM/globinho</a>
+            <a href="documentacao_NM.html">NM - Série Temporal</a>
+        </div>
+
+        <h1>Documentação: NM/projecao_cif</h1>
+        <p style="font-size: 1.1em; color: #6c757d; margin-top: 10px;">
+            Processo de Projeção de Valores CIF para Dados do Brasil
+        </p>
+
+        <!-- Índice -->
+        <div class="toc">
+            <h3>Índice</h3>
+            <ul>
+                <li><a href="#visao-geral">1. Visão Geral</a></li>
+                <li><a href="#objetivo">2. Objetivo e Contexto</a></li>
+                <li><a href="#arquivos">3. Arquivos do Processo</a></li>
+                <li><a href="#metodologia">4. Metodologia de Projeção</a></li>
+                <li><a href="#fluxo-processamento">5. Fluxo de Processamento</a></li>
+                <li><a href="#execucao-airflow">6. Execução no Airflow</a></li>
+                <li><a href="#quando-executar">7. Quando Executar</a></li>
+                <li><a href="#detalhamento-sql">8. Detalhamento do Script SQL</a></li>
+                <li><a href="#troubleshooting">9. Troubleshooting</a></li>
+            </ul>
+        </div>
+
+        <!-- Seção 1: Visão Geral -->
+        <div class="section" id="visao-geral">
+            <h2>1. Visão Geral</h2>
+            
+            <div class="info-box">
+                <h3>O que é o processo de Projeção CIF?</h3>
+                <p>
+                    O módulo <strong>projecao_cif</strong> é responsável por <strong>projetar valores CIF (Cost, Insurance, Freight)</strong> 
+                    para indicadores do Brasil que não possuem esse valor calculado. Este processo utiliza dados históricos para calcular 
+                    uma razão média (alpha) entre CIF e FOB por mês, e então aplica essa razão para calcular valores CIF faltantes 
+                    <strong>com base na projeção do FOB</strong>.
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Funcionalidade principal:</strong> O processo calcula valores CIF faltantes multiplicando a projeção do FOB 
+                    pela razão histórica média (alpha) entre CIF e FOB, permitindo preencher lacunas onde apenas valores FOB estão disponíveis.
+                </p>
+            </div>
+
+            <div class="critical-box">
+                <h3>⚠️ IMPORTANTE: Execução no Airflow</h3>
+                <p>
+                    <strong>Este processo está configurado e roda na DAG do Airflow chamada <code>costdriver_db_ETL</code>.</strong> 
+                    Esta DAG possui conexão configurada ao banco de dados de produção, permitindo que o processo execute diretamente 
+                    no ambiente produtivo.
+                </p>
+                <p style="margin-top: 10px;">
+                    O processo deve ser executado <strong>após qualquer atualização ou modificação nos dados do Brasil</strong> para 
+                    garantir que os valores CIF faltantes sejam calculados corretamente com base na projeção do FOB.
+                </p>
+            </div>
+
+            <div class="success-box">
+                <h3>Objetivo Principal</h3>
+                <p>
+                    <strong>Calcular valores CIF faltantes</strong> em indicadores de importação do Brasil (paisID = 27) que possuem apenas 
+                    valores FOB projetados, utilizando uma metodologia baseada em médias históricas mensais da razão CIF/FOB (alpha).
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Como funciona:</strong> O processo utiliza a projeção do FOB como base e multiplica pela razão histórica 
+                    (alpha) para obter a projeção do CIF, permitindo preencher valores CIF que estão faltando nos dados.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Características do Processo</h3>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Processo SQL puro:</strong> Implementado inteiramente em SQL Server</li>
+                    <li><strong>Foco no Brasil:</strong> Processa apenas dados de importação do Brasil (paisID = 27)</li>
+                    <li><strong>Baseado em histórico:</strong> Usa dados históricos desde 2022-01-01 para calcular médias</li>
+                    <li><strong>Projeção mensal:</strong> Calcula alpha médio por mês para cada indicador</li>
+                    <li><strong>Validação antes de atualizar:</strong> Script inclui SELECT para validação antes do UPDATE</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 2: Objetivo e Contexto -->
+        <div class="section" id="objetivo">
+            <h2>2. Objetivo e Contexto</h2>
+
+            <div class="info-box">
+                <h3>Por que existe este processo?</h3>
+                <p>
+                    Alguns indicadores de importação do Brasil possuem apenas valores FOB (Free On Board) projetados, 
+                    mas não possuem valores CIF (Cost, Insurance, Freight). O processo de projeção CIF <strong>calcula valores CIF faltantes</strong> 
+                    baseando-se em padrões históricos, utilizando a projeção do FOB como base para calcular a projeção do CIF.
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Uso principal:</strong> Este processo pode ser usado para calcular CIF faltante sempre que houver valores FOB 
+                    projetados mas valores CIF ausentes, garantindo que os dados estejam completos para análises e cálculos downstream.
+                </p>
+            </div>
+
+            <div class="warning-box">
+                <h3>Quando os valores CIF estão faltando?</h3>
+                <p>
+                    Valores CIF podem estar faltando quando:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Dados são coletados de fontes que não fornecem informações de frete e seguro</li>
+                    <li>Novos indicadores são adicionados sem histórico completo</li>
+                    <li>Dados são atualizados e alguns valores CIF não são recalculados</li>
+                    <li>Ocorrem mudanças na estrutura de dados que afetam o cálculo de CIF</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3>Metodologia Utilizada</h3>
+                <p>
+                    O processo utiliza a seguinte abordagem:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Identifica indicadores elegíveis:</strong> Indicadores de importação do Brasil que precisam de projeção CIF</li>
+                    <li><strong>Calcula alpha histórico:</strong> Razão CIF/FOB a partir de dados históricos (Base = 0)</li>
+                    <li><strong>Agrega por mês:</strong> Calcula média de alpha por mês para cada indicador</li>
+                    <li><strong>Projeta valores:</strong> Aplica alpha médio mensal à projeção do FOB para calcular a projeção do CIF (Base = 2)</li>
+                    <li><strong>Atualiza banco:</strong> Atualiza valores CIF na tabela <code>tblindiceprincipal_mes</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 3: Arquivos do Processo -->
+        <div class="section" id="arquivos">
+            <h2>3. Arquivos do Processo</h2>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>processamento_BR.sql</h3>
+                    <span class="file-path">NM/projecao_cif/processamento_BR.sql</span>
+                </div>
+                <p><strong>Tipo:</strong> Script SQL Server</p>
+                <p><strong>Descrição:</strong> Script SQL completo que realiza a projeção de valores CIF para indicadores do Brasil.</p>
+                <p><strong>Banco de Dados:</strong> <code>costdrivers</code></p>
+                <p><strong>Tabelas Utilizadas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>tblsnapshot_indiceprincipal</code> - Snapshot de indicadores principais</li>
+                    <li><code>tblindiceprincipal_mes</code> - Dados mensais de indicadores (tabela de destino para UPDATE)</li>
+                    <li><code>tblsnapshot_indiceprincipal_mes</code> - Snapshot de dados mensais históricos</li>
+                </ul>
+                <p><strong>Filtros Aplicados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>paisID = 27</code> - Apenas Brasil</li>
+                    <li><code>importexport = 1</code> - Apenas importação</li>
+                    <li><code>Base = 0</code> - Dados históricos (para calcular alpha)</li>
+                    <li><code>Base = 2</code> - Dados que precisam de projeção CIF</li>
+                    <li><code>DataIndice >= '2022-01-01'</code> - Dados desde janeiro de 2022</li>
+                </ul>
+                <div class="warning-box">
+                    <strong>⚠️ Status do UPDATE:</strong> O comando UPDATE está comentado no script. 
+                    Primeiro execute o SELECT para validar os dados antes de fazer o UPDATE.
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Metodologia -->
+        <div class="section" id="metodologia">
+            <h2>4. Metodologia de Projeção</h2>
+
+            <div class="info-box">
+                <h3>Conceito de Alpha (α)</h3>
+                <p>
+                    <strong>Alpha</strong> é a razão entre Valor CIF e Valor FOB:
+                </p>
+                <div class="code-block">
+<pre>alpha = Valor_CIF / Valor_FOB</pre>
+                </div>
+                <p>
+                    Esta razão representa quanto o valor CIF é maior que o valor FOB, incluindo custos de frete e seguro.
+                </p>
+                <p><strong>Exemplo:</strong> Se FOB = 1000 e CIF = 1100, então alpha = 1.1 (CIF é 10% maior que FOB)</p>
+            </div>
+
+            <div class="success-box">
+                <h3>Como Funciona: Projeção do CIF com Base na Projeção do FOB</h3>
+                <p>
+                    O processo utiliza a seguinte abordagem para calcular valores CIF faltantes:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Base de cálculo:</strong> Utiliza a projeção do FOB (Valor_FOB projetado) como base</li>
+                    <li><strong>Razão histórica:</strong> Calcula alpha médio mensal a partir de dados históricos (razão CIF/FOB)</li>
+                    <li><strong>Cálculo do CIF:</strong> Multiplica a projeção do FOB pelo alpha médio mensal para obter a projeção do CIF</li>
+                    <li><strong>Resultado:</strong> Obtém valores CIF faltantes calculados com base na projeção do FOB</li>
+                </ol>
+                <div class="code-block" style="margin-top: 15px;">
+<pre>Projeção_CIF = Projeção_FOB × alpha_médio_mensal</pre>
+                </div>
+                <p style="margin-top: 10px;">
+                    <strong>Uso principal:</strong> Este processo pode ser usado para calcular CIF faltante sempre que houver projeção do FOB 
+                    disponível mas valores CIF ausentes, garantindo que os dados estejam completos para análises e cálculos downstream.
+                </p>
+            </div>
+
+            <h3>Etapas da Metodologia</h3>
+
+            <div class="cte-box">
+                <h4>CTE 1: filtered_ids_import</h4>
+                <p><strong>Objetivo:</strong> Identificar todos os indicadores de importação do Brasil</p>
+                <div class="code-block">
+<pre>SELECT indiceprincipalID
+FROM tblsnapshot_indiceprincipal
+WHERE paisID = 27          -- Brasil
+  AND importexport = 1     -- Importação
+  AND NCM IS NOT NULL      -- Com NCM válido
+</pre>
+                </div>
+            </div>
+
+            <div class="cte-box">
+                <h4>CTE 2: filtered_ids_import_needed</h4>
+                <p><strong>Objetivo:</strong> Identificar indicadores que precisam de projeção CIF</p>
+                <div class="code-block">
+<pre>SELECT DISTINCT(indiceprincipalID)
+FROM tblindiceprincipal_mes
+WHERE indiceprincipalID IN (filtered_ids_import)
+  AND Base = 2              -- Dados que precisam de projeção
+  AND Valor_CIF IS NULL      -- Sem valor CIF
+</pre>
+                </div>
+            </div>
+
+            <div class="cte-box">
+                <h4>CTE 3: filtered_elegibles</h4>
+                <p><strong>Objetivo:</strong> Obter dados históricos e calcular alpha para cada registro</p>
+                <div class="code-block">
+<pre>SELECT 
+    indiceprincipalID,
+    DataIndice,
+    Base,
+    Valor,                    -- Valor FOB
+    Valor_cif,                -- Valor CIF
+    Valor_CIF / NULLIF(Valor, 0) as alpha,  -- Razão CIF/FOB
+    MONTH(DataIndice) as mes  -- Mês para agrupamento
+FROM tblsnapshot_indiceprincipal_mes
+WHERE DataIndice >= '2022-01-01'  -- Dados históricos
+</pre>
+                </div>
+                <p><strong>Observações:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa <code>NULLIF(Valor, 0)</code> para evitar divisão por zero</li>
+                    <li>Extrai o mês da data para agrupamento sazonal</li>
+                    <li>Inclui dados históricos (Base = 0) e dados que precisam de projeção (Base = 2)</li>
+                </ul>
+            </div>
+
+            <div class="cte-box">
+                <h4>CTE 4: alpha_month</h4>
+                <p><strong>Objetivo:</strong> Calcular média de alpha por mês para cada indicador</p>
+                <div class="code-block">
+<pre>SELECT 
+    IndicePrincipalID,
+    mes,
+    AVG(alpha) as alpha_mean_month
+FROM filtered_elegibles
+WHERE base = 0                    -- Apenas dados históricos
+  AND Valor_CIF > Valor            -- Alpha > 1 (validação)
+GROUP BY IndicePrincipalID, mes
+</pre>
+                </div>
+                <p><strong>Validações:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Apenas dados históricos (Base = 0) são usados para calcular a média</li>
+                    <li>Apenas registros onde Valor_CIF > Valor (alpha > 1) são considerados</li>
+                    <li>Agrupa por indicador e mês para capturar sazonalidade</li>
+                </ul>
+            </div>
+
+            <div class="cte-box">
+                <h4>CTE 5: forecast_data</h4>
+                <p><strong>Objetivo:</strong> Calcular valores CIF projetados</p>
+                <div class="code-block">
+<pre>SELECT 
+    A.indiceprincipalID,
+    A.DataIndice,
+    A.mes,
+    A.Base,
+    A.Valor,                              -- Valor FOB
+    B.alpha_mean_month,                   -- Alpha médio do mês
+    A.Valor * B.alpha_mean_month as Valor_Cif_forecast  -- Projeção CIF
+FROM filtered_elegibles A
+JOIN alpha_month B
+    ON A.IndicePrincipalID = B.IndicePrincipalID
+    AND A.mes = B.mes                     -- Match por mês
+WHERE A.base = 2                          -- Apenas dados que precisam de projeção
+</pre>
+                </div>
+                <p><strong>Fórmula de Projeção:</strong></p>
+                <div class="code-block">
+<pre>Valor_CIF_Projetado = Valor_FOB_Projetado × alpha_médio_mensal</pre>
+                </div>
+                <p style="margin-top: 10px;">
+                    <strong>Uso:</strong> Esta fórmula permite calcular valores CIF faltantes com base na projeção do FOB, 
+                    utilizando a razão histórica média entre CIF e FOB para cada mês.
+                </p>
+            </div>
+
+            <h3>Validação e Atualização</h3>
+            <div class="info-box">
+                <p>
+                    O script final faz um JOIN entre os dados projetados e a tabela de destino, 
+                    identificando registros que precisam ser atualizados:
+                </p>
+                <div class="code-block">
+<pre>SELECT *
+FROM forecast_data A
+JOIN tblindiceprincipal_mes B
+    ON A.IndicePrincipalID = B.IndicePrincipalID
+    AND A.DataIndice = B.DataIndice
+WHERE (A.Valor_Cif_forecast <> B.Valor_CIF) 
+   OR (B.Valor_CIF IS NULL AND A.Valor_Cif_forecast IS NOT NULL)
+</pre>
+                </div>
+                <p><strong>Condições para atualização:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Valor projetado é diferente do valor atual, OU</li>
+                    <li>Valor atual é NULL e valor projetado não é NULL</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 5: Fluxo de Processamento -->
+        <div class="section" id="fluxo-processamento">
+            <h2>5. Fluxo de Processamento</h2>
+
+            <div class="flow-diagram">
+                <div class="flow-step">1. Identificar indicadores de importação do Brasil (paisID = 27, importexport = 1)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">2. Filtrar indicadores que precisam de projeção CIF (Base = 2, Valor_CIF IS NULL)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">3. Carregar dados históricos desde 2022-01-01 (Base = 0)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">4. Calcular alpha (razão CIF/FOB) para cada registro histórico</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">5. Filtrar apenas alphas válidos (Valor_CIF > Valor, ou seja, alpha > 1)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">6. Agrupar por indicador e mês, calcular média de alpha</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">7. Fazer JOIN dos dados que precisam de projeção com alpha médio mensal</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">8. Calcular Valor_CIF_forecast = Valor_FOB_Projetado × alpha_médio_mensal (calcula CIF faltante)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">9. Validar dados projetados (SELECT para verificar antes de atualizar)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">10. Atualizar tabela tblindiceprincipal_mes com valores CIF projetados</div>
+            </div>
+
+            <h3>Detalhamento das Fases</h3>
+
+            <h4>Fase 1-2: Identificação de Indicadores Elegíveis</h4>
+            <div class="info-box">
+                <p>
+                    O processo identifica quais indicadores precisam de projeção CIF:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Apenas indicadores de <strong>importação do Brasil</strong> (paisID = 27, importexport = 1)</li>
+                    <li>Indicadores que têm <strong>Base = 2</strong> (dados que precisam de projeção)</li>
+                    <li>Indicadores onde <strong>Valor_CIF IS NULL</strong> (sem valor CIF)</li>
+                </ul>
+            </div>
+
+            <h4>Fase 3-5: Cálculo de Alpha Histórico</h4>
+            <div class="info-box">
+                <p>
+                    Para cada indicador elegível, o processo:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Carrega dados históricos desde 2022-01-01 (Base = 0)</li>
+                    <li>Calcula alpha = Valor_CIF / Valor_FOB para cada registro</li>
+                    <li>Filtra apenas registros válidos onde Valor_CIF > Valor (alpha > 1)</li>
+                    <li>Isso garante que apenas razões válidas sejam usadas (CIF sempre maior ou igual a FOB)</li>
+                </ul>
+            </div>
+
+            <h4>Fase 6: Agregação Mensal</h4>
+            <div class="info-box">
+                <p>
+                    O processo agrega alpha por mês para capturar sazonalidade:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Agrupa por <code>IndicePrincipalID</code> e <code>mes</code></li>
+                    <li>Calcula <code>AVG(alpha)</code> para obter alpha médio mensal</li>
+                    <li>Isso permite que diferentes meses tenham diferentes razões CIF/FOB</li>
+                    <li>Exemplo: Janeiro pode ter alpha = 1.15, enquanto Dezembro pode ter alpha = 1.08</li>
+                </ul>
+            </div>
+
+            <h4>Fase 7-8: Projeção</h4>
+            <div class="info-box">
+                <p>
+                    Para cada registro que precisa de projeção CIF:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Faz JOIN com alpha médio do mesmo mês</li>
+                    <li>Calcula a projeção do CIF usando a projeção do FOB: <code>Valor_CIF_forecast = Valor_FOB_projetado × alpha_médio_mensal</code></li>
+                    <li>Usa o mês do registro para encontrar o alpha correto (captura sazonalidade)</li>
+                    <li><strong>Resultado:</strong> Obtém valores CIF faltantes calculados com base na projeção do FOB</li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    <strong>Importante:</strong> Este processo pode ser usado para calcular CIF faltante sempre que houver projeção do FOB 
+                    disponível mas valores CIF ausentes, garantindo que os dados estejam completos.
+                </p>
+            </div>
+
+            <h4>Fase 9-10: Validação e Atualização</h4>
+            <div class="info-box">
+                <p>
+                    Antes de atualizar, o processo valida:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Compara valores projetados com valores atuais</li>
+                    <li>Identifica apenas registros que realmente precisam ser atualizados</li>
+                    <li>Atualiza apenas quando há diferença ou quando Valor_CIF é NULL</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 6: Execução no Airflow -->
+        <div class="section" id="execucao-airflow">
+            <h2>6. Execução no Airflow</h2>
+
+            <div class="critical-box">
+                <h3>⚠️ Processo Configurado no Airflow</h3>
+                <p>
+                    Este processo <strong>está configurado e roda na DAG do Airflow chamada <code>costdriver_db_ETL</code>.</strong> 
+                    Esta DAG possui conexão configurada ao banco de dados de produção, permitindo execução direta no ambiente produtivo.
+                </p>
+                <p style="margin-top: 10px;">
+                    Não é necessário executá-lo manualmente, a menos que haja necessidade de reprocessamento ou validação.
+                </p>
+            </div>
+
+            <h3>Configuração no Airflow</h3>
+            <div class="info-box">
+                <p>
+                    O processo é executado como uma task SQL na DAG <code>costdriver_db_ETL</code>:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>DAG:</strong> <code>costdriver_db_ETL</code></li>
+                    <li><strong>Tipo de Task:</strong> SQL Task (executa script SQL diretamente no banco)</li>
+                    <li><strong>Conexão:</strong> Configurada para banco de dados de produção</li>
+                    <li><strong>Banco de Dados:</strong> <code>costdrivers</code> (produção)</li>
+                    <li><strong>Script:</strong> <code>NM/projecao_cif/processamento_BR.sql</code></li>
+                    <li><strong>Dependências:</strong> Deve ser executado após atualização dos dados do Brasil</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Conexão ao Banco de Produção</h3>
+                <p>
+                    A DAG <code>costdriver_db_ETL</code> possui conexão configurada ao banco de dados de produção. 
+                    Isso significa que:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>O script SQL executa diretamente no ambiente produtivo</li>
+                    <li>As atualizações são feitas na tabela <code>tblindiceprincipal_mes</code> em produção</li>
+                    <li>É importante validar os dados antes de executar o UPDATE</li>
+                    <li>Recomenda-se executar primeiro o SELECT para verificar os dados projetados</li>
+                </ul>
+            </div>
+
+            <h3>Estrutura do DAG</h3>
+            <div class="code-block">
+<pre># DAG: costdriver_db_ETL
+# Este DAG possui conexão ao banco de produção
+
+@dag(
+    dag_id="costdriver_db_ETL",
+    schedule_interval=None,  # Execução manual ou após DAG do Brasil
+    catchup=False
+)
+def costdriver_etl_dag():
+    
+    @task
+    def executar_projecao_cif():
+        # Executa script SQL no banco de produção
+        execute_sql_file(
+            'NM/projecao_cif/processamento_BR.sql',
+            connection_id='costdriver_prod'  # Conexão ao banco de produção
+        )
+    
+    projecao_cif_task = executar_projecao_cif()
+    
+dag_instance = costdriver_etl_dag()
+</pre>
+            </div>
+
+            <h3>Integração com DAG do Brasil</h3>
+            <div class="info-box">
+                <p>
+                    O processo de projeção CIF deve ser executado <strong>após</strong> o processamento dos dados do Brasil:
+                </p>
+                <div class="code-block">
+<pre># Fluxo no Airflow
+COMEX_BRA_DAG >> costdriver_db_ETL  # Executa projeção CIF após dados do Brasil
+</pre>
+                </div>
+                <p><strong>Ordem de execução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>DAG do Brasil executa: coleta → tratamento → cálculo (gera projeção do FOB)</li>
+                    <li>DAG <code>costdriver_db_ETL</code> executa após conclusão do DAG do Brasil</li>
+                    <li>Projeção CIF calcula valores CIF faltantes com base na projeção do FOB</li>
+                    <li>Valores CIF são atualizados na tabela de produção</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 7: Quando Executar -->
+        <div class="section" id="quando-executar">
+            <h2>7. Quando Executar</h2>
+
+            <div class="critical-box">
+                <h3>⚠️ CRÍTICO: Execução Após Atualizações do Brasil</h3>
+                <p>
+                    <strong>Este processo DEVE ser executado após qualquer atualização ou modificação nos dados do Brasil.</strong>
+                </p>
+            </div>
+
+            <h3>Cenários que Requerem Execução</h3>
+            
+            <div class="file-item">
+                <h4>1. Atualização Regular de Dados</h4>
+                <p>
+                    Após cada execução do pipeline do Brasil (<code>OM/COMEX_BRA</code> ou <code>NM/globinho/BRA</code>):
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Novos dados podem ter sido inseridos sem valores CIF</li>
+                    <li>Valores CIF podem precisar ser recalculados</li>
+                    <li>Indicadores novos podem precisar de projeção</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <h4>2. Modificação Manual de Dados</h4>
+                <p>
+                    Após qualquer modificação manual nos dados do Brasil:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Correção de valores FOB</li>
+                    <li>Inserção de novos registros</li>
+                    <li>Atualização de indicadores existentes</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <h4>3. Reprocessamento Completo</h4>
+                <p>
+                    Quando há necessidade de reprocessar todos os dados:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Mudanças na metodologia de cálculo</li>
+                    <li>Correção de bugs que afetaram valores CIF</li>
+                    <li>Atualização de dados históricos</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <h4>4. Validação e Auditoria</h4>
+                <p>
+                    Para validar se os valores CIF estão corretos:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Executar o SELECT (sem UPDATE) para verificar projeções</li>
+                    <li>Comparar valores projetados com valores existentes</li>
+                    <li>Identificar indicadores que precisam de atenção</li>
+                </ul>
+            </div>
+
+            <h3>O que Acontece se Não Executar?</h3>
+            <div class="warning-box">
+                <p>
+                    <strong>Consequências de não executar após atualizações:</strong>
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Valores CIF podem ficar desatualizados ou NULL</li>
+                    <li>Indicadores novos podem não ter valores CIF projetados</li>
+                    <li>Cálculos downstream que dependem de CIF podem estar incorretos</li>
+                    <li>Relatórios e análises podem mostrar dados incompletos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 8: Detalhamento do Script SQL -->
+        <div class="section" id="detalhamento-sql">
+            <h2>8. Detalhamento do Script SQL</h2>
+
+            <h3>Estrutura Completa do Script</h3>
+            <div class="code-block">
+<pre>USE costdrivers;
+
+-- CTE 1: Identificar indicadores de importação do Brasil
+WITH filtered_ids_import AS (
+    SELECT indiceprincipalID
+    FROM tblsnapshot_indiceprincipal WITH (NOLOCK)
+    WHERE paisID = 27
+      AND importexport = 1
+      AND NCM IS NOT NULL
+),
+
+-- CTE 2: Identificar indicadores que precisam de projeção
+filtered_ids_import_needed AS (
+    SELECT DISTINCT(indiceprincipalID)
+    FROM tblindiceprincipal_mes WITH (NOLOCK)
+    WHERE indiceprincipalID IN (SELECT indiceprincipalID FROM filtered_ids_import)
+      AND Base = 2
+      AND Valor_CIF IS NULL
+),
+
+-- CTE 3: Obter dados históricos e calcular alpha
+filtered_elegibles AS (
+    SELECT
+        B.indiceprincipalID,
+        B.DataIndice,
+        B.Base,
+        B.Valor,
+        B.Valor_cif,
+        B.Valor_CIF / NULLIF(B.Valor, 0) as alpha,
+        MONTH(B.DataIndice) as mes
+    FROM filtered_ids_import_needed A
+    JOIN (
+        SELECT 
+            indiceprincipalID,
+            DataIndice,
+            Base,
+            Valor,
+            Valor_cif
+        FROM tblsnapshot_indiceprincipal_mes
+        WHERE DataIndice >= '2022-01-01'
+    ) B
+        ON A.indiceprincipalID = B.indiceprincipalID
+),
+
+-- CTE 4: Calcular média de alpha por mês
+alpha_month AS (
+    SELECT 
+        IndicePrincipalID,
+        mes,
+        AVG(alpha) as alpha_mean_month
+    FROM filtered_elegibles
+    WHERE base = 0
+      AND Valor_CIF > Valor
+    GROUP BY IndicePrincipalID, mes
+),
+
+-- CTE 5: Calcular valores CIF projetados
+forecast_data AS (
+    SELECT
+        A.indiceprincipalID,
+        A.DataIndice,
+        A.mes,
+        A.Base,
+        A.Valor,
+        B.alpha_mean_month,
+        A.Valor * B.alpha_mean_month as Valor_Cif_forecast
+    FROM filtered_elegibles A
+    JOIN alpha_month B
+        ON A.IndicePrincipalID = B.IndicePrincipalID
+        AND A.mes = B.mes
+    WHERE A.base = 2
+)
+
+-- Validação: SELECT para verificar antes de atualizar
+SELECT *
+FROM forecast_data A
+JOIN tblindiceprincipal_mes B
+    ON A.IndicePrincipalID = B.IndicePrincipalID
+    AND A.DataIndice = B.DataIndice
+WHERE (A.Valor_Cif_forecast <> B.Valor_CIF) 
+   OR (B.Valor_CIF IS NULL AND A.Valor_Cif_forecast IS NOT NULL);
+
+-- UPDATE (descomentar após validação)
+-- UPDATE B
+-- SET B.Valor_CIF = A.Valor_CIF_forecast
+-- FROM forecast_data A
+-- JOIN tblindiceprincipal_mes B
+--     ON A.IndicePrincipalID = B.IndicePrincipalID
+--     AND A.DataIndice = B.DataIndice
+-- WHERE (A.Valor_Cif_forecast <> B.Valor_CIF) 
+--    OR (B.Valor_CIF IS NULL AND A.Valor_Cif_forecast IS NOT NULL);
+</pre>
+            </div>
+
+            <h3>Tabelas Utilizadas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tabela</th>
+                        <th>Uso</th>
+                        <th>Operação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>tblsnapshot_indiceprincipal</code></td>
+                        <td>Identificar indicadores do Brasil</td>
+                        <td>SELECT (read-only)</td>
+                    </tr>
+                    <tr>
+                        <td><code>tblindiceprincipal_mes</code></td>
+                        <td>Tabela de destino para UPDATE</td>
+                        <td>SELECT e UPDATE</td>
+                    </tr>
+                    <tr>
+                        <td><code>tblsnapshot_indiceprincipal_mes</code></td>
+                        <td>Dados históricos para calcular alpha</td>
+                        <td>SELECT (read-only)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Campos Importantes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Descrição</th>
+                        <th>Valores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>paisID</code></td>
+                        <td>ID do país</td>
+                        <td>27 = Brasil</td>
+                    </tr>
+                    <tr>
+                        <td><code>importexport</code></td>
+                        <td>Tipo de comércio</td>
+                        <td>0 = Exportação, 1 = Importação</td>
+                    </tr>
+                    <tr>
+                        <td><code>Base</code></td>
+                        <td>Tipo de dado</td>
+                        <td>0 = Histórico, 2 = Dados que precisam de projeção</td>
+                    </tr>
+                    <tr>
+                        <td><code>Valor</code></td>
+                        <td>Valor FOB</td>
+                        <td>Valor numérico</td>
+                    </tr>
+                    <tr>
+                        <td><code>Valor_CIF</code></td>
+                        <td>Valor CIF</td>
+                        <td>Valor numérico ou NULL</td>
+                    </tr>
+                    <tr>
+                        <td><code>DataIndice</code></td>
+                        <td>Data do registro</td>
+                        <td>Formato DATE</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Validações Implementadas</h3>
+            <div class="info-box">
+                <ul style="margin-left: 20px;">
+                    <li><strong>Divisão por zero:</strong> Usa <code>NULLIF(Valor, 0)</code> para evitar erros</li>
+                    <li><strong>Alpha válido:</strong> Filtra apenas onde <code>Valor_CIF > Valor</code> (alpha > 1)</li>
+                    <li><strong>Dados históricos:</strong> Usa apenas Base = 0 para calcular médias</li>
+                    <li><strong>Match por mês:</strong> Usa o mês do registro para encontrar alpha correto</li>
+                    <li><strong>Atualização seletiva:</strong> Atualiza apenas quando há diferença ou quando é NULL</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 9: Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <h2>9. Troubleshooting</h2>
+
+            <h3>Problema: Nenhum registro encontrado para atualização</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> SELECT retorna 0 linhas</p>
+                <p><strong>Possíveis causas:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Todos os valores CIF já estão preenchidos</li>
+                    <li>Não há dados históricos suficientes para calcular alpha</li>
+                    <li>Filtros estão muito restritivos</li>
+                    <li>Dados do Brasil não foram atualizados recentemente</li>
+                </ol>
+                <p><strong>Solução:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Verifique se há dados em <code>tblindiceprincipal_mes</code> com Base = 2 e Valor_CIF IS NULL</li>
+                    <li>Verifique se há dados históricos em <code>tblsnapshot_indiceprincipal_mes</code> desde 2022-01-01</li>
+                    <li>Execute o SELECT de cada CTE separadamente para identificar onde está o problema</li>
+                </ul>
+            </div>
+
+            <h3>Problema: Alpha médio muito alto ou muito baixo</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Valores CIF projetados parecem incorretos</p>
+                <p><strong>Possíveis causas:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Dados históricos com erros (CIF muito diferente de FOB)</li>
+                    <li>Poucos dados históricos para calcular média confiável</li>
+                    <li>Mudanças estruturais nos dados que afetam a razão CIF/FOB</li>
+                </ol>
+                <p><strong>Solução:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Valide os dados históricos antes de executar</li>
+                    <li>Verifique se há outliers nos dados históricos</li>
+                    <li>Considere aumentar o período histórico se necessário</li>
+                    <li>Revise a validação <code>Valor_CIF > Valor</code> se necessário</li>
+                </ul>
+            </div>
+
+            <h3>Problema: Erro ao executar UPDATE</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Erro de permissão ou constraint violation</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se o usuário tem permissão UPDATE na tabela <code>tblindiceprincipal_mes</code></li>
+                    <li>Verifique se há constraints que impedem a atualização</li>
+                    <li>Execute primeiro o SELECT para validar os dados</li>
+                    <li>Considere fazer UPDATE em batches menores se houver muitos registros</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Processo não executa automaticamente no Airflow</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> DAG não é executado após atualização do Brasil</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se o DAG está ativo no Airflow</li>
+                    <li>Verifique se as dependências estão configuradas corretamente</li>
+                    <li>Verifique os logs do Airflow para identificar erros</li>
+                    <li>Execute manualmente se necessário para validar</li>
+                </ol>
+            </div>
+
+            <h3>Dicas de Debug</h3>
+            <div class="info-box">
+                <ul style="margin-left: 20px;">
+                    <li><strong>Execute CTEs separadamente:</strong> Teste cada CTE individualmente para entender o fluxo</li>
+                    <li><strong>Valide antes de atualizar:</strong> Sempre execute o SELECT antes de descomentar o UPDATE</li>
+                    <li><strong>Verifique contagens:</strong> Conte registros em cada etapa para identificar onde há perda de dados</li>
+                    <li><strong>Analise alpha:</strong> Verifique se os valores de alpha fazem sentido (geralmente entre 1.0 e 1.5)</li>
+                    <li><strong>Compare com histórico:</strong> Compare valores projetados com valores históricos similares</li>
+                    <li><strong>Use transações:</strong> Envolva o UPDATE em uma transação para poder fazer rollback se necessário</li>
+                </ul>
+            </div>
+
+            <h3>Exemplo de Query de Validação</h3>
+            <div class="code-block">
+<pre>-- Verificar quantos indicadores precisam de projeção
+SELECT COUNT(DISTINCT indiceprincipalID) as total_indicadores
+FROM tblindiceprincipal_mes
+WHERE paisID = 27
+  AND importexport = 1
+  AND Base = 2
+  AND Valor_CIF IS NULL;
+
+-- Verificar se há dados históricos suficientes
+SELECT 
+    indiceprincipalID,
+    COUNT(*) as registros_historicos,
+    MIN(DataIndice) as data_minima,
+    MAX(DataIndice) as data_maxima
+FROM tblsnapshot_indiceprincipal_mes
+WHERE DataIndice >= '2022-01-01'
+  AND Base = 0
+  AND Valor_CIF IS NOT NULL
+  AND Valor > 0
+GROUP BY indiceprincipalID
+HAVING COUNT(*) < 12  -- Menos de 12 meses de histórico
+ORDER BY registros_historicos;
+</pre>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Módulo: NM/projecao_cif - Projeção de Valores CIF</p>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                <p style="margin-bottom: 10px;"><strong>Navegação:</strong></p>
+                <a href="index.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Índice</a>
+                <a href="documentacao_OM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">OM</a>
+                <a href="documentacao_globinho.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM/globinho</a>
+                <a href="documentacao_NM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM Série Temporal</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

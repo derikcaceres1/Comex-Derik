@@ -1,0 +1,39 @@
+RESUMO DA EXECUÇÃO DO ORQUESTRADOR COMEX EUROPA
+================================================================================
+
+AUT: FALHA
+  Erro ao executar pipeline Áustria: exceptions must derive from BaseException
+  Registros: 0
+
+ITA: FALHA
+  Erro ao executar pipeline Itália: exceptions must derive from BaseException
+  Registros: 0
+
+FRA: FALHA
+  Erro ao executar pipeline França: exceptions must derive from BaseException
+  Registros: 0
+
+BEL: FALHA
+  Erro ao executar pipeline Bélgica: exceptions must derive from BaseException
+  Registros: 0
+
+DEU: FALHA
+  Erro ao executar pipeline Alemanha: exceptions must derive from BaseException
+  Registros: 0
+
+PRT: FALHA
+  Erro ao executar pipeline Portugal: exceptions must derive from BaseException
+  Registros: 0
+
+HUN: FALHA
+  Erro ao executar pipeline Hungria: exceptions must derive from BaseException
+  Registros: 0
+
+BGR: FALHA
+  Erro ao executar pipeline Bulgária: exceptions must derive from BaseException
+  Registros: 0
+
+NLD: FALHA
+  Erro ao executar pipeline Holanda: exceptions must derive from BaseException
+  Registros: 0
+

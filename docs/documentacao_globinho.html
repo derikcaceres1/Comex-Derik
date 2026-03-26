@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: NM/globinho - Processamento COMEX Globe</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f7fa; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 4px solid #3498db; 
+            padding-bottom: 15px; 
+            margin-top: 0; 
+            font-size: 2.5em;
+        }
+        h2 { 
+            color: #34495e; 
+            margin-top: 50px; 
+            border-bottom: 3px solid #ecf0f1; 
+            padding-bottom: 10px; 
+            font-size: 1.8em; 
+        }
+        h3 { 
+            color: #7f8c8d; 
+            margin-top: 30px; 
+            font-size: 1.4em; 
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h4 { 
+            color: #95a5a6; 
+            margin-top: 20px; 
+            font-size: 1.2em; 
+        }
+        .nav-links { 
+            margin: 25px 0; 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 6px; 
+            border-left: 4px solid #3498db; 
+        }
+        .nav-links a { 
+            margin-right: 20px; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        .nav-links a:hover { 
+            text-decoration: underline; 
+        }
+        .info-box { 
+            background: #e8f4f8; 
+            padding: 20px; 
+            border-left: 4px solid #3498db; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .warning-box { 
+            background: #fff3cd; 
+            padding: 20px; 
+            border-left: 4px solid #ffc107; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .success-box { 
+            background: #d4edda; 
+            padding: 20px; 
+            border-left: 4px solid #28a745; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .code-block { 
+            background: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 20px; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            font-family: "Courier New", "Consolas", monospace; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            margin: 15px 0;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        .file-item { 
+            margin: 25px 0; 
+            padding: 25px; 
+            border: 2px solid #dee2e6; 
+            border-radius: 8px; 
+            background: #f8f9fa; 
+        }
+        .file-item h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .file-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        .file-path { 
+            font-family: "Courier New", monospace; 
+            color: #6c757d; 
+            font-size: 0.9em; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+        }
+        table th, table td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #dee2e6; 
+        }
+        table th { 
+            background: #f8f9fa; 
+            font-weight: 600; 
+            color: #495057; 
+        }
+        table tr:hover { background: #f8f9fa; }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            line-height: 2;
+        }
+        .flow-step {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .arrow {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        code { 
+            font-family: "Courier New", "Consolas", monospace; 
+            background: #f4f4f4; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-size: 0.9em; 
+            color: #e83e8c;
+        }
+        .section { margin: 40px 0; }
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .toc li:last-child { border-bottom: none; }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .method-list {
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+        .method-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 3px solid #3498db;
+            border-radius: 4px;
+        }
+        .method-signature {
+            font-family: "Courier New", monospace;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .footer { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 2px solid #ecf0f1; 
+            text-align: center; 
+            color: #7f8c8d; 
+            font-size: 0.9em; 
+        }
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .country-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .country-card h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">← Voltar ao Índice</a>
+            <a href="documentacao_OM.html">OM - Metodologia Antiga</a>
+            <a href="documentacao_NM.html">NM - Série Temporal</a>
+            <a href="documentacao_projecao_cif.html">Projeção CIF</a>
+        </div>
+
+        <h1>Documentação: NM/globinho</h1>
+        <p style="font-size: 1.1em; color: #6c757d; margin-top: 10px;">
+            Módulo de processamento COMEX Globe - Nova Metodologia
+        </p>
+
+        <!-- Índice -->
+        <div class="toc">
+            <h3>Índice</h3>
+            <ul>
+                <li><a href="#visao-geral">1. Visão Geral</a></li>
+                <li><a href="#arquitetura">2. Arquitetura do Sistema</a></li>
+                <li><a href="#arquivos">3. Arquivos do Módulo</a></li>
+                <li><a href="#pipeline-base">4. Pipeline Base (comex_globe_pipeline.py)</a></li>
+                <li><a href="#processadores-pais">5. Processadores por País</a></li>
+                <li><a href="#fluxo-alternativo">6. Fluxo Alternativo (Airflow + SQL)</a></li>
+                <li><a href="#configuracao">7. Configuração</a></li>
+                <li><a href="#fluxo-processamento">8. Fluxo de Processamento</a></li>
+                <li><a href="#exemplos-uso">9. Exemplos de Uso</a></li>
+                <li><a href="#troubleshooting">10. Troubleshooting</a></li>
+            </ul>
+        </div>
+
+        <!-- Seção 1: Visão Geral -->
+        <div class="section" id="visao-geral">
+            <h2>1. Visão Geral</h2>
+            
+            <div class="info-box">
+                <h3>O que é o Globinho?</h3>
+                <p>
+                    O módulo <strong>globinho</strong> é responsável pelo processamento e cálculo (agrupamento) dos indicadores 
+                    que possuem dado de transações por pais do comércio exterior. Ele faz parte da <strong>Nova Metodologia (NM)</strong> 
+                    e utiliza uma arquitetura baseada em:
+                </p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Polars</strong> para ingestão e transformação de dados (dados da europa tinha 290M linhas, teve que ser ajustado)</li>
+                    <li><strong>Pandas</strong> para operações finais e upload (compatibilidade com APIs)</li>
+                    <li><strong>Arquitetura orientada a objetos</strong> com classe base abstrata</li>
+                    <li><strong>Processamento assíncrono</strong> para uploads em lote</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <h3>Objetivo Principal</h3>
+                <p>
+                    Processar dados históricos de comércio exterior de diferentes países, normalizar formatos,
+                    fazer merge com indicadores, validar dados novos e enviar para a API de Cost Drivers.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Países Suportados</h3>
+                <div class="country-grid">
+                    <div class="country-card">
+                        <h4>🇦🇷 Argentina (ARG)</h4>
+                        <p><strong>Arquivo:</strong> <code>ARG/COMEX_ARG_GLOBE.py</code></p>
+                        <p>Processa dados de importação e exportação em formato Parquet.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇧🇷 Brasil (BRA)</h4>
+                        <p><strong>Arquivo:</strong> <code>BRA/COMEX_BRA_GLOBE.py</code></p>
+                        <p>Processa dados históricos do Brasil em formato Parquet.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇺🇸 Estados Unidos (USA)</h4>
+                        <p><strong>Arquivo:</strong> <code>USA/COMEX_USA_GLOBE.py</code></p>
+                        <p>Processa dados de importação e exportação dos EUA.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇨🇴 Colômbia (COL)</h4>
+                        <p><strong>Arquivo:</strong> <code>COL/COMEX_COL_GLOBE.py</code></p>
+                        <p>Processa dados de importação e exportação da Colômbia.</p>
+                    </div>
+                    <div class="country-card">
+                        <h4>🇪🇺 União Europeia (EUR)</h4>
+                        <p><strong>Arquivo:</strong> <code>EUR/COMEX_EUR_GLOBE.py</code></p>
+                        <p>Processa dados agregados da União Europeia por períodos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 2: Arquitetura -->
+        <div class="section" id="arquitetura">
+            <h2>2. Arquitetura do Sistema</h2>
+            
+            <div class="info-box">
+                <h3>Padrão de Design</h3>
+                <p>
+                    O módulo utiliza o padrão <strong>Template Method</strong> através de uma classe base abstrata 
+                    (<code>BaseComexProcessor</code>) que define o fluxo comum, enquanto cada país implementa 
+                    métodos específicos para suas particularidades.
+                </p>
+            </div>
+
+            <h3>Hierarquia de Classes</h3>
+            <div class="code-block">
+<pre>
+BaseComexProcessor (classe abstrata)
+    ├── COMEX_ARG_GLOBE (Argentina)
+    ├── COMEX_BRA_GLOBE (Brasil)
+    ├── COMEX_COL_GLOBE (Colômbia)
+    ├── COMEX_EUR_GLOBE (União Europeia)
+    └── COMEX_USA_GLOBE (Estados Unidos)
+</pre>
+            </div>
+
+            <h3>Métodos Abstratos (devem ser implementados)</h3>
+            <div class="method-list">
+                <div class="method-item">
+                    <div class="method-signature">load_raw_data() → pl.LazyFrame</div>
+                    <p>Carrega dados brutos específicos do país usando Polars.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">transform_data(lf: pl.LazyFrame) → pl.LazyFrame</div>
+                    <p>Aplica transformações específicas do país (renomeação, conversões, filtros).</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">normalize_countries(df: pd.DataFrame) → pd.DataFrame</div>
+                    <p>Normaliza IDs de países usando tabelas de mapeamento específicas.</p>
+                </div>
+            </div>
+
+            <h3>Métodos Comuns (implementados na classe base)</h3>
+            <div class="method-list">
+                <div class="method-item">
+                    <div class="method-signature">load_indicator_ids(country_name: str) → pl.DataFrame</div>
+                    <p>Carrega IDs de indicadores do arquivo <code>IDS_comex.xlsx</code>.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">merge_with_indicators(lf, ids) → pl.LazyFrame</div>
+                    <p>Faz merge dos dados com IDs de indicadores usando NCM e ImportExport.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">group_data(lf) → pl.LazyFrame</div>
+                    <p>Agrupa dados por dataNCM, idIndicador e idPais.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">prepare_for_upload(df) → pd.DataFrame</div>
+                    <p>Prepara DataFrame final com colunas padronizadas para upload.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">validate_new_data(costdriver_df, new_df) → pd.DataFrame</div>
+                    <p>Valida se há dados novos comparando com dados existentes na API.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">run_upload(df) → List[Dict]</div>
+                    <p>Executa upload assíncrono em batches para a API de Cost Drivers.</p>
+                </div>
+                <div class="method-item">
+                    <div class="method-signature">process() → List[Dict]</div>
+                    <p>Método principal que orquestra todo o fluxo de processamento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 3: Arquivos do Módulo -->
+        <div class="section" id="arquivos">
+            <h2>3. Arquivos do Módulo</h2>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>comex_globe_pipeline.py</h3>
+                    <span class="file-path">NM/globinho/comex_globe_pipeline.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Classe base abstrata</p>
+                <p><strong>Descrição:</strong> Define a estrutura comum para todos os processadores de países. Contém toda a lógica de processamento, merge com indicadores, agrupamento, validação e upload.</p>
+                <p><strong>Classe Principal:</strong> <code>BaseComexProcessor</code></p>
+                <p><strong>Métodos Principais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>__init__()</code> - Inicializa processador carregando configurações</li>
+                    <li><code>_find_file()</code> - Busca arquivos em múltiplos locais possíveis</li>
+                    <li><code>load_indicator_ids()</code> - Carrega IDs de indicadores</li>
+                    <li><code>merge_with_indicators()</code> - Faz merge com IDs</li>
+                    <li><code>group_data()</code> - Agrupa dados</li>
+                    <li><code>get_costdrivers_data()</code> - Busca dados históricos da API</li>
+                    <li><code>validate_new_data()</code> - Valida dados novos</li>
+                    <li><code>prepare_for_upload()</code> - Prepara dados para upload</li>
+                    <li><code>run_upload()</code> - Executa upload assíncrono</li>
+                    <li><code>process()</code> - Método principal que orquestra tudo</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>config_comex.json</h3>
+                    <span class="file-path">NM/globinho/config_comex.json</span>
+                </div>
+                <p><strong>Tipo:</strong> Arquivo de configuração JSON</p>
+                <p><strong>Descrição:</strong> Contém todas as configurações necessárias para o processamento:</p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>api.endpoint:</strong> URL da API de Cost Drivers</li>
+                    <li><strong>upload:</strong> Configurações de batch_size, workers e timeout</li>
+                    <li><strong>paths:</strong> Caminhos para arquivos de dados, tabelas de IDs e países</li>
+                    <li><strong>countries:</strong> Mapeamento de códigos para nomes de países</li>
+                </ul>
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> As credenciais da API devem ser configuradas via variáveis de ambiente:
+                    <code>COSTDRIVERS_API_KEY</code>, <code>COSTDRIVERS_API_EMAIL</code>, <code>COSTDRIVERS_API_PASSWORD</code>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>ARG/COMEX_ARG_GLOBE.py</h3>
+                    <span class="file-path">NM/globinho/ARG/COMEX_ARG_GLOBE.py</span>
+                </div>
+                <p><strong>País:</strong> Argentina (ARG)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados da Argentina. Carrega dados de importação e exportação de arquivos Parquet históricos.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>load_raw_data()</code> - Carrega <code>import_hist_arg_raw.parquet</code> e <code>export_hist_arg_raw.parquet</code></li>
+                    <li><code>transform_data()</code> - Renomeia colunas e converte tipos</li>
+                    <li><code>normalize_countries()</code> - Normaliza IDs usando <code>paisID_ARG.csv</code></li>
+                </ul>
+                <p><strong>Funções Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>unify_columns_polars()</code> - Unifica colunas com formatos diferentes</li>
+                    <li><code>ajust_values_polars()</code> - Converte tipos e substitui vírgulas por pontos</li>
+                </ul>
+                <p><strong>Arquivos Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>paisID_ARG.csv</code> - Tabela de mapeamento de países da Argentina</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>BRA/COMEX_BRA_GLOBE.py</h3>
+                    <span class="file-path">NM/globinho/BRA/COMEX_BRA_GLOBE.py</span>
+                </div>
+                <p><strong>País:</strong> Brasil (BRA)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados do Brasil. Carrega dados históricos de um único arquivo Parquet.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>load_raw_data()</code> - Carrega <code>NM/dados/BRA/database/historical.parquet</code></li>
+                    <li><code>transform_data()</code> - Renomeia colunas, cria data a partir de CO_ANO e CO_MES, filtra por data máxima</li>
+                    <li><code>normalize_countries()</code> - Normaliza IDs usando <code>paisID_BRA.csv</code></li>
+                </ul>
+                <p><strong>Particularidades:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Processa apenas a data máxima disponível nos dados</li>
+                    <li>Dados já contêm coluna ImportExport</li>
+                    <li>Usa encoding ISO-8859-1 para CSV de países</li>
+                </ul>
+                <p><strong>Arquivos Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>paisID_BRA.csv</code> - Tabela de mapeamento de países do Brasil</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>COL/COMEX_COL_GLOBE.py</h3>
+                    <span class="file-path">NM/globinho/COL/COMEX_COL_GLOBE.py</span>
+                </div>
+                <p><strong>País:</strong> Colômbia (COL)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados da Colômbia. Processa dados de importação e exportação com tratamento especial de formatos numéricos.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>load_raw_data()</code> - Carrega e agrega dados de import/export, salva em formato particionado</li>
+                    <li><code>transform_data()</code> - Converte PERIOD para dataNCM</li>
+                    <li><code>normalize_countries()</code> - Normaliza IDs usando <code>codpais_m49_colombia.xlsx</code></li>
+                </ul>
+                <p><strong>Particularidades:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Remove pontos e substitui vírgulas por pontos em valores numéricos</li>
+                    <li>Filtra dados por formato de data (YYYY)</li>
+                    <li>Agrega dados e salva em formato particionado por período</li>
+                    <li>Usa arquivo Excel para mapeamento de países</li>
+                </ul>
+                <p><strong>Arquivos Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>codpais_m49_colombia.xlsx</code> - Tabela de mapeamento de países da Colômbia</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>EUR/COMEX_EUR_GLOBE.py</h3>
+                    <span class="file-path">NM/globinho/EUR/COMEX_EUR_GLOBE.py</span>
+                </div>
+                <p><strong>País:</strong> União Europeia (EUR)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados agregados da União Europeia. Processa dados por períodos e agrega por NCM, país e tipo de comércio.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>load_raw_data()</code> - Processa dados por período, agrega e salva em formato particionado</li>
+                    <li><code>transform_data()</code> - Converte PERIOD (YYYYMM) para dataNCM</li>
+                    <li><code>normalize_countries()</code> - Normaliza países usando <code>PARTNERS_ISO.txt</code></li>
+                </ul>
+                <p><strong>Particularidades:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Processa múltiplos períodos sequencialmente</li>
+                    <li>Agrega dados por PERIOD, NCM, ImportExport e país</li>
+                    <li>Salva dados agregados em formato particionado (PERIOD=YYYYMM)</li>
+                    <li>Usa arquivo de texto para mapeamento de países</li>
+                </ul>
+                <p><strong>Arquivos Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>PARTNERS_ISO.txt</code> - Lista de países parceiros com códigos ISO</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>USA/COMEX_USA_GLOBE.py</h3>
+                    <span class="file-path">NM/globinho/USA/COMEX_USA_GLOBE.py</span>
+                </div>
+                <p><strong>País:</strong> Estados Unidos (USA)</p>
+                <p><strong>Descrição:</strong> Processador específico para dados dos Estados Unidos. Processa dados de importação e exportação com normalização especial de nomes de países.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>load_raw_data()</code> - Carrega e agrega dados de import/export</li>
+                    <li><code>transform_data()</code> - Converte time para dataNCM</li>
+                    <li><code>normalize_countries()</code> - Normaliza nomes de países usando função especial</li>
+                </ul>
+                <p><strong>Particularidades:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Função <code>normalize_country()</code> para normalizar nomes de países (inverte ordem se houver vírgula)</li>
+                    <li>Importação tem coluna <code>valor_cif</code> adicional</li>
+                    <li>Agrega dados antes de processar</li>
+                </ul>
+                <p><strong>Funções Auxiliares:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>normalize_country(x: str) → str</code> - Normaliza nome de país para matching</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>sql/funcao_airflow.py</h3>
+                    <span class="file-path">NM/globinho/sql/funcao_airflow.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Função Airflow Task</p>
+                <p><strong>Descrição:</strong> Função Airflow criada para contornar problemas de performance da API quando há grandes volumes de dados. Esta função:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Lê arquivo Parquet preparado (<code>comex_europa_final.parquet</code>) da pasta <code>include</code> do Airflow</li>
+                    <li>Cria ou verifica existência da tabela <code>TempInternationalTrade</code> no SQL Server</li>
+                    <li>Insere dados em batches de 100.000 registros para otimizar performance</li>
+                    <li>Remove o arquivo Parquet após a carga bem-sucedida</li>
+                </ul>
+                <p><strong>Fluxo de Uso:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Dados são processados e preparados localmente usando os processadores Python</li>
+                    <li>Arquivo Parquet final é gerado e manualmente enviado para o fileshare do Airflow na pasta <code>include</code></li>
+                    <li>Função <code>task_load_comex_parquet_to_sql()</code> é executada no Airflow</li>
+                    <li>Após carga bem-sucedida, o script <code>script_processamento_batch.sql</code> é executado no banco de produção</li>
+                </ol>
+                <div class="warning-box">
+                    <strong>⚠️ Requisitos:</strong> 
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Arquivo Parquet deve estar na pasta <code>include</code> do Airflow</li>
+                        <li>Conexão com SQL Server configurada no Airflow (variáveis: server, database, username, password)</li>
+                        <li>Usuário do banco deve ter permissões para INSERT e TRUNCATE</li>
+                    </ul>
+                </div>
+                <p><strong>Estrutura do Arquivo Parquet Esperada:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>Idindicador</code> - ID do indicador</li>
+                    <li><code>Datancm</code> - Data do registro</li>
+                    <li><code>Unid</code> - Unidade</li>
+                    <li><code>Importexport</code> - Tipo de comércio (0=export, 1=import)</li>
+                    <li><code>Idpais</code> - ID do país</li>
+                    <li><code>Uf</code> - Unidade federativa</li>
+                    <li><code>Via</code> - Via de transporte</li>
+                    <li><code>Quantidade</code> - Quantidade</li>
+                    <li><code>Peso</code> - Peso líquido</li>
+                    <li><code>Fob</code> - Valor FOB</li>
+                    <li><code>Frete</code> - Valor do frete</li>
+                    <li><code>Seguro</code> - Valor do seguro</li>
+                    <li><code>Valorcif</code> - Valor CIF</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>sql/script_processamento_batch.sql</h3>
+                    <span class="file-path">NM/globinho/sql/script_processamento_batch.sql</span>
+                </div>
+                <p><strong>Tipo:</strong> Script SQL</p>
+                <p><strong>Descrição:</strong> Script SQL para processamento em batch no banco de dados. Deve ser executado <strong>após</strong> a carga dos dados via <code>funcao_airflow.py</code>. Contém lógica para:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Atualizar valores NULL em <code>TempInternationalTrade</code></li>
+                    <li>Carregar índices principais</li>
+                    <li>Inserir dados novos em <code>cmx.tblSecexArquivo_CIF</code></li>
+                    <li>Criar agregações e consolidar dados</li>
+                    <li>Atualizar ou inserir em <code>cmx.tblSecexArquivo</code></li>
+                    <li>Limpar tabela temporária <code>TempInternationalTrade</code></li>
+                </ul>
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> 
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Este script deve ser executado no banco de produção usando um usuário com permissões para INSERT e TRUNCATE</li>
+                        <li>Deve ser executado <strong>após</strong> a execução bem-sucedida de <code>funcao_airflow.py</code></li>
+                        <li>Não é executado diretamente pelos scripts Python</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>tblNCM_Pais.xlsx</h3>
+                    <span class="file-path">NM/globinho/tblNCM_Pais.xlsx</span>
+                </div>
+                <p><strong>Tipo:</strong> Arquivo Excel de referência</p>
+                <p><strong>Descrição:</strong> Tabela de referência que mapeia códigos de países para IDs normalizados. Usada por todos os processadores para normalização de países.</p>
+                <p><strong>Colunas Esperadas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>Pais_1</code> - Nome do país</li>
+                    <li><code>Pais_3</code> - Código ISO de 3 letras</li>
+                    <li><code>IDNCMPais</code> - ID normalizado do país</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 4: Pipeline Base -->
+        <div class="section" id="pipeline-base">
+            <h2>4. Pipeline Base (comex_globe_pipeline.py)</h2>
+
+            <div class="info-box">
+                <h3>Classe BaseComexProcessor</h3>
+                <p>
+                    A classe <code>BaseComexProcessor</code> é uma classe abstrata que define toda a lógica comum 
+                    de processamento. Ela utiliza o padrão Template Method, onde o fluxo geral é definido na 
+                    classe base, mas métodos específicos são implementados pelas classes filhas.
+                </p>
+            </div>
+
+            <h3>Inicialização</h3>
+            <div class="code-block">
+<pre>def __init__(self, config_path: str = 'config_comex.json'):
+    """
+    Inicializa o processador carregando configurações.
+    
+    Args:
+        config_path: Caminho para o arquivo de configuração JSON
+    """
+</pre>
+            </div>
+            <p>Durante a inicialização:</p>
+            <ul style="margin-left: 20px;">
+                <li>Carrega arquivo de configuração JSON</li>
+                <li>Define tipos de colunas esperados</li>
+                <li>Configura endpoint da API</li>
+                <li>Inicializa logger</li>
+            </ul>
+
+            <h3>Busca Inteligente de Arquivos</h3>
+            <p>
+                O método <code>_find_file()</code> procura arquivos em múltiplos locais possíveis:
+            </p>
+            <ol style="margin-left: 20px;">
+                <li>Diretório atual</li>
+                <li>Diretório <code>NM/globinho/</code></li>
+                <li>Diretório <code>library/</code></li>
+                <li>Raiz do projeto</li>
+                <li>Subdiretórios de países dentro de <code>globinho/</code></li>
+            </ol>
+            <div class="success-box">
+                <strong>✓ Vantagem:</strong> Isso permite executar os scripts de qualquer diretório sem problemas de paths.
+            </div>
+
+            <h3>Fluxo de Processamento Completo</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">1. load_raw_data() - Carrega dados brutos (Polars)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">2. transform_data() - Transforma dados (Polars)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">3. load_indicator_ids() - Carrega IDs de indicadores</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">4. merge_with_indicators() - Faz merge com IDs (Polars)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">5. group_data() - Agrupa por dataNCM, idIndicador, idPais (Polars)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">6. convert_to_pandas() - Converte para Pandas</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">7. get_costdrivers_data() - Busca dados históricos da API</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">8. validate_new_data() - Valida se há dados novos</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">9. normalize_countries() - Normaliza IDs de países (Pandas)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">10. prepare_for_upload() - Prepara DataFrame final</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">11. run_upload() - Upload assíncrono em batches</div>
+            </div>
+
+            <h3>Validação de Dados Novos</h3>
+            <div class="info-box">
+                <p>
+                    Antes de fazer upload, o sistema valida se há dados novos comparando com dados existentes 
+                    na API de Cost Drivers:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li>Busca dados históricos dos últimos 3 meses da API</li>
+                    <li>Compara data máxima dos dados coletados com data máxima na plataforma</li>
+                    <li>Filtra apenas registros com data maior que a data máxima na plataforma</li>
+                    <li>Se não houver dados novos, o processamento é encerrado sem fazer upload</li>
+                </ol>
+            </div>
+
+            <h3>Upload Assíncrono</h3>
+            <div class="info-box">
+                <p>
+                    O upload é feito de forma assíncrona usando <code>aiohttp</code> e <code>asyncio</code>:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Batch Size:</strong> Configurável (padrão: 20 registros por batch)</li>
+                    <li><strong>Workers:</strong> Configurável (padrão: 10 requisições simultâneas)</li>
+                    <li><strong>Timeout:</strong> Configurável (padrão: 60 segundos)</li>
+                    <li><strong>Controle de Concorrência:</strong> Usa semáforo para limitar requisições simultâneas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 5: Processadores por País -->
+        <div class="section" id="processadores-pais">
+            <h2>5. Processadores por País</h2>
+
+            <h3>Argentina (COMEX_ARG_GLOBE)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>NM/dados/ARG/import_hist_arg_raw.parquet</code> - Dados de importação</li>
+                    <li><code>NM/dados/ARG/export_hist_arg_raw.parquet</code> - Dados de exportação</li>
+                </ul>
+                <p><strong>Transformações Específicas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Unifica colunas com formatos diferentes (fob(u$s) vs fob(usd))</li>
+                    <li>Converte tipos numéricos substituindo vírgulas por pontos</li>
+                    <li>Filtra países nulos ou com código 999</li>
+                    <li>Adiciona colunas frete e seguro como zero para exportação</li>
+                </ul>
+                <p><strong>Normalização de Países:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa <code>paisID_ARG.csv</code> para mapear IDs da fonte para IDs normalizados</li>
+                    <li>Faz merge com <code>tblNCM_Pais.xlsx</code> usando nome do país</li>
+                </ul>
+            </div>
+
+            <h3>Brasil (COMEX_BRA_GLOBE)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>NM/dados/BRA/database/historical.parquet</code> - Dados históricos completos</li>
+                </ul>
+                <p><strong>Transformações Específicas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Cria coluna <code>data</code> a partir de <code>CO_ANO</code> e <code>CO_MES</code></li>
+                    <li>Filtra apenas a data máxima disponível nos dados</li>
+                    <li>Renomeia colunas: CO_NCM → ncm, CO_PAIS → pais, etc.</li>
+                </ul>
+                <p><strong>Normalização de Países:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa <code>paisID_BRA.csv</code> com encoding ISO-8859-1</li>
+                    <li>Faz merge usando coluna <code>CO_PAIS</code></li>
+                </ul>
+            </div>
+
+            <h3>Colômbia (COMEX_COL_GLOBE)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>NM/dados/COL/import_hist_col_raw.parquet</code> - Dados de importação</li>
+                    <li><code>NM/dados/COL/export_hist_col_raw.parquet</code> - Dados de exportação</li>
+                </ul>
+                <p><strong>Transformações Específicas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Remove pontos e substitui vírgulas por pontos em valores numéricos</li>
+                    <li>Filtra dados por formato de data (apenas YYYY válido)</li>
+                    <li>Agrega dados e salva em formato particionado</li>
+                    <li>Preenche NCM com zeros à esquerda até 10 dígitos</li>
+                </ul>
+                <p><strong>Normalização de Países:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa <code>codpais_m49_colombia.xlsx</code> (arquivo Excel)</li>
+                    <li>Faz merge usando código M49 do país</li>
+                </ul>
+            </div>
+
+            <h3>União Europeia (COMEX_EUR_GLOBE)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>NM/dados/EUR/database/historical.parquet</code> - Dados agregados da UE</li>
+                </ul>
+                <p><strong>Transformações Específicas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Processa dados por período (PERIOD)</li>
+                    <li>Agrega por PERIOD, NCM, ImportExport e país</li>
+                    <li>Salva dados agregados em formato particionado (PERIOD=YYYYMM)</li>
+                    <li>Converte PERIOD (YYYYMM) para dataNCM (Date)</li>
+                </ul>
+                <p><strong>Normalização de Países:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa <code>PARTNERS_ISO.txt</code> para mapear códigos ISO</li>
+                    <li>Faz merge usando código ISO do país parceiro</li>
+                </ul>
+            </div>
+
+            <h3>Estados Unidos (COMEX_USA_GLOBE)</h3>
+            <div class="file-item">
+                <p><strong>Fonte de Dados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>NM/dados/USA/import_hist_usa_raw.parquet</code> - Dados de importação</li>
+                    <li><code>NM/dados/USA/export_hist_usa_raw.parquet</code> - Dados de exportação</li>
+                </ul>
+                <p><strong>Transformações Específicas:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Normaliza nomes de países (inverte ordem se houver vírgula)</li>
+                    <li>Importação inclui coluna <code>valor_cif</code></li>
+                    <li>Agrega dados antes de processar</li>
+                    <li>Converte time (YYYY-MM) para dataNCM</li>
+                </ul>
+                <p><strong>Normalização de Países:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usa função <code>normalize_country()</code> para normalizar nomes</li>
+                    <li>Faz merge usando nome normalizado do país</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 6: Fluxo Alternativo -->
+        <div class="section" id="fluxo-alternativo">
+            <h2>6. Fluxo Alternativo (Airflow + SQL)</h2>
+
+            <div class="info-box">
+                <h3>Quando Usar o Fluxo Alternativo?</h3>
+                <p>
+                    O fluxo alternativo usando Airflow e SQL foi criado para contornar problemas de performance 
+                    da API quando há grandes volumes de dados. Este método é especialmente útil quando:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Há milhões de registros para upload</li>
+                    <li>A API apresenta timeouts ou lentidão</li>
+                    <li>É necessário garantir processamento batch mais eficiente</li>
+                    <li>Há necessidade de controle mais granular sobre o processo de carga</li>
+                </ul>
+            </div>
+
+            <h3>Fluxo Completo do Processamento Alternativo</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">1. Processar dados localmente usando processadores Python</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">2. Preparar DataFrame final com todas as colunas necessárias</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">3. Salvar DataFrame como Parquet (ex: comex_europa_final.parquet)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">4. Enviar arquivo Parquet manualmente para fileshare do Airflow (pasta include)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">5. Executar funcao_airflow.py no Airflow (task_load_comex_parquet_to_sql)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">6. Função cria/verifica tabela TempInternationalTrade no SQL Server</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">7. Função insere dados em batches de 100.000 registros</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">8. Função remove arquivo Parquet após carga bem-sucedida</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">9. Executar script_processamento_batch.sql no banco de produção</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">10. Script processa dados e insere/atualiza tabelas finais</div>
+            </div>
+
+            <h3>Preparação dos Dados</h3>
+            <div class="file-item">
+                <p><strong>Antes de enviar para o Airflow, os dados devem estar no formato correto:</strong></p>
+                <div class="code-block">
+<pre># Exemplo: Preparar dados para upload via Airflow
+from NM.globinho.EUR.COMEX_EUR_GLOBE import COMEX_EUR_GLOBE
+import pandas as pd
+
+# Processar dados normalmente
+processor = COMEX_EUR_GLOBE()
+lf_raw = processor.load_raw_data()
+lf_transformed = processor.transform_data(lf_raw)
+ids = processor.load_indicator_ids("União Europeia")
+lf_merged = processor.merge_with_indicators(lf_transformed, ids)
+lf_grouped = processor.group_data(lf_merged)
+df_pandas = processor.convert_to_pandas(lf_grouped)
+df_normalized = processor.normalize_countries(df_pandas)
+df_prepared = processor.prepare_for_upload(df_normalized)
+
+# Renomear colunas para formato esperado pelo funcao_airflow.py
+df_final = df_prepared.rename(columns={
+    'idIndicador': 'Idindicador',
+    'dataNCM': 'Datancm',
+    'unid': 'Unid',
+    'ie': 'Importexport',
+    'idPais': 'Idpais',
+    'uf': 'Uf',
+    'via': 'Via',
+    'quantidade': 'Quantidade',
+    'peso': 'Peso',
+    'fob': 'Fob',
+    'frete': 'Frete',
+    'seguro': 'Seguro',
+    'valorCIF': 'Valorcif'
+})
+
+# Garantir todas as colunas esperadas
+expected_columns = [
+    'Idindicador', 'Datancm', 'Unid', 'Importexport', 'Idpais', 'Uf', 'Via',
+    'Quantidade', 'Peso', 'Fob', 'Frete', 'Seguro', 'Valorcif'
+]
+
+for col in expected_columns:
+    if col not in df_final.columns:
+        df_final[col] = None
+
+# Reordenar colunas
+df_final = df_final[expected_columns]
+
+# Salvar como Parquet
+df_final.to_parquet('comex_europa_final.parquet', index=False, compression='gzip')
+</pre>
+                </div>
+            </div>
+
+            <h3>Configuração no Airflow</h3>
+            <div class="info-box">
+                <p><strong>Variáveis necessárias no Airflow:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>server</code> - Servidor SQL Server (ex: "servidor.database.windows.net")</li>
+                    <li><code>database</code> - Nome do banco de dados</li>
+                    <li><code>username</code> - Usuário do banco de dados</li>
+                    <li><code>password</code> - Senha do banco de dados</li>
+                </ul>
+                <p><strong>Estrutura do DAG:</strong></p>
+                <div class="code-block">
+<pre>from airflow import DAG
+from airflow.decorators import task
+from airflow.models import Variable
+from datetime import datetime
+from funcao_airflow import task_load_comex_parquet_to_sql
+
+# Definir variáveis de conexão (via Airflow Variables ou Connections)
+server = Variable.get("sql_server")
+database = Variable.get("sql_database")
+username = Variable.get("sql_username")
+password = Variable.get("sql_password")
+
+@dag(
+    dag_id="comex_load_parquet_to_sql",
+    start_date=datetime(2024, 1, 1),
+    schedule_interval=None,
+    catchup=False
+)
+def comex_load_dag():
+    load_task = task_load_comex_parquet_to_sql()
+    
+dag_instance = comex_load_dag()
+</pre>
+                </div>
+            </div>
+
+            <h3>Execução do Script SQL</h3>
+            <div class="warning-box">
+                <p><strong>⚠️ Importante:</strong> Após a execução bem-sucedida do <code>funcao_airflow.py</code>, 
+                o script <code>script_processamento_batch.sql</code> deve ser executado manualmente no banco de produção.</p>
+                <p><strong>Requisitos:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Usuário do banco deve ter permissões para:
+                        <ul style="margin-left: 20px;">
+                            <li>INSERT em <code>cmx.tblSecexArquivo_CIF</code> e <code>cmx.tblSecexArquivo</code></li>
+                            <li>TRUNCATE em <code>TempInternationalTrade</code></li>
+                            <li>SELECT nas tabelas de referência (<code>tblIndicePrincipal</code>, <code>tblNCM_Pais</code>)</li>
+                        </ul>
+                    </li>
+                    <li>Script deve ser executado no mesmo banco onde os dados foram carregados</li>
+                    <li>Verificar se a tabela <code>TempInternationalTrade</code> contém dados antes de executar</li>
+                </ul>
+            </div>
+
+            <h3>Vantagens do Fluxo Alternativo</h3>
+            <div class="success-box">
+                <ul style="margin-left: 20px;">
+                    <li><strong>Performance:</strong> Inserção em batches de 100.000 registros é mais eficiente que upload via API</li>
+                    <li><strong>Confiabilidade:</strong> Menos dependência de timeouts e problemas de rede</li>
+                    <li><strong>Controle:</strong> Possibilidade de verificar dados antes de processar</li>
+                    <li><strong>Escalabilidade:</strong> Pode processar volumes muito maiores de dados</li>
+                    <li><strong>Auditoria:</strong> Dados ficam em tabela temporária antes do processamento final</li>
+                </ul>
+            </div>
+
+            <h3>Desvantagens do Fluxo Alternativo</h3>
+            <div class="warning-box">
+                <ul style="margin-left: 20px;">
+                    <li><strong>Processo Manual:</strong> Requer upload manual do arquivo Parquet</li>
+                    <li><strong>Dependências:</strong> Requer acesso ao Airflow e ao banco de dados</li>
+                    <li><strong>Complexidade:</strong> Processo em duas etapas (Airflow + SQL)</li>
+                    <li><strong>Permissões:</strong> Requer usuário com permissões específicas no banco</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 7: Configuração -->
+        <div class="section" id="configuracao">
+            <h2>7. Configuração</h2>
+
+            <h3>Arquivo config_comex.json</h3>
+            <div class="code-block">
+<pre>{
+  "api": {
+    "endpoint": "https://api-costdrivers.gep.com/costdrivers-api",
+    "_comment": "Credenciais via variáveis de ambiente"
+  },
+  "upload": {
+    "batch_size": 20,
+    "workers": 10,
+    "timeout": 60
+  },
+  "paths": {
+    "ids_excel": "IDS_comex.xlsx",
+    "pais_table": "tblNCM_Pais.xlsx",
+    "arg": { ... },
+    "bra": { ... },
+    "eur": { ... },
+    "usa": { ... },
+    "col": { ... }
+  },
+  "countries": {
+    "bra": "Brasil",
+    "arg": "Argentina",
+    "eur": "União Européia",
+    "usa": "Estados Unidos",
+    "col": "Colômbia"
+  }
+}</pre>
+            </div>
+
+            <h3>Variáveis de Ambiente Necessárias</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variável</th>
+                        <th>Descrição</th>
+                        <th>Obrigatória</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_KEY</code></td>
+                        <td>Chave da API de Cost Drivers</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_EMAIL</code></td>
+                        <td>Email para autenticação na API</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>COSTDRIVERS_API_PASSWORD</code></td>
+                        <td>Senha da API</td>
+                        <td>Sim</td>
+                    </tr>
+                    <tr>
+                        <td><code>COSTDRIVERS_ENDPOINT</code></td>
+                        <td>Endpoint da API (opcional, usa padrão do config)</td>
+                        <td>Não</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Arquivos de Dados Necessários</h3>
+            <div class="warning-box">
+                <p><strong>⚠️ Importante:</strong> Os seguintes arquivos devem estar presentes:</p>
+                <ul style="margin-left: 20px;">
+                    <li><code>library/IDS_comex.xlsx</code> - Tabela de IDs de indicadores</li>
+                    <li><code>NM/globinho/tblNCM_Pais.xlsx</code> - Tabela de países</li>
+                    <li>Arquivos Parquet de dados históricos em <code>NM/dados/</code></li>
+                    <li>Arquivos de mapeamento de países específicos de cada país</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 8: Fluxo de Processamento -->
+        <div class="section" id="fluxo-processamento">
+            <h2>8. Fluxo de Processamento Detalhado</h2>
+
+            <h3>Fase 1: Carregamento de Dados Brutos</h3>
+            <div class="info-box">
+                <p>
+                    Cada processador implementa <code>load_raw_data()</code> que retorna um <code>pl.LazyFrame</code>:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Argentina:</strong> Carrega dois arquivos Parquet (import/export) e concatena</li>
+                    <li><strong>Brasil:</strong> Carrega um único arquivo Parquet histórico</li>
+                    <li><strong>Colômbia:</strong> Carrega dois arquivos Parquet e agrega</li>
+                    <li><strong>União Europeia:</strong> Processa por períodos e agrega</li>
+                    <li><strong>Estados Unidos:</strong> Carrega dois arquivos Parquet e agrega</li>
+                </ul>
+            </div>
+
+            <h3>Fase 2: Transformação</h3>
+            <div class="info-box">
+                <p>
+                    <code>transform_data()</code> aplica transformações específicas usando Polars:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Renomeação de colunas para formato padrão</li>
+                    <li>Conversão de tipos de dados</li>
+                    <li>Criação de coluna de data (se necessário)</li>
+                    <li>Filtros específicos do país</li>
+                    <li>Renomeação final: data → dataNCM, pais → idPais</li>
+                </ul>
+            </div>
+
+            <h3>Fase 3: Merge com Indicadores</h3>
+            <div class="info-box">
+                <p>
+                    O sistema carrega IDs de indicadores do arquivo <code>IDS_comex.xlsx</code> e faz merge:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Filtra IDs pelo nome do país</li>
+                    <li>Faz join usando <code>ncm</code> e <code>ImportExport</code></li>
+                    <li>Adiciona coluna <code>idIndicador</code> aos dados</li>
+                </ul>
+            </div>
+
+            <h3>Fase 4: Agrupamento</h3>
+            <div class="info-box">
+                <p>
+                    <code>group_data()</code> agrupa dados por:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><code>dataNCM</code> - Data do registro</li>
+                    <li><code>idIndicador</code> - ID do indicador</li>
+                    <li><code>idPais</code> - ID do país</li>
+                </ul>
+                <p>E soma as colunas numéricas: <code>peso</code>, <code>fob</code>, <code>frete</code>, <code>seguro</code></p>
+            </div>
+
+            <h3>Fase 5: Validação de Dados Novos</h3>
+            <div class="info-box">
+                <p>
+                    Antes de fazer upload, o sistema valida se há dados novos:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li>Busca dados históricos dos últimos 3 meses da API</li>
+                    <li>Encontra data máxima por indicador na plataforma</li>
+                    <li>Compara com data máxima dos dados coletados</li>
+                    <li>Filtra apenas registros com data maior que a data máxima na plataforma</li>
+                    <li>Se não houver dados novos, retorna DataFrame vazio e encerra</li>
+                </ol>
+            </div>
+
+            <h3>Fase 6: Normalização de Países</h3>
+            <div class="info-box">
+                <p>
+                    Cada país implementa <code>normalize_countries()</code> que:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Carrega tabela de mapeamento específica do país</li>
+                    <li>Faz merge com <code>tblNCM_Pais.xlsx</code></li>
+                    <li>Substitui <code>idPais</code> pelo ID normalizado</li>
+                </ul>
+            </div>
+
+            <h3>Fase 7: Preparação para Upload</h3>
+            <div class="info-box">
+                <p>
+                    <code>prepare_for_upload()</code> prepara o DataFrame final:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Garante todas as colunas esperadas pela API</li>
+                    <li>Preenche valores faltantes com NaN ou valores padrão</li>
+                    <li>Converte tipos de dados conforme esperado</li>
+                    <li>Formata data como string (YYYY-MM-DD)</li>
+                </ul>
+            </div>
+
+            <h3>Fase 8: Upload Assíncrono</h3>
+            <div class="info-box">
+                <p>
+                    <code>run_upload()</code> executa upload em batches:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Gera batches agrupados por <code>idIndicador</code></li>
+                    <li>Envia requisições assíncronas usando <code>aiohttp</code></li>
+                    <li>Controla concorrência com semáforo</li>
+                    <li>Retorna lista com resultados de cada batch (status, resposta)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 9: Exemplos de Uso -->
+        <div class="section" id="exemplos-uso">
+            <h2>9. Exemplos de Uso</h2>
+
+            <h3>Exemplo 1: Executar Processamento da Argentina</h3>
+            <div class="code-block">
+<pre>from NM.globinho.ARG.COMEX_ARG_GLOBE import COMEX_ARG_GLOBE
+
+# Criar processador
+processor = COMEX_ARG_GLOBE()
+
+# Executar processamento completo
+results = processor.process()
+
+# Verificar resultados
+print(f"Total de batches: {len(results)}")
+print(f"Batches com sucesso: {sum(1 for r in results if r.get('status') == 200)}")
+</pre>
+            </div>
+
+            <h3>Exemplo 2: Executar Apenas Coleta e Transformação</h3>
+            <div class="code-block">
+<pre>from NM.globinho.BRA.COMEX_BRA_GLOBE import COMEX_BRA_GLOBE
+import polars as pl
+
+processor = COMEX_BRA_GLOBE()
+
+# Carregar dados brutos
+lf_raw = processor.load_raw_data()
+
+# Transformar dados
+lf_transformed = processor.transform_data(lf_raw)
+
+# Coletar para ver resultados
+df = lf_transformed.collect()
+print(f"Registros transformados: {len(df)}")
+</pre>
+            </div>
+
+            <h3>Exemplo 3: Executar com Configuração Customizada</h3>
+            <div class="code-block">
+<pre>from NM.globinho.USA.COMEX_USA_GLOBE import COMEX_USA_GLOBE
+
+# Criar processador com arquivo de config customizado
+processor = COMEX_USA_GLOBE(config_path='config_custom.json')
+
+# Executar processamento
+results = processor.process()
+</pre>
+            </div>
+
+            <h3>Exemplo 4: Executar Apenas Upload (dados já processados)</h3>
+            <div class="code-block">
+<pre>from NM.globinho.COL.COMEX_COL_GLOBE import COMEX_COL_GLOBE
+import pandas as pd
+
+processor = COMEX_COL_GLOBE()
+
+# Assumindo que df_prepared já existe e está pronto
+df_prepared = pd.DataFrame(...)  # DataFrame já preparado
+
+# Executar apenas upload
+results = processor.run_upload(df_prepared)
+</pre>
+            </div>
+
+            <h3>Exemplo 5: Validar Dados Novos Manualmente</h3>
+            <div class="code-block">
+<pre>from NM.globinho.EUR.COMEX_EUR_GLOBE import COMEX_EUR_GLOBE
+import pandas as pd
+
+processor = COMEX_EUR_GLOBE()
+
+# Processar até obter DataFrame
+lf_raw = processor.load_raw_data()
+lf_transformed = processor.transform_data(lf_raw)
+ids = processor.load_indicator_ids("União Europeia")
+lf_merged = processor.merge_with_indicators(lf_transformed, ids)
+lf_grouped = processor.group_data(lf_merged)
+df_pandas = processor.convert_to_pandas(lf_grouped)
+
+# Buscar dados históricos
+costdriver_df = processor.get_costdrivers_data(ids.to_pandas(), n_months=3)
+
+# Validar dados novos
+new_data_df = processor.validate_new_data(costdriver_df, df_pandas)
+
+if new_data_df.empty:
+    print("Nenhum dado novo encontrado")
+else:
+    print(f"Dados novos: {len(new_data_df)} registros")
+</pre>
+            </div>
+        </div>
+
+        <!-- Seção 10: Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <h2>10. Troubleshooting</h2>
+
+            <h3>Problema: Arquivo de configuração não encontrado</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>FileNotFoundError: Arquivo de configuração não encontrado</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se <code>config_comex.json</code> existe em <code>NM/globinho/</code></li>
+                    <li>Execute o script a partir da raiz do projeto</li>
+                    <li>Ou forneça o caminho absoluto: <code>COMEX_ARG_GLOBE(config_path='/caminho/absoluto/config.json')</code></li>
+                </ol>
+            </div>
+
+            <h3>Problema: Variáveis de ambiente não configuradas</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>ValueError: Variável de ambiente COSTDRIVERS_API_KEY não encontrada</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Crie arquivo <code>.env</code> na raiz do projeto</li>
+                    <li>Adicione as variáveis: <code>COSTDRIVERS_API_KEY</code>, <code>COSTDRIVERS_API_EMAIL</code>, <code>COSTDRIVERS_API_PASSWORD</code></li>
+                    <li>Ou configure como variáveis de ambiente do sistema</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Arquivo de dados não encontrado</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>FileNotFoundError: Arquivo de importação não encontrado</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se os arquivos Parquet existem nos caminhos especificados em <code>config_comex.json</code></li>
+                    <li>Verifique os paths em <code>config['paths'][country_code]</code></li>
+                    <li>O sistema tenta encontrar em múltiplos locais, mas os arquivos devem existir</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Nenhum ID encontrado para o país</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> <code>Warning: Nenhum ID encontrado para país 'X'</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se o nome do país em <code>get_country_name()</code> corresponde ao nome em <code>IDS_comex.xlsx</code></li>
+                    <li>Verifique se há dados para o país na coluna <code>Pais_1</code> do arquivo Excel</li>
+                    <li>O nome deve corresponder exatamente (case-sensitive)</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro no merge com indicadores</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> DataFrame vazio após merge ou erro de tipo</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se os tipos de <code>ncm</code> e <code>ImportExport</code> são compatíveis</li>
+                    <li>Verifique se os valores de NCM nos dados correspondem aos valores em <code>IDS_comex.xlsx</code></li>
+                    <li>Verifique se <code>ImportExport</code> está no formato correto (0 ou 1)</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Upload falhando</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Status 401, 403 ou 500 nas requisições de upload</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se o token está sendo obtido corretamente</li>
+                    <li>Verifique se as credenciais da API estão corretas</li>
+                    <li>Verifique se o formato dos dados está correto (tipos, colunas obrigatórias)</li>
+                    <li>Reduza <code>batch_size</code> e <code>workers</code> se houver muitos erros</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Nenhum dado novo para upload</h3>
+            <div class="success-box">
+                <p><strong>Sintoma:</strong> Mensagem "Nenhum dado novo para upload"</p>
+                <p><strong>Explicação:</strong> Isso não é um erro! O sistema validou que não há dados novos comparando com a plataforma.</p>
+                <p><strong>Para forçar upload:</strong> Modifique temporariamente <code>validate_new_data()</code> ou ajuste a lógica de comparação de datas.</p>
+            </div>
+
+            <h3>Dicas de Debug</h3>
+            <div class="info-box">
+                <ul style="margin-left: 20px;">
+                    <li>Use <code>logger.setLevel(logging.DEBUG)</code> para ver logs detalhados</li>
+                    <li>Inspecione DataFrames intermediários usando <code>.head()</code> e <code>.info()</code></li>
+                    <li>Verifique schemas de LazyFrames usando <code>.collect_schema()</code></li>
+                    <li>Salve DataFrames intermediários em Parquet para inspeção: <code>df.to_parquet('debug.parquet')</code></li>
+                    <li>Execute cada fase separadamente para identificar onde ocorre o problema</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Módulo: NM/globinho - Processamento COMEX Globe</p>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                <p style="margin-bottom: 10px;"><strong>Navegação:</strong></p>
+                <a href="index.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Índice</a>
+                <a href="documentacao_OM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">OM</a>
+                <a href="documentacao_NM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM Série Temporal</a>
+                <a href="documentacao_projecao_cif.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Projeção CIF</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

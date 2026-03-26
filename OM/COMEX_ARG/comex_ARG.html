@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Argentina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Argentina</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_ARG</strong> é responsável por coletar, processar e enviar dados de comércio exterior da Argentina. 
+                Este pipeline faz parte do framework COMEX e utiliza dados oficiais disponibilizados pelo Instituto Nacional de Estadística 
+                y Censos (INDEC) da Argentina através de arquivos ZIP contendo dados CSV.
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos e atuais de importação e exportação argentina, normalizá-los conforme 
+                o padrão do framework e integrá-los ao sistema de cost drivers para análise e projeção de custos.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados diretamente do portal oficial do INDEC</li>
+                    <li>Processa arquivos ZIP contendo dados CSV</li>
+                    <li>Suporta dados de importação e exportação</li>
+                    <li>Processa múltiplos anos automaticamente (desde 2020)</li>
+                    <li>Implementa retry logic para downloads robustos</li>
+                    <li>Extrai arquivo específico ou maior arquivo do ZIP</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>ARG</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Argentina</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_ARG</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_ARG.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção ARG)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Argentina")</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Portal Oficial</h3>
+            <p>
+                Os dados são coletados diretamente do portal oficial do INDEC (Instituto Nacional de Estadística y Censos):
+            </p>
+            <div class="step">
+                <h4>URL Base</h4>
+                <p><strong>Portal:</strong> <code>https://comex.indec.gob.ar/files/zips</code></p>
+                <p>
+                    Este portal disponibiliza arquivos ZIP organizados por ano e tipo (importação/exportação). Cada ZIP contém 
+                    um ou mais arquivos CSV com dados de comércio exterior.
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Arquivos ZIP para download direto via HTTP</li>
+                <li><strong>Método de acesso:</strong> Download HTTP GET direto</li>
+                <li><strong>Formato dos dados:</strong> ZIP contendo CSV</li>
+                <li><strong>Encoding:</strong> Latin-1 (ISO-8859-1)</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+                <li><strong>Autenticação:</strong> Não requerida (dados públicos)</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo INDEC)</li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Arquivos</h3>
+            <p>
+                Os arquivos ZIP seguem um padrão de nomenclatura:
+            </p>
+            <ul>
+                <li><strong>Importação:</strong> <code>imports_{ANO}_M.zip</code></li>
+                <li><strong>Exportação:</strong> <code>exports_{ANO}_M.zip</code></li>
+                <li><strong>Exemplo:</strong> <code>imports_2024_M.zip</code>, <code>exports_2023_M.zip</code></li>
+            </ul>
+            <p>
+                Cada ZIP pode conter um ou mais arquivos CSV. O crawler procura primeiro por um arquivo contendo "expopm" no nome. 
+                Se não encontrar, seleciona o maior arquivo do ZIP.
+            </p>
+            
+            <div class="note">
+                <strong>Nota:</strong> O crawler processa automaticamente todos os anos desde 2020 até o ano atual, gerando URLs 
+                dinamicamente baseado no padrão de nomenclatura conhecido.
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Coleta dados de importação da Argentina através do método auxiliar <code>_process_ie_type("import")</code>.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Chama <code>_process_ie_type("import")</code></li>
+                    <li>Gera lista de anos desde 2020 até o ano atual</li>
+                    <li>Para cada ano, constrói URL do ZIP de importação</li>
+                    <li>Baixa e extrai CSV do ZIP</li>
+                    <li>Processa e concatena todos os DataFrames</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Coleta dados de exportação da Argentina através do método auxiliar <code>_process_ie_type("export")</code>.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Chama <code>_process_ie_type("export")</code></li>
+                    <li>Gera lista de anos desde 2020 até o ano atual</li>
+                    <li>Para cada ano, constrói URL do ZIP de exportação</li>
+                    <li>Baixa e extrai CSV do ZIP</li>
+                    <li>Processa e concatena todos os DataFrames</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_make_zip_url()`</h3>
+                <p>
+                    Constrói a URL do arquivo ZIP baseado no tipo e ano.
+                </p>
+                <p><strong>Parâmetros:</strong></p>
+                <ul>
+                    <li><code>ie_type</code>: 'import' ou 'export'</li>
+                    <li><code>year</code>: Ano como string (ex: '2024')</li>
+                </ul>
+                <p><strong>Formato da URL:</strong></p>
+                <pre><code>{base_url}/{ie_type}s_{year}_M.zip
+
+Exemplos:
+- https://comex.indec.gob.ar/files/zips/imports_2024_M.zip
+- https://comex.indec.gob.ar/files/zips/exports_2023_M.zip</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `_download_zip()`</h3>
+                <p>
+                    Baixa um arquivo ZIP com lógica de retry robusta.
+                </p>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li><strong>Retry Logic:</strong> Até 3 tentativas com delay de 10 segundos entre tentativas</li>
+                    <li><strong>Timeout:</strong> 30 segundos por requisição</li>
+                    <li><strong>Extraction:</strong> Extrai CSV do ZIP automaticamente</li>
+                    <li><strong>Seleção de Arquivo:</strong> 
+                        <ol>
+                            <li>Procura arquivo contendo "expopm" no nome</li>
+                            <li>Se não encontrar, seleciona o maior arquivo do ZIP</li>
+                        </ol>
+                    </li>
+                    <li><strong>Tratamento de Erros:</strong> 
+                        <ul>
+                            <li>404: Loga warning e retorna None</li>
+                            <li>Outros erros: Tenta novamente até 3 vezes</li>
+                            <li>Após 3 tentativas: Retorna None</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _download_zip(self, url: str) -> bytes:
+    """Baixa arquivo zip da URL."""
+    max_retries = 3
+    retry_count = 0
+    
+    while retry_count < max_retries:
+        try:
+            req = requests.get(url, timeout=30)
+            
+            if req.status_code == 200:
+                with ZipFile(io.BytesIO(req.content), "r") as mzip:
+                    # Procura arquivo com 'expopm' no nome
+                    if any("expopm" in name for name in mzip.namelist()):
+                        filename = next(name for name in mzip.namelist() if "expopm" in name)
+                        return mzip.read(filename)
+                    
+                    # Caso contrário, pega o maior arquivo
+                    files_sizes = [(info.file_size, info.filename) for info in mzip.infolist()]
+                    if files_sizes:
+                        largest_file = max(files_sizes, key=lambda x: x[0])[1]
+                        return mzip.read(largest_file)
+            
+            elif req.status_code == 404:
+                self.logger.warning(f"Arquivo não encontrado (404): {url}")
+                return None
+                
+        except Exception as e:
+            retry_count += 1
+            if retry_count < max_retries:
+                time.sleep(10)
+            else:
+                return None
+    
+    return None</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `_bytes_to_dataframe()`</h3>
+                <p>
+                    Converte bytes de CSV em DataFrame pandas.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Lê CSV de bytes usando <code>pd.read_csv()</code></li>
+                    <li>Configurações:
+                        <ul>
+                            <li>Separador: <code>;</code> (ponto e vírgula)</li>
+                            <li>Encoding: <code>latin-1</code></li>
+                            <li>Tipo: <code>dtype=str</code> (todos como string inicialmente)</li>
+                        </ul>
+                    </li>
+                    <li>Converte nomes de colunas para minúsculas</li>
+                    <li>Cria coluna <code>data</code> a partir de <code>mes</code> e <code>año</code></li>
+                    <li>Formato da data: <code>01-MM-YYYY</code> convertido para datetime</li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _bytes_to_dataframe(self, csv_bytes: bytes, ie_type: str) -> pd.DataFrame:
+    """Converte bytes CSV em DataFrame."""
+    df = pd.read_csv(io.BytesIO(csv_bytes), sep=";", encoding="latin-1", dtype=str)
+    df.columns = [col.lower() for col in df.columns]
+    
+    # Criar coluna de data
+    df["data"] = df.apply(lambda x: f"01-{x['mes'].zfill(2)}-{x['año']}", axis=1)
+    df["data"] = pd.to_datetime(df["data"], format="%d-%m-%Y")
+    
+    return df</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.6 Método Auxiliar: `_process_ie_type()`</h3>
+                <p>
+                    Processa dados de importação ou exportação de forma unificada.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Gera lista de anos desde 2020 até o ano atual usando <code>pd.date_range()</code></li>
+                    <li>Para cada ano:
+                        <ul>
+                            <li>Constrói URL do ZIP usando <code>_make_zip_url()</code></li>
+                            <li>Baixa ZIP usando <code>_download_zip()</code></li>
+                            <li>Se download bem-sucedido, converte para DataFrame usando <code>_bytes_to_dataframe()</code></li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames em um único resultado</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se arquivo não encontrado (404): loga warning e continua com próximo ano</li>
+                    <li>Se erro ao baixar: loga erro e continua</li>
+                    <li>Se nenhum arquivo processado: retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Processamento Multi-Ano:</strong> Processa automaticamente todos os anos desde 2020 até o ano atual</li>
+                    <li><strong>URLs Fixas:</strong> Usa padrão conhecido de nomenclatura para construir URLs</li>
+                    <li><strong>Retry Logic:</strong> Implementa retry com até 3 tentativas e delay de 10 segundos</li>
+                    <li><strong>Extraction Inteligente:</strong> Procura arquivo específico ou seleciona maior arquivo do ZIP</li>
+                    <li><strong>Encoding Latin-1:</strong> Usa encoding Latin-1 (comum em dados argentinos)</li>
+                    <li><strong>Criação de Data:</strong> Combina colunas <code>mes</code> e <code>año</code> para criar coluna <code>data</code></li>
+                    <li><strong>Colunas Minúsculas:</strong> Converte todas as colunas para minúsculas automaticamente</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ncm</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>porg</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país de origem</td>
+                    </tr>
+                    <tr>
+                        <td><code>pnet(kg)</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>fob(usd)</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>flete(usd)</code></td>
+                        <td><code>frete</code></td>
+                        <td>float</td>
+                        <td>Valor do frete em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>seguro(usd)</code></td>
+                        <td><code>seguro</code></td>
+                        <td>float</td>
+                        <td>Valor do seguro em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>mes</code> + <code>año</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação (criada durante processamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ncm</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>pdes</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país de destino</td>
+                    </tr>
+                    <tr>
+                        <td><code>pnet(kg)</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>fob(usd)</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>mes</code> + <code>año</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação (criada durante processamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> Note que para importação usa <code>porg</code> (país de origem) e para exportação usa 
+                <code>pdes</code> (país de destino), ambos mapeados para <code>pais_id</code>.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados da Argentina após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Criação de Data (fallback):</strong> Se a coluna <code>data</code> não existir após normalização, 
+                        mas existirem as colunas <code>año</code> e <code>mes</code>, cria a coluna <code>data</code> combinando 
+                        essas informações</li>
+                    <li><strong>Formato:</strong> Cria data no primeiro dia do mês usando <code>pd.to_datetime()</code> com dicionário</li>
+                </ol>
+                <p><strong>Por que é necessário:</strong></p>
+                <ul>
+                    <li>Garante que a coluna <code>Data</code> sempre exista, mesmo se houver algum problema na criação anterior</li>
+                    <li>Serve como fallback caso a normalização não tenha criado a coluna corretamente</li>
+                </ul>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados da Argentina."""
+    # Criar coluna data a partir de ano e mês se necessário
+    if 'data' not in df.columns and 'año' in df.columns and 'mes' in df.columns:
+        df['data'] = pd.to_datetime({
+            'year': df['año'].astype(int),
+            'month': df['mes'].astype(int),
+            'day': 1
+        })
+    
+    return df</code></pre>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de <code>mes</code> e <code>año</code> no formato <code>01-MM-YYYY</code>, 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Formato Numérico:</strong> Dados são lidos como string inicialmente (<code>dtype=str</code>) e convertidos 
+                    posteriormente pelo framework conforme schema do data-contract</li>
+                <li><strong>Encoding:</strong> Latin-1 (ISO-8859-1) - comum em dados argentinos</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+                <li><strong>Colunas:</strong> Todas convertidas para minúsculas durante processamento</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <p>
+                Não há filtros específicos aplicados aos dados argentinos. Todos os dados coletados são processados.
+            </p>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão do framework (primeiro dia do mês há 60 dias). 
+                            <strong>Nota:</strong> O crawler processa desde 2020 independente deste parâmetro.</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>URL Base:</strong> <code>https://comex.indec.gob.ar/files/zips</code></li>
+                <li><strong>Ano Inicial:</strong> 2020 (fixo no código)</li>
+                <li><strong>Retry:</strong> 3 tentativas com delay de 10 segundos</li>
+                <li><strong>Timeout:</strong> 30 segundos para downloads</li>
+                <li><strong>Encoding:</strong> Latin-1</li>
+                <li><strong>Data Contract Path:</strong> <code>data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="info-box">
+                <h4>Padrão de URLs</h4>
+                <p>
+                    As URLs são construídas dinamicamente seguindo o padrão:
+                </p>
+                <ul>
+                    <li><strong>Importação:</strong> <code>{base_url}/imports_{year}_M.zip</code></li>
+                    <li><strong>Exportação:</strong> <code>{base_url}/exports_{year}_M.zip</code></li>
+                </ul>
+                <p>
+                    Onde <code>{year}</code> é substituído pelo ano (ex: 2020, 2021, 2022, etc.)
+                </p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Portal INDEC (comex.indec.gob.ar/files/zips)
+    ↓
+_process_ie_type("import" ou "export")
+    ↓
+Gera lista de anos (2020 até ano atual)
+    ↓
+Para cada ano:
+    ↓
+_make_zip_url() → Constrói URL do ZIP
+    ↓
+_download_zip() → Download com retry (3 tentativas)
+    ↓
+Extração do ZIP:
+    ↓ (Procura arquivo com "expopm")
+    ↓ (Se não encontrar, pega maior arquivo)
+Bytes do CSV
+    ↓
+_bytes_to_dataframe()
+    ↓ (pd.read_csv com sep=';', encoding='latin-1')
+    ↓ (Converte colunas para minúsculas)
+    ↓ (Cria coluna data a partir de mes + año)
+DataFrame Bruto
+    ↓
+Concatenação de Todos os DataFrames
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓
+Tratamento Específico (_country_specific_treatment)
+    ↓
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+
+pipeline = COMEX_ARG()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_ARG import COMEX_ARG
+
+# Usar storage local
+pipeline = COMEX_ARG(
+    start_date=datetime(2023, 1, 1),
+    use_azure=False
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+
+pipeline = COMEX_ARG()
+
+# Apenas coletar dados
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Execução Local com Salvamento</h3>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+from datetime import datetime
+
+pipeline = COMEX_ARG()
+result_df = pipeline.run()
+
+# Salvar resultado em Excel
+timestamp = datetime.now().strftime('%Y%m%dT%H%M')
+result_df.to_excel(f'subir_COMEX_ARG_{timestamp}.xlsx', index=False)</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="info-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Ano Fixo:</strong> O crawler processa desde 2020 independente do parâmetro <code>start_date</code>. 
+                        Este é um comportamento específico deste crawler.</li>
+                    <li><strong>Padrão de URLs:</strong> O crawler assume que as URLs seguem o padrão conhecido. Se o INDEC mudar 
+                        o padrão de nomenclatura, será necessário atualizar o método <code>_make_zip_url()</code>.</li>
+                    <li><strong>Seleção de Arquivo:</strong> O crawler procura primeiro por arquivo com "expopm" no nome. Se não encontrar, 
+                        seleciona o maior arquivo. Isso pode não ser ideal se o ZIP contiver múltiplos arquivos relevantes.</li>
+                    <li><strong>Encoding Latin-1:</strong> Usa encoding Latin-1 que é comum em dados argentinos, mas pode causar 
+                        problemas com caracteres especiais se houver.</li>
+                    <li><strong>Retry Logic:</strong> Implementa retry com delay de 10 segundos. Em caso de muitos erros, o processo 
+                        pode ser lento.</li>
+                    <li><strong>Timeout:</strong> Timeout de 30 segundos pode ser insuficiente para arquivos muito grandes.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Arquivos ZIP:</strong> Ao contrário de outros crawlers que usam CSV direto, este processa arquivos ZIP.</li>
+                    <li><strong>URLs Fixas:</strong> Usa padrão conhecido para construir URLs, enquanto outros podem usar web scraping.</li>
+                    <li><strong>Retry Logic:</strong> Implementa retry explícito com delay, enquanto outros podem usar bibliotecas de retry.</li>
+                    <li><strong>Ano Fixo:</strong> Processa desde 2020 fixo, enquanto outros podem usar <code>start_date</code> dinamicamente.</li>
+                    <li><strong>Encoding Latin-1:</strong> Usa Latin-1 ao invés de UTF-8 como padrão.</li>
+                    <li><strong>Extraction Inteligente:</strong> Seleciona arquivo específico ou maior arquivo do ZIP automaticamente.</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Arquivo não encontrado (404) para determinado ano
+                    <br><strong>Solução:</strong> Crawler continua processando outros anos e loga warning. Normal para anos muito antigos ou muito recentes.</li>
+                <li><strong>Problema:</strong> Timeout em downloads grandes
+                    <br><strong>Solução:</strong> Retry logic tenta novamente. Se persistir, pode ser necessário aumentar timeout.</li>
+                <li><strong>Problema:</strong> ZIP contém múltiplos arquivos e seleciona o errado
+                    <br><strong>Solução:</strong> Crawler procura primeiro por "expopm". Se necessário, pode ser ajustado para procurar outros padrões.</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro na Coleta: "Arquivo não encontrado (404)"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Ano muito antigo ou muito recente (arquivo ainda não disponível)</li>
+                    <li>Padrão de URL mudou no INDEC</li>
+                    <li>Portal temporariamente indisponível</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente se o arquivo existe no portal</li>
+                    <li>Verificar se o padrão de URL ainda está correto</li>
+                    <li>Verificar logs para ver quais anos falharam</li>
+                    <li>O crawler continua processando outros anos mesmo com alguns 404s</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro ao Baixar Arquivo: Timeout ou Erro de Conexão</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Arquivo muito grande</li>
+                    <li>Portal lento ou sobrecarregado</li>
+                    <li>Problemas de rede</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>O crawler tenta automaticamente até 3 vezes com delay de 10 segundos</li>
+                    <li>Aumentar timeout em <code>_download_zip()</code> se necessário</li>
+                    <li>Verificar conectividade com o portal</li>
+                    <li>Tentar baixar manualmente para validar disponibilidade</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro ao Processar CSV: Encoding ou Formato</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Encoding diferente de Latin-1</li>
+                    <li>Separador diferente de ponto e vírgula</li>
+                    <li>Formato do arquivo mudou</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar encoding real do arquivo</li>
+                    <li>Verificar separador usado no CSV</li>
+                    <li>Ajustar parâmetros em <code>_bytes_to_dataframe()</code> se necessário</li>
+                    <li>Verificar logs para ver erro específico</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Executar Apenas a Coleta</h4>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+
+pipeline = COMEX_ARG()
+import_df, export_df = pipeline.collect()
+
+# Inspecionar dados coletados
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar URLs geradas
+years = list(set([d.year for d in pd.date_range('01-01-2020', datetime.now(), freq='MS')]))
+for year in years:
+    import_url = pipeline._make_zip_url("import", str(year))
+    export_url = pipeline._make_zip_url("export", str(year))
+    print(f"Ano {year}:")
+    print(f"  Import: {import_url}")
+    print(f"  Export: {export_url}")</code></pre>
+            
+            <h4>Testar Download de Arquivo Específico</h4>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+import requests
+
+pipeline = COMEX_ARG()
+
+# Testar download de um arquivo específico
+url = pipeline._make_zip_url("import", "2024")
+print(f"Testando download: {url}")
+
+csv_bytes = pipeline._download_zip(url)
+if csv_bytes:
+    print(f"Download bem-sucedido: {len(csv_bytes)} bytes")
+    df = pipeline._bytes_to_dataframe(csv_bytes, "import")
+    print(f"DataFrame criado: {len(df)} registros")
+else:
+    print("Download falhou")</code></pre>
+            
+            <h4>Inspecionar Dados Intermediários</h4>
+            <pre><code>from COMEX_ARG import COMEX_ARG
+
+pipeline = COMEX_ARG()
+
+# Coletar
+import_df, export_df = pipeline.collect()
+import_df.to_excel("debug_import_raw.xlsx")
+export_df.to_excel("debug_export_raw.xlsx")
+
+# Verificar criação de data
+print("Verificando coluna data:")
+print(f"Colunas: {import_df.columns.tolist()}")
+if 'data' in import_df.columns:
+    print(f"Data min: {import_df['data'].min()}")
+    print(f"Data max: {import_df['data'].max()}")
+    print(f"Valores nulos: {import_df['data'].isna().sum()}")
+
+# Tratar
+silver_df = pipeline.treat()
+silver_df.to_excel("debug_silver.xlsx")</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_ARG import COMEX_ARG
+
+pipeline = COMEX_ARG()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Portal INDEC:</strong> 
+                    <a href="https://comex.indec.gob.ar" target="_blank">Comercio Exterior - INDEC</a></li>
+                <li><strong>Base de Dados:</strong> 
+                    <a href="https://comex.indec.gob.ar/files/zips" target="_blank">Arquivos ZIP - INDEC</a></li>
+                <li><strong>Instituto Nacional:</strong> 
+                    <a href="https://www.indec.gob.ar" target="_blank">INDEC - Instituto Nacional de Estadística y Censos</a></li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_ARG.py</code> - Código fonte do crawler</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção ARG)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Argentina")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>requests</code> - Requisições HTTP</li>
+                <li><code>zipfile</code> - Extração de arquivos ZIP (biblioteca padrão)</li>
+                <li><code>io</code> - Manipulação de bytes (biblioteca padrão)</li>
+                <li><code>time</code> - Delay entre retries (biblioteca padrão)</li>
+            </ul>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

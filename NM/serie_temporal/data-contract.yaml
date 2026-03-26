@@ -1,0 +1,276 @@
+schema:
+  Data: datetime
+  ncm: int
+  pais_id: int
+  pais_name: str
+  peso: float
+  valor: float
+  valor_cif: float
+  frete: float
+  seguro: float
+
+ARG:
+  export:
+    ncm: ncm
+    pdes: pais_id
+    pnet(kg): peso
+    fob(usd): valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']
+  import:
+    ncm: ncm
+    porg: pais_id
+    pnet(kg): peso
+    fob(usd): valor
+    flete(usd): frete
+    seguro(usd): seguro
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']
+
+BRA:
+  export:
+    CO_NCM: ncm
+    CO_PAIS: pais_id
+    KG_LIQUIDO: peso
+    VL_FOB: valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']
+  import:
+    CO_NCM: ncm
+    CO_PAIS: pais_id
+    KG_LIQUIDO: peso
+    VL_FOB: valor
+    VL_FRETE: frete
+    VL_SEGURO: seguro
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']
+
+EUR:
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+DEU:
+  REPORTER | pais_origem: DE
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+NLD:
+  REPORTER | pais_origem: NL
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+AUT:
+  REPORTER | pais_origem: AT
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+ITA:
+  REPORTER | pais_origem: IT
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+FRA:
+  REPORTER | pais_origem: FR
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+BEL:
+  REPORTER | pais_origem: BE
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+PRT:
+  REPORTER | pais_origem: PT
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+HUN:
+  REPORTER | pais_origem: HU
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+BGR:
+  REPORTER | pais_origem: BG
+  export:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    PRODUCT_NC: ncm
+    REPORTER: pais_origem
+    PARTNER: pais_name
+    VALUE_EUR: valor
+    QUANTITY_KG: peso
+    PERIOD: Data
+    columns: ['Data', 'ncm', 'pais_origem', 'pais_name', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+USA:
+  export:
+    E_COMMODITY: ncm
+    CTY_CODE: pais_id
+    CTY_NAME: pais_name
+    ALL_VAL_MO: valor
+    QTY_1_MO: peso
+    time: Data
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    I_COMMODITY: ncm
+    CTY_CODE: pais_id
+    CTY_NAME: pais_name
+    GEN_VAL_MO: valor
+    GEN_CIF_MO: valor_cif
+    GEN_QY1_MO: peso
+    time: Data
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'valor_cif']
+
+COL:
+  export:
+    POSAR: ncm
+    FOBDOL: valor
+    PBK: peso
+    columns: ['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    NABAN: ncm
+    VAFODO: valor
+    PBK: peso
+    columns: ['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']
+
+IND:
+  export:
+    NCM: ncm
+    Pais: pais_name
+    Peso: peso
+    Valor: valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    NCM: ncm
+    Pais: pais_name
+    Peso: peso
+    Valor: valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']

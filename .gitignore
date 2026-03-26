@@ -1,0 +1,37 @@
+# Ambientes virtuais
+.venv/
+venvc/
+venv/
+env/
+
+# Cache e dados temporários
+.cache/
+.temp/
+
+# Dados gerados (parquet, excel de dados)
+staging/
+NM/dados/
+OM/dados/
+*.parquet
+*_upload.xlsx
+
+# Credenciais e variáveis de ambiente — NUNCA subir
+.env
+settings.ENV
+*.ENV
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/

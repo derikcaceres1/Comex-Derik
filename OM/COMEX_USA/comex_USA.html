@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Estados Unidos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Estados Unidos</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_USA</strong> é responsável por coletar, processar e enviar dados de comércio exterior dos Estados Unidos. 
+                Este pipeline faz parte do framework COMEX e utiliza dados oficiais disponibilizados pela API U.S. Census Bureau através de 
+                endpoints REST que fornecem dados históricos e atuais de importação e exportação.
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos de comércio exterior dos EUA (últimos 5 anos), filtrar por países específicos, 
+                normalizá-los conforme o padrão do framework e integrá-los ao sistema de cost drivers para análise e projeção de custos.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados diretamente da API oficial U.S. Census Bureau</li>
+                    <li>Utiliza requisições assíncronas para otimizar performance</li>
+                    <li>Requer arquivo Excel com mapeamento de NCMs (NCM_IE_USITC.xlsx)</li>
+                    <li>Coleta dados dos últimos 5 anos (ajustado recentemente)</li>
+                    <li>Exclui automaticamente os últimos 2 meses (dados podem estar incompletos)</li>
+                    <li>Filtra por lista específica de países (USA_COMEX_PAISES)</li>
+                    <li>Para importações: calcula frete + seguro a partir de valor_cif</li>
+                    <li>Usa API key para autenticação</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>USA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Estados Unidos</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_USA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_USA.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção USA)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Estados Unidos")</td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo NCM</strong></td>
+                    <td><code>NCM_IE_USITC.xlsx</code> (obrigatório)</td>
+                </tr>
+                <tr>
+                    <td><strong>Período de Coleta</strong></td>
+                    <td>Últimos 5 anos (excluindo últimos 2 meses)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tipo de API</strong></td>
+                    <td>REST API (U.S. Census Bureau)</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 API Oficial</h3>
+            <p>
+                Os dados são coletados diretamente da API oficial do U.S. Census Bureau:
+            </p>
+            <div class="step">
+                <h4>URLs da API</h4>
+                <p><strong>Importação:</strong> <code>https://api.census.gov/data/timeseries/intltrade/imports/hs</code></p>
+                <p><strong>Exportação:</strong> <code>https://api.census.gov/data/timeseries/intltrade/exports/hs</code></p>
+                <p>
+                    Esta API fornece dados históricos e atuais de comércio exterior dos Estados Unidos em formato JSON. 
+                    Requer API key para autenticação e suporta filtros por commodity (NCM), país, e período.
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> REST API (JSON)</li>
+                <li><strong>Método de acesso:</strong> Requisições HTTP GET assíncronas</li>
+                <li><strong>Formato dos dados:</strong> JSON (convertido para DataFrame)</li>
+                <li><strong>Autenticação:</strong> API Key (parâmetro <code>key</code>)</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo Census Bureau)</li>
+                <li><strong>Documentação:</strong> 
+                    <a href="https://api.census.gov/data/timeseries/intltrade/exports/enduse/variables.html" target="_blank">Exports Variables</a> | 
+                    <a href="https://api.census.gov/data/timeseries/intltrade/imports/enduse/variables.html" target="_blank">Imports Variables</a>
+                </li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Dados</h3>
+            <p>
+                A API retorna dados em formato JSON com arrays. Cada requisição retorna dados para um NCM específico e um mês específico. 
+                O crawler faz múltiplas requisições assíncronas (uma por NCM) e depois consolida os resultados.
+            </p>
+            <p>
+                <strong>Parâmetros da API:</strong>
+            </p>
+            <ul>
+                <li><code>get</code>: Campos a retornar (ex: "I_COMMODITY,CTY_CODE,CTY_NAME,GEN_VAL_MO,GEN_CIF_MO,GEN_QY1_MO")</li>
+                <li><code>time</code>: Período no formato YYYY-MM</li>
+                <li><code>I_COMMODITY</code> ou <code>E_COMMODITY</code>: Código NCM (HS10)</li>
+                <li><code>COMM_LVL</code>: Nível de commodity ("HS10")</li>
+                <li><code>key</code>: API Key</li>
+            </ul>
+            
+            <div class="note">
+                <strong>Nota:</strong> A API requer um arquivo Excel (<code>NCM_IE_USITC.xlsx</code>) que contém o mapeamento de NCMs 
+                e seus tipos (Import/Export). Este arquivo é usado para determinar quais NCMs coletar e como classificá-los.
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Coleta dados de importação dos Estados Unidos para todos os meses no range de datas.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Itera sobre cada mês no <code>date_range</code></li>
+                    <li>Para cada mês, chama <code>_fetch_month()</code></li>
+                    <li>Extrai DataFrames de importação do resultado</li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Coleta dados de exportação dos Estados Unidos para todos os meses no range de datas.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Itera sobre cada mês no <code>date_range</code></li>
+                    <li>Para cada mês, chama <code>_fetch_month()</code></li>
+                    <li>Extrai DataFrames de exportação do resultado</li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_load_ncm_file()`</h3>
+                <p>
+                    Carrega arquivo Excel com mapeamento de NCMs e tipos de comércio.
+                </p>
+                <p><strong>Arquivo:</strong> <code>NCM_IE_USITC.xlsx</code></p>
+                <p><strong>Estrutura Esperada:</strong></p>
+                <ul>
+                    <li>Coluna <code>IDIndicePrincipal</code>: ID do índice principal</li>
+                    <li>Coluna <code>IE</code>: Tipo de comércio (1 = Import, 0 = Export)</li>
+                    <li>Coluna <code>NCM</code>: Código NCM (HS10)</li>
+                </ul>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se arquivo não encontrado: loga erro e retorna DataFrame vazio</li>
+                    <li>Se erro ao ler: loga erro e retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `_build_date_range()`</h3>
+                <p>
+                    Constrói range de datas para coleta (formato YYYY-MM), excluindo os últimos 2 meses.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Gera range de datas mensais desde <code>start_period</code> até hoje</li>
+                    <li>Exclui os últimos 2 meses (dados podem estar incompletos)</li>
+                    <li>Converte para formato YYYY-MM</li>
+                    <li>Retorna lista de strings</li>
+                </ol>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code># Se hoje é 2024-12-15
+# start_period = 2019-12-01 (5 anos atrás)
+# date_range = ['2019-12', '2020-01', ..., '2024-09', '2024-10']
+# (exclui novembro e dezembro de 2024)</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `_mount_requests_for_month()`</h3>
+                <p>
+                    Monta lista de requisições para um mês específico, uma requisição por NCM.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Filtra NCMs do arquivo Excel por tipo (IE: 1 = Import, 0 = Export)</li>
+                    <li>Para cada NCM filtrado:
+                        <ul>
+                            <li>Monta parâmetros da API específicos para import ou export</li>
+                            <li>Cria dicionário com URL, método, parâmetros e NCM</li>
+                            <li>Adiciona à lista de requisições</li>
+                        </ul>
+                    </li>
+                    <li>Retorna lista de requisições</li>
+                </ol>
+                <p><strong>Parâmetros para Importação:</strong></p>
+                <pre><code>{
+    "get": "I_COMMODITY,CTY_CODE,CTY_NAME,GEN_VAL_MO,GEN_CIF_MO,GEN_QY1_MO",
+    "time": "2024-01",
+    "I_COMMODITY": "1234567890",
+    "COMM_LVL": "HS10",
+    "key": "0b09d9c5b84851e0fa3a1995cf041f0a8ac3b380"
+}</code></pre>
+                <p><strong>Parâmetros para Exportação:</strong></p>
+                <pre><code>{
+    "get": "E_COMMODITY,CTY_CODE,CTY_NAME,ALL_VAL_MO,QTY_1_MO",
+    "time": "2024-01",
+    "E_COMMODITY": "1234567890",
+    "COMM_LVL": "HS10",
+    "key": "0b09d9c5b84851e0fa3a1995cf041f0a8ac3b380"
+}</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.6 Método Auxiliar: `_fetch_month()`</h3>
+                <p>
+                    Coleta dados de um mês específico (import e export) usando requisições assíncronas.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Monta requisições para import e export usando <code>_mount_requests_for_month()</code></li>
+                    <li>Executa requisições assíncronas usando <code>ApiAsync</code>:
+                        <ul>
+                            <li>Uma chamada para importações</li>
+                            <li>Uma chamada para exportações</li>
+                        </ul>
+                    </li>
+                    <li>Converte respostas JSON em DataFrames</li>
+                    <li>Retorna dicionário com listas de DataFrames</li>
+                </ol>
+                <p><strong>Uso de ApiAsync:</strong></p>
+                <pre><code>dados_import = ApiAsync(True, lista=reqs_import).run()
+dados_export = ApiAsync(True, lista=reqs_export).run()</code></pre>
+                <p>
+                    <code>ApiAsync</code> executa múltiplas requisições em paralelo, otimizando o tempo de coleta.
+                </p>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Requisições Assíncronas:</strong> Usa ApiAsync para executar múltiplas requisições em paralelo</li>
+                    <li><strong>Arquivo NCM Obrigatório:</strong> Requer arquivo NCM_IE_USITC.xlsx para determinar quais NCMs coletar</li>
+                    <li><strong>Coleta por NCM:</strong> Uma requisição por NCM por mês</li>
+                    <li><strong>Período de 5 Anos:</strong> Coleta dados dos últimos 5 anos (ajustado recentemente)</li>
+                    <li><strong>Exclusão de Últimos 2 Meses:</strong> Exclui automaticamente para evitar dados incompletos</li>
+                    <li><strong>API Key:</strong> Usa API key hardcoded no código (pode precisar atualização)</li>
+                    <li><strong>Filtro de Países:</strong> Filtra por lista específica de países após coleta</li>
+                    <li><strong>Valor CIF para Importações:</strong> API retorna GEN_CIF_MO que é mapeado para valor_cif</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original (API)</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>I_COMMODITY</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (HS10)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CTY_CODE</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país (U.S. Census)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CTY_NAME</code></td>
+                        <td><code>pais_name</code></td>
+                        <td>str</td>
+                        <td>Nome do país</td>
+                    </tr>
+                    <tr>
+                        <td><code>GEN_VAL_MO</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em USD (FOB)</td>
+                    </tr>
+                    <tr>
+                        <td><code>GEN_CIF_MO</code></td>
+                        <td><code>valor_cif</code></td>
+                        <td>float</td>
+                        <td>Valor CIF em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>GEN_QY1_MO</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Quantidade em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>time</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYY-MM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'valor_cif']</code>
+            <div class="note">
+                <strong>Nota Importante:</strong> Para importações, a API retorna <code>valor_cif</code> diretamente. 
+                No tratamento específico, este valor é usado para calcular <code>frete + seguro = valor_cif - valor</code>, 
+                e então a coluna <code>valor_cif</code> é removida antes de seguir para as próximas fases.
+            </div>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original (API)</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>E_COMMODITY</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (HS10)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CTY_CODE</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país (U.S. Census)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CTY_NAME</code></td>
+                        <td><code>pais_name</code></td>
+                        <td>str</td>
+                        <td>Nome do país</td>
+                    </tr>
+                    <tr>
+                        <td><code>ALL_VAL_MO</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>QTY_1_MO</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Quantidade em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>time</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYY-MM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']</code>
+            <div class="note">
+                <strong>Nota:</strong> Para exportações, não há valor CIF. As colunas <code>frete</code> e <code>seguro</code> 
+                são adicionadas com valor 0.0 no tratamento específico.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados dos Estados Unidos após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Filtro de Países:</strong> 
+                        <ul>
+                            <li>Filtra dados por lista <code>USA_COMEX_PAISES</code></li>
+                            <li>Mantém apenas países que estão na lista</li>
+                        </ul>
+                    </li>
+                    <li><strong>Conversão de Tipos:</strong>
+                        <ul>
+                            <li>Converte <code>peso</code> e <code>valor</code> para float</li>
+                        </ul>
+                    </li>
+                    <li><strong>Adição de Colunas Frete e Seguro:</strong>
+                        <ul>
+                            <li>Adiciona <code>frete</code> e <code>seguro</code> com valor 0.0 se não existirem</li>
+                        </ul>
+                    </li>
+                    <li><strong>Validação de Data:</strong>
+                        <ul>
+                            <li>Garante que coluna <code>Data</code> está em formato datetime</li>
+                            <li>Converte de formato YYYY-MM se necessário</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados dos Estados Unidos."""
+    if df.empty:
+        return df
+    
+    # Filtrar por lista de países
+    if 'pais_name' in df.columns:
+        df = df[df['pais_name'].isin(self.USA_COMEX_PAISES)].copy()
+        self.logger.info(f"Dados filtrados por países: {len(df)} registros")
+    
+    # Converter para float
+    if 'peso' in df.columns and 'valor' in df.columns:
+        df['peso'] = df['peso'].astype(float)
+        df['valor'] = df['valor'].astype(float)
+    
+    # Adicionar colunas frete e seguro
+    if 'frete' not in df.columns:
+        df['frete'] = 0.0
+    if 'seguro' not in df.columns:
+        df['seguro'] = 0.0
+    
+    # Garantir que Data está em formato datetime
+    if 'Data' in df.columns:
+        if not pd.api.types.is_datetime64_any_dtype(df['Data']):
+            df['Data'] = pd.to_datetime(df['Data'], format='%Y-%m', errors='coerce')
+    
+    return df</code></pre>
+            </div>
+            
+            <div class="warning-box">
+                <h3>⚠️ Tratamento de valor_cif para Importações</h3>
+                <p>
+                    <strong>Importante:</strong> O código atual não trata explicitamente <code>valor_cif</code> no método 
+                    <code>_country_specific_treatment()</code>. No entanto, conforme documentado anteriormente, o tratamento 
+                    de <code>valor_cif</code> para importações deveria:
+                </p>
+                <ol>
+                    <li>Calcular <code>frete_seguro = valor_cif - valor</code></li>
+                    <li>Garantir que <code>frete_seguro >= 0</code></li>
+                    <li>Atribuir <code>frete = frete_seguro</code> e <code>seguro = 0.0</code></li>
+                    <li>Remover coluna <code>valor_cif</code> (não faz parte do schema final)</li>
+                </ol>
+                <p>
+                    Este tratamento pode estar sendo feito em outra parte do código ou pode precisar ser adicionado.
+                </p>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de formato YYYY-MM da API, 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Filtro de Países:</strong> Mantém apenas países da lista <code>USA_COMEX_PAISES</code></li>
+                <li><strong>Valores em USD:</strong> Valores estão em USD</li>
+                <li><strong>NCM:</strong> Código HS10 (10 dígitos)</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <ul>
+                <li><strong>Filtro de Países:</strong> Apenas países da lista <code>USA_COMEX_PAISES</code> (mais de 100 países)</li>
+                <li><strong>Filtro de Período:</strong> Exclui últimos 2 meses automaticamente</li>
+                <li><strong>Filtro de NCM:</strong> Apenas NCMs presentes no arquivo <code>NCM_IE_USITC.xlsx</code></li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão de 5 anos atrás (365*5 dias).</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>API Key:</strong> <code>0b09d9c5b84851e0fa3a1995cf041f0a8ac3b380</code> (hardcoded no código)</li>
+                <li><strong>URL Import:</strong> <code>https://api.census.gov/data/timeseries/intltrade/imports/hs</code></li>
+                <li><strong>URL Export:</strong> <code>https://api.census.gov/data/timeseries/intltrade/exports/hs</code></li>
+                <li><strong>Arquivo NCM:</strong> <code>./NCM_IE_USITC.xlsx</code> (obrigatório)</li>
+                <li><strong>Período Padrão:</strong> 5 anos atrás até hoje (excluindo últimos 2 meses)</li>
+                <li><strong>Nível de Commodity:</strong> HS10 (10 dígitos)</li>
+                <li><strong>Data Contract Path:</strong> <code>data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Requisitos Importantes</h3>
+                <ul>
+                    <li><strong>Arquivo NCM_IE_USITC.xlsx:</strong> Deve estar presente no diretório raiz do projeto</li>
+                    <li><strong>API Key:</strong> Pode precisar atualização se expirar ou mudar</li>
+                    <li><strong>ApiAsync:</strong> Requer classe <code>ApiAsync</code> do módulo <code>costdrivers</code></li>
+                    <li><strong>Conexão com Internet:</strong> Requer acesso à API U.S. Census Bureau</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>API U.S. Census Bureau
+    ↓
+__init__()
+    ↓
+Carrega NCM_IE_USITC.xlsx (_load_ncm_file)
+    ↓
+Constrói range de datas (_build_date_range)
+    ↓ (Últimos 5 anos, excluindo últimos 2 meses)
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+Para cada mês no date_range:
+    ↓
+_fetch_month(month)
+    ↓
+_mount_requests_for_month(month, 'import'/'export')
+    ↓ (Filtra NCMs por tipo IE)
+    ↓ (Monta requisição por NCM)
+Lista de Requisições (uma por NCM)
+    ↓
+ApiAsync.run() - Requisições Assíncronas
+    ↓ (Múltiplas requisições em paralelo)
+Respostas JSON da API
+    ↓
+Conversão para DataFrames
+    ↓
+Concatenação de Todos os Meses
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓ (Mapeia colunas da API para schema padrão)
+Tratamento Específico (_country_specific_treatment)
+    ↓ (Filtra por USA_COMEX_PAISES)
+    ↓ (Converte tipos, adiciona frete/seguro)
+    ↓ (Valida Data)
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_USA import COMEX_USA
+
+# IMPORTANTE: Certifique-se de que NCM_IE_USITC.xlsx está presente
+pipeline = COMEX_USA()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_USA import COMEX_USA
+
+# Coletar desde data específica
+pipeline = COMEX_USA(
+    start_date=datetime(2023, 1, 1),
+    use_azure=True
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_USA import COMEX_USA
+
+pipeline = COMEX_USA()
+
+# Apenas coletar dados (pode levar tempo devido a múltiplas requisições)
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Testar Coleta de um Mês Específico</h3>
+            <pre><code>from COMEX_USA import COMEX_USA
+
+pipeline = COMEX_USA()
+
+# Testar coleta de um mês específico
+result = pipeline._fetch_month("2024-01")
+print(f"Import: {len(result['import'])} DataFrames")
+print(f"Export: {len(result['export'])} DataFrames")
+
+# Inspecionar primeiro DataFrame de import
+if result['import']:
+    df = result['import'][0]
+    print(f"\nColunas: {df.columns.tolist()}")
+    print(f"\nPrimeiras linhas:\n{df.head()}")</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="warning-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Arquivo NCM Obrigatório:</strong> O crawler não funciona sem o arquivo <code>NCM_IE_USITC.xlsx</code>. 
+                        Este arquivo deve estar presente no diretório raiz.</li>
+                    <li><strong>API Key Hardcoded:</strong> A API key está hardcoded no código. Se expirar ou mudar, 
+                        precisa ser atualizada manualmente.</li>
+                    <li><strong>Múltiplas Requisições:</strong> Para cada mês, faz uma requisição por NCM. 
+                        Se houver muitos NCMs, pode gerar muitas requisições.</li>
+                    <li><strong>Requisições Assíncronas:</strong> Usa ApiAsync para otimizar, mas ainda pode levar tempo 
+                        dependendo do número de NCMs e meses.</li>
+                    <li><strong>Exclusão de Últimos 2 Meses:</strong> Sempre exclui últimos 2 meses para evitar dados incompletos. 
+                        Isso é automático e não pode ser desabilitado facilmente.</li>
+                    <li><strong>Filtro de Países:</strong> Filtra por lista específica de mais de 100 países. 
+                        Se precisar adicionar/remover países, editar lista <code>USA_COMEX_PAISES</code>.</li>
+                    <li><strong>Valor CIF:</strong> Para importações, API retorna valor_cif. O tratamento atual não processa 
+                        explicitamente este valor para calcular frete e seguro separadamente.</li>
+                    <li><strong>Período de 5 Anos:</strong> Coleta dados dos últimos 5 anos por padrão. 
+                        Isso foi ajustado recentemente (antes era 3 meses).</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>API REST:</strong> Único que usa API REST oficial ao invés de web scraping ou arquivos</li>
+                    <li><strong>Requisições Assíncronas:</strong> Usa ApiAsync para otimizar múltiplas requisições</li>
+                    <li><strong>Arquivo NCM Externo:</strong> Requer arquivo Excel externo para mapeamento de NCMs</li>
+                    <li><strong>API Key:</strong> Usa autenticação via API key</li>
+                    <li><strong>Valor CIF Direto:</strong> API retorna valor_cif diretamente para importações</li>
+                    <li><strong>Filtro de Países Extenso:</strong> Filtra por lista muito grande de países (100+)</li>
+                    <li><strong>Exclusão Automática:</strong> Exclui automaticamente últimos 2 meses</li>
+                    <li><strong>Coleta por NCM:</strong> Uma requisição por NCM, não por país</li>
+                    <li><strong>Período Longo:</strong> Coleta 5 anos de dados por padrão</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Erro "Arquivo NCM_IE_USITC.xlsx não encontrado"
+                    <br><strong>Causa:</strong> Arquivo não está no diretório raiz ou caminho incorreto
+                    <br><strong>Solução:</strong> Verificar se arquivo existe em <code>./NCM_IE_USITC.xlsx</code> ou ajustar caminho</li>
+                <li><strong>Problema:</strong> Erro de autenticação na API
+                    <br><strong>Causa:</strong> API key expirada ou inválida
+                    <br><strong>Solução:</strong> Obter nova API key do U.S. Census Bureau e atualizar no código</li>
+                <li><strong>Problema:</strong> Timeout em requisições
+                    <br><strong>Causa:</strong> Muitas requisições ou API lenta
+                    <br><strong>Solução:</strong> ApiAsync já otimiza. Se persistir, pode adicionar delay entre requisições</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro: "Arquivo NCM_IE_USITC.xlsx não encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Arquivo não está no diretório raiz</li>
+                    <li>Caminho incorreto</li>
+                    <li>Nome do arquivo diferente</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar se arquivo existe em <code>./NCM_IE_USITC.xlsx</code></li>
+                    <li>Verificar estrutura do arquivo (deve ter colunas: IDIndicePrincipal, IE, NCM)</li>
+                    <li>Ajustar caminho em <code>self.ncm_file_path</code> se necessário</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "API Key inválida" ou "401 Unauthorized"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>API key expirada</li>
+                    <li>API key incorreta</li>
+                    <li>Limite de requisições excedido</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Obter nova API key em: <a href="https://api.census.gov/data/key_signup.html" target="_blank">Census API Key Signup</a></li>
+                    <li>Atualizar <code>self.API_KEY</code> no código</li>
+                    <li>Verificar limites de rate limiting da API</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum NCM encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Arquivo NCM não tem NCMs para o tipo (IE) especificado</li>
+                    <li>Arquivo NCM está vazio</li>
+                    <li>Filtro IE está incorreto</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar conteúdo do arquivo NCM_IE_USITC.xlsx</li>
+                    <li>Verificar se coluna IE tem valores 0 (export) e 1 (import)</li>
+                    <li>Verificar se coluna NCM tem valores válidos</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum dado coletado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>API não retornou dados para os NCMs/meses solicitados</li>
+                    <li>Erro em requisições assíncronas</li>
+                    <li>Filtro de países removeu todos os dados</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar logs para ver se requisições foram bem-sucedidas</li>
+                    <li>Testar requisição manual para um NCM específico</li>
+                    <li>Verificar se países retornados estão na lista USA_COMEX_PAISES</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Verificar Arquivo NCM</h4>
+            <pre><code>import pandas as pd
+
+# Verificar se arquivo existe e estrutura
+try:
+    df_ncm = pd.read_excel("./NCM_IE_USITC.xlsx")
+    print(f"Arquivo carregado: {len(df_ncm)} registros")
+    print(f"Colunas: {df_ncm.columns.tolist()}")
+    print(f"\nValores únicos em IE: {df_ncm['IE'].unique()}")
+    print(f"NCMs para Import (IE=1): {(df_ncm['IE'] == 1).sum()}")
+    print(f"NCMs para Export (IE=0): {(df_ncm['IE'] == 0).sum()}")
+    print(f"\nPrimeiras linhas:\n{df_ncm.head()}")
+except FileNotFoundError:
+    print("ERRO: Arquivo não encontrado!")
+except Exception as e:
+    print(f"ERRO ao ler arquivo: {e}")</code></pre>
+            
+            <h4>Testar Requisição Manual à API</h4>
+            <pre><code>import requests
+
+# Testar requisição manual
+api_key = "0b09d9c5b84851e0fa3a1995cf041f0a8ac3b380"
+url = "https://api.census.gov/data/timeseries/intltrade/imports/hs"
+
+params = {
+    "get": "I_COMMODITY,CTY_CODE,CTY_NAME,GEN_VAL_MO,GEN_CIF_MO,GEN_QY1_MO",
+    "time": "2024-01",
+    "I_COMMODITY": "1234567890",  # Exemplo de NCM
+    "COMM_LVL": "HS10",
+    "key": api_key,
+}
+
+response = requests.get(url, params=params)
+print(f"Status Code: {response.status_code}")
+if response.status_code == 200:
+    data = response.json()
+    print(f"Dados retornados: {len(data)} linhas")
+    print(f"Primeiras linhas:\n{data[:5]}")
+else:
+    print(f"ERRO: {response.text}")</code></pre>
+            
+            <h4>Testar Coleta de um Mês</h4>
+            <pre><code>from COMEX_USA import COMEX_USA
+
+pipeline = COMEX_USA()
+
+# Testar coleta de um mês específico
+result = pipeline._fetch_month("2024-01")
+
+print(f"Import: {len(result['import'])} DataFrames")
+print(f"Export: {len(result['export'])} DataFrames")
+
+# Inspecionar primeiro DataFrame
+if result['import']:
+    df = result['import'][0]
+    print(f"\nColunas: {df.columns.tolist()}")
+    print(f"Registros: {len(df)}")
+    print(f"\nPrimeiras linhas:\n{df.head()}")
+    
+    # Verificar países
+    if 'CTY_NAME' in df.columns:
+        print(f"\nPaíses únicos: {df['CTY_NAME'].nunique()}")
+        print(f"Países: {sorted(df['CTY_NAME'].unique())[:10]}...")</code></pre>
+            
+            <h4>Verificar Filtro de Países</h4>
+            <pre><code>from COMEX_USA import COMEX_USA
+
+pipeline = COMEX_USA()
+
+# Coletar dados
+import_df, export_df = pipeline.collect()
+
+# Verificar antes do filtro
+print(f"Antes do filtro - Import: {len(import_df)} registros")
+
+# Aplicar tratamento específico (inclui filtro de países)
+silver_df = pipeline.treat()
+
+print(f"Depois do filtro - Silver: {len(silver_df)} registros")
+
+# Verificar países únicos
+if 'pais_name' in silver_df.columns:
+    print(f"\nPaíses únicos após filtro: {silver_df['pais_name'].nunique()}")
+    print(f"Países: {sorted(silver_df['pais_name'].unique())[:10]}...")</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_USA import COMEX_USA
+
+pipeline = COMEX_USA()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>API U.S. Census Bureau:</strong> 
+                    <a href="https://api.census.gov/data/timeseries/intltrade.html" target="_blank">International Trade API</a></li>
+                <li><strong>Documentação de Variáveis - Imports:</strong> 
+                    <a href="https://api.census.gov/data/timeseries/intltrade/imports/enduse/variables.html" target="_blank">Imports Variables</a></li>
+                <li><strong>Documentação de Variáveis - Exports:</strong> 
+                    <a href="https://api.census.gov/data/timeseries/intltrade/exports/enduse/variables.html" target="_blank">Exports Variables</a></li>
+                <li><strong>Lista de Países:</strong> 
+                    <a href="https://www.census.gov/foreign-trade/schedules/c/country.txt" target="_blank">Country Codes</a></li>
+                <li><strong>Obter API Key:</strong> 
+                    <a href="https://api.census.gov/data/key_signup.html" target="_blank">API Key Signup</a></li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_USA.py</code> - Código fonte do crawler</li>
+                <li><code>NCM_IE_USITC.xlsx</code> - Arquivo Excel com mapeamento de NCMs (obrigatório)</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção USA)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Estados Unidos")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+                <li><code>costdrivers.py</code> - Módulo com classe ApiAsync</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>costdrivers</code> - Módulo com classe ApiAsync para requisições assíncronas</li>
+                <li><code>openpyxl</code> ou <code>xlrd</code> - Para ler arquivo Excel NCM_IE_USITC.xlsx</li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Instalação de Dependências</h3>
+                <p>
+                    Certifique-se de instalar todas as dependências antes de executar:
+                </p>
+                <pre><code>pip install pandas openpyxl</code></pre>
+                <p>
+                    O módulo <code>costdrivers</code> com a classe <code>ApiAsync</code> deve estar disponível no projeto.
+                </p>
+            </div>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

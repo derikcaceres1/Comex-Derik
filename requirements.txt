@@ -1,0 +1,21 @@
+# Dependências do Projeto COMEX
+# Gerado automaticamente com versões instaladas no sistema
+
+aiohttp
+azure-core
+azure-identity
+azure-storage-blob
+azure-storage-file-datalake
+beautifulsoup4
+certifi
+numpy
+pandas
+polars
+py7zr
+python-dotenv
+pyyaml
+requests
+statsmodels
+tenacity
+unidecode
+urllib3

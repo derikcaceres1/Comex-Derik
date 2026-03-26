@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Índia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Índia</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_IND</strong> é responsável por coletar, processar e enviar dados de comércio exterior da Índia. 
+                Este pipeline faz parte do framework COMEX e utiliza dados oficiais disponibilizados pelo portal Trade Statistics 
+                do Ministério do Comércio e Indústria da Índia através de uma interface web que requer interação com formulários HTML.
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos e atuais de importação e exportação indiana desde janeiro de 2020, 
+                normalizá-los conforme o padrão do framework e integrá-los ao sistema de cost drivers para análise e projeção de custos.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados diretamente do portal oficial do governo indiano</li>
+                    <li>Utiliza web scraping com BeautifulSoup para interagir com formulários</li>
+                    <li>Faz requisições POST com tokens CSRF</li>
+                    <li>Coleta dados por país e por mês</li>
+                    <li>Processa peso e valor separadamente e depois faz merge</li>
+                    <li>Implementa retry automático com biblioteca tenacity</li>
+                    <li>Usa sessão requests para manter estado (cookies/tokens)</li>
+                    <li>Coleta desde 2020-01-01 até o mês atual</li>
+                    <li>Processa múltiplos países automaticamente por mês</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>IND</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Índia</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_IND</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_IND.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção IND)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Índia")</td>
+                </tr>
+                <tr>
+                    <td><strong>Período de Coleta</strong></td>
+                    <td>Desde 2020-01-01 até o mês atual</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Portal Oficial</h3>
+            <p>
+                Os dados são coletados diretamente do portal oficial do Ministério do Comércio e Indústria da Índia:
+            </p>
+            <div class="step">
+                <h4>URLs Base</h4>
+                <p><strong>Importação:</strong> <code>https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import</code></p>
+                <p><strong>Exportação:</strong> <code>https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_export</code></p>
+                <p>
+                    Este portal disponibiliza dados de comércio exterior através de uma interface web que requer interação com formulários HTML. 
+                    Os dados são apresentados em tabelas HTML que precisam ser parseadas.
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Portal Web com formulários HTML interativos</li>
+                <li><strong>Método de acesso:</strong> Web Scraping (BeautifulSoup) + Requisições POST</li>
+                <li><strong>Formato dos dados:</strong> Tabelas HTML (parseadas com pd.read_html)</li>
+                <li><strong>Autenticação:</strong> Não requerida, mas usa tokens CSRF</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo governo)</li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Dados</h3>
+            <p>
+                Os dados são coletados através de múltiplas requisições:
+            </p>
+            <ol>
+                <li><strong>Lista de Países:</strong> Primeiro obtém lista de países disponíveis para o mês/ano</li>
+                <li><strong>Dados por País:</strong> Para cada país, faz 2 requisições:
+                    <ul>
+                        <li>Uma para obter dados de <strong>Peso</strong> (Quantity)</li>
+                        <li>Outra para obter dados de <strong>Valor</strong> (USD)</li>
+                    </ul>
+                </li>
+                <li><strong>Merge:</strong> Faz merge dos dados de peso e valor por NCM, Data, Tipo e País</li>
+            </ol>
+            
+            <div class="note">
+                <strong>Nota:</strong> O portal requer tokens CSRF (_token) que são extraídos do HTML antes de cada requisição POST. 
+                O crawler usa uma sessão requests para manter cookies e estado entre requisições.
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Coleta dados de importação da Índia desde 2020-01-01 até o mês atual.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Gera range de datas mensais desde 2020-01-01 até hoje</li>
+                    <li>Para cada mês/ano:
+                        <ul>
+                            <li>Chama <code>import_data()</code> para coletar dados do mês</li>
+                            <li>Adiciona flag <code>ImportExport = 1</code></li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se erro em um mês específico: loga erro e continua com próximo mês</li>
+                    <li>Se nenhum dado coletado: retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Coleta dados de exportação da Índia desde 2020-01-01 até o mês atual.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Gera range de datas mensais desde 2020-01-01 até hoje</li>
+                    <li>Para cada mês/ano:
+                        <ul>
+                            <li>Chama <code>export_data()</code> para coletar dados do mês</li>
+                            <li>Adiciona flag <code>ImportExport = 0</code></li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `safe_request()`</h3>
+                <p>
+                    Wrapper resiliente para requisições GET/POST com retry automático usando biblioteca tenacity.
+                </p>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li><strong>Retry Automático:</strong> Até 3 tentativas com backoff exponencial</li>
+                    <li><strong>Timeout:</strong> 60 segundos por requisição</li>
+                    <li><strong>Tratamento de Erros:</strong> Captura RequestException, ConnectionError, Timeout</li>
+                    <li><strong>Backoff:</strong> Espera exponencial (1s, 2s, 4s, até 8s máximo)</li>
+                    <li><strong>Logging:</strong> Loga cada tentativa de retry</li>
+                </ul>
+                <p><strong>Decorator:</strong></p>
+                <pre><code>@retry(
+    retry=retry_if_exception_type((RequestException, ConnectionError, Timeout)),
+    wait=wait_exponential(multiplier=1, min=1, max=8),
+    stop=stop_after_attempt(3),
+    reraise=True
+)
+def safe_request(self, s, method, url, **kwargs):
+    """Wrapper resiliente para GET/POST com tentativas automáticas."""
+    if method.lower() == "get":
+        r = s.get(url, timeout=60, **kwargs)
+    else:
+        r = s.post(url, timeout=60, **kwargs)
+    r.raise_for_status()
+    return r</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `list_available_countries()`</h3>
+                <p>
+                    Obtém lista de países disponíveis para um mês/ano específico através de requisição POST.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Faz GET na URL para obter token CSRF</li>
+                    <li>Extrai token do HTML usando BeautifulSoup</li>
+                    <li>Faz POST com dados do mês/ano</li>
+                    <li>Parseia resposta HTML para encontrar tabela e select de países</li>
+                    <li>Filtra países com valor > 0 na tabela</li>
+                    <li>Retorna dicionário {código: nome_do_país}</li>
+                </ol>
+                <p><strong>Parâmetros:</strong></p>
+                <ul>
+                    <li><code>tipo</code>: 'import' ou 'export'</li>
+                    <li><code>prefix</code>: Prefixo do formulário ('cwim' para import, 'cwe' para export)</li>
+                    <li><code>mes</code>: Mês (1-12)</li>
+                    <li><code>ano</code>: Ano (ex: 2024)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `treat_dataframe()`</h3>
+                <p>
+                    Padroniza e transforma DataFrame de valores/peso para formato longo (melt).
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Identifica coluna de NCM (HSCode ou segunda coluna)</li>
+                    <li>Remove colunas duplicadas (regex para detectar duplicatas)</li>
+                    <li>Identifica colunas de datas (formato: MMM-YYYY, ex: "Jan-2024")</li>
+                    <li>Faz melt para transformar formato largo em formato longo</li>
+                    <li>Converte DataRaw (MMM-YYYY) para datetime</li>
+                    <li>Limpa valores numéricos (remove vírgulas, trata "-" como 0)</li>
+                    <li>Adiciona colunas Tipo e Pais</li>
+                    <li>Retorna DataFrame com colunas: ["NCM", value_name, "Data", "Tipo", "Pais"]</li>
+                </ol>
+                <p><strong>Formato de Entrada:</strong></p>
+                <pre><code>NCM | Jan-2024 | Feb-2024 | Mar-2024 | ...
+123  | 1000     | 2000     | 1500     | ...</code></pre>
+                <p><strong>Formato de Saída:</strong></p>
+                <pre><code>NCM | Valor/Peso | Data       | Tipo   | Pais
+123 | 1000       | 2024-01-01 | import | Brazil
+123 | 2000       | 2024-02-01 | import | Brazil</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.6 Método Auxiliar: `import_data()`</h3>
+                <p>
+                    Coleta dados de importação para um mês/ano específico.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Faz GET na URL para obter token CSRF</li>
+                    <li>Obtém lista de países disponíveis usando <code>list_available_countries()</code></li>
+                    <li>Para cada país:
+                        <ul>
+                            <li>Faz POST para obter dados de <strong>Peso</strong> (ReportVal=2)</li>
+                            <li>Faz POST para obter dados de <strong>Valor</strong> (ReportVal=1)</li>
+                            <li>Processa cada DataFrame usando <code>treat_dataframe()</code></li>
+                            <li>Faz merge de peso e valor por NCM, Data, Tipo, Pais</li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames de países</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Parâmetros do POST:</strong></p>
+                <ul>
+                    <li><code>_token</code>: Token CSRF extraído do HTML</li>
+                    <li><code>cwcimMonth</code>: Mês</li>
+                    <li><code>cwcimYear</code>: Ano</li>
+                    <li><code>cwcimallcount</code>: Código do país</li>
+                    <li><code>cwcimCommodityLevel</code>: "8" (nível de commodity)</li>
+                    <li><code>cwcimReportVal</code>: "1" para valor, "2" para peso</li>
+                    <li><code>cwcimReportYear</code>: "2"</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.7 Método Auxiliar: `export_data()`</h3>
+                <p>
+                    Coleta dados de exportação para um mês/ano específico. Similar a <code>import_data()</code> mas com 
+                    parâmetros diferentes do formulário.
+                </p>
+                <p><strong>Diferenças em relação a import_data():</strong></p>
+                <ul>
+                    <li>Usa prefixo <code>"cwe"</code> ao invés de <code>"cwim"</code></li>
+                    <li>Parâmetros do POST usam prefixo <code>"cwcex"</code>:
+                        <ul>
+                            <li><code>cwcexddMonth</code>, <code>cwcexddYear</code></li>
+                            <li><code>cwcexallcount</code></li>
+                            <li><code>cwcexddCommodityLevel</code></li>
+                            <li><code>cwcexddReportVal</code></li>
+                            <li><code>cwcexddReportYear</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Coleta desde 2020:</strong> Processa todos os meses desde 2020-01-01 até o mês atual</li>
+                    <li><strong>Web Scraping Interativo:</strong> Interage com formulários HTML, não apenas faz download</li>
+                    <li><strong>Tokens CSRF:</strong> Extrai e usa tokens CSRF para cada requisição POST</li>
+                    <li><strong>Sessão Requests:</strong> Usa <code>requests.Session()</code> para manter cookies e estado</li>
+                    <li><strong>Retry Automático:</strong> Implementa retry com backoff exponencial usando tenacity</li>
+                    <li><strong>Coleta por País:</strong> Coleta dados de múltiplos países por mês</li>
+                    <li><strong>Peso e Valor Separados:</strong> Faz 2 requisições por país (peso e valor) e depois merge</li>
+                    <li><strong>Transformação Melt:</strong> Converte formato largo (colunas por mês) para formato longo</li>
+                    <li><strong>Headers HTTP Completos:</strong> Usa headers detalhados para simular navegador</li>
+                    <li><strong>Processamento Mensal:</strong> Processa mês a mês sequencialmente</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>NCM</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>Pais</code></td>
+                        <td><code>pais_name</code></td>
+                        <td>str</td>
+                        <td>Nome do país parceiro na transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>Peso</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>Valor</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>Data</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação (criada durante processamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação é idêntico ao de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>NCM</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM</td>
+                    </tr>
+                    <tr>
+                        <td><code>Pais</code></td>
+                        <td><code>pais_name</code></td>
+                        <td>str</td>
+                        <td>Nome do país parceiro na transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>Peso</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>Valor</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>Data</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> Note que este crawler usa <code>pais_name</code> (nome do país) ao invés de 
+                <code>pais_id</code> (código do país). O nome do país é mantido como string.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados da Índia após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Validação de Data:</strong> 
+                        <ul>
+                            <li>Converte coluna <code>Data</code> para datetime se ainda não estiver</li>
+                            <li>Remove linhas com data inválida</li>
+                        </ul>
+                    </li>
+                    <li><strong>Limpeza de NCM:</strong>
+                        <ul>
+                            <li>Garante que NCM seja string e aplica trim</li>
+                            <li>Remove NCM nulos ou vazios</li>
+                        </ul>
+                    </li>
+                    <li><strong>Limpeza de Valores Numéricos:</strong>
+                        <ul>
+                            <li>Remove vírgulas de valores (formato indiano: "1,234.56")</li>
+                            <li>Trata "-" como 0</li>
+                            <li>Trata "nan" como 0</li>
+                            <li>Converte para float e preenche NaN com 0</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados da Índia."""
+    if df.empty:
+        return df
+    
+    # Converter Data para datetime
+    if 'Data' in df.columns:
+        df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
+        df = df[df['Data'].notna()]
+    
+    # Garantir que NCM seja string e trim
+    if 'ncm' in df.columns:
+        df['ncm'] = df['ncm'].astype(str).str.strip()
+        df = df[df['ncm'].notna()]
+        df = df[df['ncm'] != '']
+    
+    # Limpar valores numéricos
+    if 'valor' in df.columns:
+        df['valor'] = (
+            df['valor'].astype(str)
+            .str.replace(",", "", regex=False)
+            .replace("-", "0")
+            .replace("nan", "0")
+            .astype(float)
+            .fillna(0)
+        )
+    
+    if 'peso' in df.columns:
+        df['peso'] = (
+            df['peso'].astype(str)
+            .str.replace(",", "", regex=False)
+            .replace("-", "0")
+            .replace("nan", "0")
+            .astype(float)
+            .fillna(0)
+        )
+    
+    return df</code></pre>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de formato "MMM-YYYY" (ex: "Jan-2024"), 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Formato Numérico:</strong> Remove vírgulas (formato indiano), trata "-" como 0</li>
+                <li><strong>NCM:</strong> Mantido como string com trim aplicado</li>
+                <li><strong>Valores em USD:</strong> Valores estão em USD (diferente de EUR que usa EUR)</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <ul>
+                <li><strong>Filtro de Países:</strong> Coleta apenas países com valor > 0 na tabela de países disponíveis</li>
+                <li><strong>Filtro de NCM:</strong> Remove NCM nulos ou vazios</li>
+                <li><strong>Filtro de Data:</strong> Remove linhas com data inválida</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão do framework. 
+                            <strong>Nota:</strong> O crawler sempre coleta desde 2020-01-01 independente deste parâmetro.</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>URL Import:</strong> <code>https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import</code></li>
+                <li><strong>URL Export:</strong> <code>https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_export</code></li>
+                <li><strong>Período de Coleta:</strong> Desde 2020-01-01 até o mês atual (fixo no código)</li>
+                <li><strong>Retry:</strong> 3 tentativas com backoff exponencial (1s, 2s, 4s, até 8s)</li>
+                <li><strong>Timeout:</strong> 60 segundos para requisições</li>
+                <li><strong>Sessão Requests:</strong> Mantém sessão para reutilização de cookies/tokens</li>
+                <li><strong>Headers HTTP:</strong> Headers completos para simular navegador Chrome</li>
+                <li><strong>Data Contract Path:</strong> <code>data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="info-box">
+                <h4>Headers HTTP Detalhados</h4>
+                <p>
+                    O crawler usa headers HTTP muito detalhados para simular um navegador Chrome real, incluindo:
+                </p>
+                <ul>
+                    <li>User-Agent completo do Chrome</li>
+                    <li>Headers de segurança (Sec-Fetch-*)</li>
+                    <li>Accept-Language</li>
+                    <li>Referer e Origin</li>
+                    <li>Cache-Control</li>
+                </ul>
+                <p>
+                    Isso é necessário porque o portal pode bloquear requisições que não parecem vir de um navegador real.
+                </p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Portal Trade Statistics (tradestat.commerce.gov.in)
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+Gera Range de Datas (2020-01-01 até hoje, mensal)
+    ↓
+Para cada mês/ano:
+    ↓
+import_data() / export_data()
+    ↓
+GET inicial → Extrai Token CSRF
+    ↓
+list_available_countries()
+    ↓ (GET + POST para obter países)
+    ↓ (Filtra países com valor > 0)
+Lista de Países Disponíveis
+    ↓
+Para cada país:
+    ↓
+POST para obter Peso (ReportVal=2)
+    ↓ (Parse HTML → pd.read_html)
+    ↓ (treat_dataframe → Melt)
+DataFrame de Peso
+    ↓
+POST para obter Valor (ReportVal=1)
+    ↓ (Parse HTML → pd.read_html)
+    ↓ (treat_dataframe → Melt)
+DataFrame de Valor
+    ↓
+Merge Peso + Valor (por NCM, Data, Tipo, Pais)
+    ↓
+Concatenação de Todos os Países
+    ↓
+Adiciona ImportExport (1 ou 0)
+    ↓
+Concatenação de Todos os Meses
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓
+Tratamento Específico (_country_specific_treatment)
+    ↓ (Limpa valores numéricos)
+    ↓ (Valida NCM e Data)
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND(
+    start_date=datetime(2023, 1, 1),  # Não afeta, sempre coleta desde 2020
+    use_azure=False  # Usar storage local
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+
+# Apenas coletar dados (pode levar muito tempo!)
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Testar Coleta de um Mês Específico</h3>
+            <pre><code>from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+
+# Testar coleta de um mês específico
+url_import = "https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import"
+df_test = pipeline.import_data(pipeline.session, mes=1, ano=2024, tipo="import", url=url_import)
+
+print(f"Dados coletados: {len(df_test)} registros")
+print(f"Colunas: {df_test.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{df_test.head()}")</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="warning-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Tempo de Execução:</strong> A coleta pode levar muito tempo pois processa todos os meses desde 2020 
+                        e múltiplos países por mês. Cada país requer 2 requisições (peso + valor).</li>
+                    <li><strong>Tokens CSRF:</strong> O portal requer tokens CSRF que são extraídos do HTML. Se estrutura HTML mudar, 
+                        pode quebrar a extração de tokens.</li>
+                    <li><strong>Web Scraping Frágil:</strong> Depende da estrutura HTML do portal. Se estrutura mudar, 
+                        métodos podem precisar atualização.</li>
+                    <li><strong>Múltiplas Requisições:</strong> Para cada mês, faz muitas requisições (1 para lista de países + 
+                        2 por país). Pode ser lento.</li>
+                    <li><strong>Retry Logic:</strong> Implementa retry automático, mas se portal estiver indisponível por muito tempo, 
+                        pode falhar após 3 tentativas.</li>
+                    <li><strong>Formato de Dados:</strong> Dados vêm em formato largo (colunas por mês) e são transformados para formato longo.</li>
+                    <li><strong>Período Fixo:</strong> Sempre coleta desde 2020-01-01, independente do parâmetro start_date.</li>
+                    <li><strong>Headers HTTP:</strong> Usa headers muito detalhados. Se portal mudar validação, pode precisar ajuste.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Web Scraping Interativo:</strong> Único que interage com formulários HTML ao invés de apenas fazer download</li>
+                    <li><strong>Tokens CSRF:</strong> Extrai e usa tokens CSRF para cada requisição</li>
+                    <li><strong>Sessão Requests:</strong> Usa sessão para manter estado entre requisições</li>
+                    <li><strong>Retry com Tenacity:</strong> Usa biblioteca tenacity para retry automático com backoff exponencial</li>
+                    <li><strong>Coleta por País:</strong> Coleta dados de múltiplos países por mês</li>
+                    <li><strong>Peso e Valor Separados:</strong> Faz 2 requisições por país e depois merge</li>
+                    <li><strong>Transformação Melt:</strong> Converte formato largo para formato longo</li>
+                    <li><strong>Headers Detalhados:</strong> Usa headers muito completos para simular navegador</li>
+                    <li><strong>pais_name:</strong> Usa nome do país (string) ao invés de código (int)</li>
+                    <li><strong>Valores em USD:</strong> Valores estão em USD (diferente de EUR)</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Erro ao extrair token CSRF
+                    <br><strong>Causa:</strong> Estrutura HTML mudou ou portal indisponível
+                    <br><strong>Solução:</strong> Verificar estrutura HTML atual, ajustar código de extração se necessário</li>
+                <li><strong>Problema:</strong> Timeout em requisições
+                    <br><strong>Causa:</strong> Portal lento ou sobrecarregado
+                    <br><strong>Solução:</strong> Retry automático tenta novamente. Se persistir, pode aumentar timeout</li>
+                <li><strong>Problema:</strong> Nenhum país encontrado para determinado mês
+                    <br><strong>Causa:</strong> Dados ainda não disponíveis ou portal mudou
+                    <br><strong>Solução:</strong> Crawler continua com próximo mês e loga warning</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro: "Token CSRF não encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura HTML do portal mudou</li>
+                    <li>Portal temporariamente indisponível</li>
+                    <li>Campo de token mudou de nome</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente o HTML do portal para encontrar campo _token</li>
+                    <li>Atualizar código de extração se necessário</li>
+                    <li>Verificar logs para ver resposta HTML recebida</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum país encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Dados ainda não disponíveis para o mês</li>
+                    <li>Estrutura da tabela HTML mudou</li>
+                    <li>Select de países não encontrado</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente se dados estão disponíveis no portal</li>
+                    <li>Verificar estrutura HTML atual</li>
+                    <li>Ajustar método <code>list_available_countries()</code> se necessário</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Timeout" ou "Connection Error"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Portal lento ou sobrecarregado</li>
+                    <li>Problemas de rede</li>
+                    <li>Portal bloqueando requisições</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Retry automático tenta até 3 vezes com backoff exponencial</li>
+                    <li>Verificar conectividade com o portal</li>
+                    <li>Verificar se headers HTTP estão corretos</li>
+                    <li>Pode ser necessário adicionar delay entre requisições</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Tabela não encontrada" ao parsear HTML</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura HTML mudou</li>
+                    <li>Portal retornou erro em vez de tabela</li>
+                    <li>Dados não disponíveis</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar resposta HTML recebida</li>
+                    <li>Verificar se tabela existe na resposta</li>
+                    <li>Ajustar parsing se estrutura mudou</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Testar Extração de Token</h4>
+            <pre><code>from COMEX_IND import COMEX_IND
+import requests
+from bs4 import BeautifulSoup
+
+pipeline = COMEX_IND()
+
+# Testar extração de token
+url = "https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import"
+response = pipeline.session.get(url, timeout=60)
+soup = BeautifulSoup(response.text, "html.parser")
+
+token_input = soup.find("input", {"name": "_token"})
+if token_input:
+    token = token_input["value"]
+    print(f"Token CSRF encontrado: {token[:20]}...")
+else:
+    print("ERRO: Token CSRF não encontrado!")
+    print("Verificar estrutura HTML do portal")</code></pre>
+            
+            <h4>Testar Lista de Países</h4>
+            <pre><code>from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+
+# Testar obtenção de países para um mês específico
+url = "https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import"
+countries = pipeline.list_available_countries(
+    pipeline.session, 
+    tipo="import", 
+    prefix="cwim", 
+    mes=1, 
+    ano=2024
+)
+
+print(f"Países encontrados: {len(countries)}")
+print("\nPrimeiros 10 países:")
+for i, (code, name) in enumerate(list(countries.items())[:10]):
+    print(f"{i+1}. {code}: {name}")</code></pre>
+            
+            <h4>Testar Coleta de um País Específico</h4>
+            <pre><code>from COMEX_IND import COMEX_IND
+from bs4 import BeautifulSoup
+from io import StringIO
+import pandas as pd
+
+pipeline = COMEX_IND()
+
+# Obter token
+url = "https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import"
+r = pipeline.safe_request(pipeline.session, "get", url)
+soup = BeautifulSoup(r.text, "html.parser")
+_token = soup.find("input", {"name": "_token"})["value"]
+
+# Testar requisição para um país específico
+data_peso = {
+    "_token": _token,
+    "cwcimMonth": "1",
+    "cwcimYear": "2024",
+    "cwcimallcount": "231",  # Exemplo: código de um país
+    "cwcimCommodityLevel": "8",
+    "cwcimReportVal": "2",  # Peso
+    "cwcimReportYear": "2",
+}
+
+resp = pipeline.safe_request(pipeline.session, "post", url, data=data_peso)
+df = pd.read_html(StringIO(resp.text))[0]
+print(f"DataFrame recebido: {len(df)} linhas")
+print(f"Colunas: {df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{df.head()}")</code></pre>
+            
+            <h4>Inspecionar Dados Coletados</h4>
+            <pre><code>from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+
+# Coletar apenas um mês para teste
+import_df, export_df = pipeline.collect()
+
+# Inspecionar estrutura
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar países únicos
+if 'Pais' in import_df.columns:
+    print(f"\nPaíses únicos: {import_df['Pais'].nunique()}")
+    print(f"Países: {sorted(import_df['Pais'].unique())[:10]}...")
+
+# Verificar datas
+if 'Data' in import_df.columns:
+    print(f"\nPeríodo: {import_df['Data'].min()} a {import_df['Data'].max()}")
+
+# Salvar para inspeção
+import_df.to_excel("debug_import_raw.xlsx", index=False)</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_IND import COMEX_IND
+
+pipeline = COMEX_IND()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Portal Trade Statistics:</strong> 
+                    <a href="https://tradestat.commerce.gov.in" target="_blank">Trade Statistics - Ministry of Commerce and Industry</a></li>
+                <li><strong>Importação:</strong> 
+                    <a href="https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_import" target="_blank">Country Wise All Commodities Import</a></li>
+                <li><strong>Exportação:</strong> 
+                    <a href="https://tradestat.commerce.gov.in/meidb/country_wise_all_commodities_export" target="_blank">Country Wise All Commodities Export</a></li>
+                <li><strong>Documentação tenacity:</strong> 
+                    <a href="https://tenacity.readthedocs.io" target="_blank">Tenacity - Retry Library</a></li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_IND.py</code> - Código fonte do crawler</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção IND)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Índia")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>requests</code> - Requisições HTTP</li>
+                <li><code>beautifulsoup4</code> - Web scraping (parsing HTML)</li>
+                <li><code>tenacity</code> - Retry automático com backoff exponencial</li>
+                <li><code>lxml</code> - Parser HTML para BeautifulSoup (opcional, mas recomendado)</li>
+                <li><code>calendar</code> - Utilitários de calendário (biblioteca padrão)</li>
+                <li><code>re</code> - Expressões regulares (biblioteca padrão)</li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Instalação de Dependências</h3>
+                <p>
+                    Certifique-se de instalar todas as dependências antes de executar:
+                </p>
+                <pre><code>pip install pandas requests beautifulsoup4 tenacity lxml</code></pre>
+                <p>
+                    A biblioteca <code>tenacity</code> é especialmente importante para o retry automático e pode não estar instalada por padrão.
+                </p>
+            </div>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

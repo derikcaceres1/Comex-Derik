@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Alemanha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Alemanha</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_DEU</strong> é responsável por processar dados de comércio exterior da Alemanha. 
+                Este pipeline é único no framework COMEX pois <strong>não coleta dados diretamente de uma fonte externa</strong>. 
+                Em vez disso, ele processa dados já coletados do agregado EUR (Europa) que estão armazenados no Azure ADLS2, 
+                filtrando especificamente os registros da Alemanha (país código 'DE').
+            </p>
+            <p>
+                O objetivo principal é extrair dados alemães do conjunto maior de dados europeus, normalizá-los conforme 
+                o padrão do framework e integrá-los ao sistema de cost drivers para análise e projeção de custos.
+            </p>
+            <div class="warning-box">
+                <h3>⚠️ Dependência Crítica</h3>
+                <p>
+                    <strong>Este crawler depende completamente dos dados do EUR.</strong> Os dados do EUR devem ser coletados 
+                    e processados primeiro antes de executar este crawler. Sem dados do EUR no ADLS, este crawler não funcionará.
+                </p>
+            </div>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Não realiza coleta direta de dados externos</li>
+                    <li>Carrega dados do EUR já coletados do Azure ADLS2</li>
+                    <li>Filtra registros por <code>pais_origem == 'DE'</code></li>
+                    <li>Reutiliza dados já processados, economizando recursos</li>
+                    <li>Dependente do pipeline EUR para funcionar</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>DEU</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Alemanha</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_DEU</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_DEU.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção DEU)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Alemanha")</td>
+                </tr>
+                <tr>
+                    <td><strong>Fonte de Dados</strong></td>
+                    <td>Azure ADLS2: <code>staging/comex/EUR/raw/</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Dependência</strong></td>
+                    <td>Pipeline EUR deve ser executado primeiro</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Origem dos Dados</h3>
+            <p>
+                Os dados não são coletados diretamente de uma fonte externa. Em vez disso, são carregados do Azure ADLS2 
+                a partir dos dados já coletados pelo pipeline EUR.
+            </p>
+            <div class="step">
+                <h4>Caminho no ADLS</h4>
+                <p><strong>Importação:</strong> <code>staging/comex/EUR/raw/import_raw.parquet</code></p>
+                <p><strong>Exportação:</strong> <code>staging/comex/EUR/raw/export_raw.parquet</code></p>
+                <p>
+                    Estes arquivos são gerados pelo pipeline <code>COMEX_EUR</code> que coleta dados de todos os países europeus.
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Dados derivados (filtrados do EUR)</li>
+                <li><strong>Método de acesso:</strong> Carregamento de arquivos Parquet do Azure ADLS2</li>
+                <li><strong>Formato dos dados:</strong> Parquet (Apache Parquet)</li>
+                <li><strong>Filtro aplicado:</strong> <code>pais_origem == 'DE'</code> ou <code>REPORTER == 'DE'</code></li>
+                <li><strong>Dependência:</strong> Pipeline EUR deve ser executado primeiro</li>
+            </ul>
+            
+            <div class="note">
+                <strong>Nota:</strong> O pipeline EUR coleta dados de todos os países europeus e armazena no ADLS. 
+                Este crawler simplesmente filtra os dados alemães desse conjunto maior.
+            </div>
+            
+            <h3>3.3 Estrutura dos Dados</h3>
+            <p>
+                Os dados carregados do EUR contêm informações de todos os países europeus. O crawler DEU filtra apenas 
+                os registros onde:
+            </p>
+            <ul>
+                <li><code>pais_origem == 'DE'</code> (após normalização), ou</li>
+                <li><code>REPORTER == 'DE'</code> (antes da normalização)</li>
+            </ul>
+            <p>
+                O código 'DE' é o código ISO 3166-1 alpha-2 para a Alemanha (Deutschland).
+            </p>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Carrega dados de importação da Alemanha a partir dos dados do EUR armazenados no ADLS.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Carrega arquivo <code>import_raw.parquet</code> do caminho <code>staging/comex/EUR/raw/</code></li>
+                    <li>Chama <code>_filter_country()</code> para filtrar registros da Alemanha</li>
+                    <li>Retorna DataFrame filtrado com apenas dados alemães</li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def collect_import_data(self) -> pd.DataFrame:
+    """Coleta dados de importação da Alemanha."""
+    self.logger.info("Carregando dados de importação do EUR do ADLS...")
+    
+    # Carregar dados do EUR do ADLS
+    eur_raw_path = "staging/comex/EUR/raw"
+    df_eur = self._load_from_storage(eur_raw_path, "import_raw.parquet")
+    df_deu = self._filter_country(df_eur, data_type="importação")
+    return df_deu</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Carrega dados de exportação da Alemanha a partir dos dados do EUR armazenados no ADLS.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Carrega arquivo <code>export_raw.parquet</code> do caminho <code>staging/comex/EUR/raw/</code></li>
+                    <li>Chama <code>_filter_country()</code> para filtrar registros da Alemanha</li>
+                    <li>Retorna DataFrame filtrado com apenas dados alemães</li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def collect_export_data(self) -> pd.DataFrame:
+    """Coleta dados de exportação da Alemanha."""
+    self.logger.info("Carregando dados de exportação do EUR do ADLS...")
+    
+    # Carregar dados do EUR do ADLS
+    eur_raw_path = "staging/comex/EUR/raw"
+    df_eur = self._load_from_storage(eur_raw_path, "export_raw.parquet")
+    df_deu = self._filter_country(df_eur, data_type="exportação")
+    return df_deu</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_filter_country()`</h3>
+                <p>
+                    Filtra dados do EUR para manter apenas registros da Alemanha (DE).
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Verifica se DataFrame está vazio (retorna vazio se sim)</li>
+                    <li>Identifica coluna de país:
+                        <ul>
+                            <li>Procura por <code>pais_origem</code> (após normalização)</li>
+                            <li>Se não encontrar, procura por <code>REPORTER</code> (antes da normalização)</li>
+                            <li>Se nenhuma for encontrada, retorna DataFrame vazio</li>
+                        </ul>
+                    </li>
+                    <li>Filtra registros onde coluna == 'DE'</li>
+                    <li>Loga resultado do filtro</li>
+                    <li>Retorna DataFrame filtrado</li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _filter_country(self, df_eur: pd.DataFrame, data_type: str = "dados") -> pd.DataFrame:
+    """Filtra dados do EUR para manter apenas registros da Alemanha (DE)."""
+    if df_eur.empty:
+        self.logger.warning(f"Nenhum dado de {data_type} encontrado no EUR")
+        return pd.DataFrame()
+    
+    # Identificar coluna para filtro
+    col = None
+    if 'pais_origem' in df_eur.columns:
+        col = 'pais_origem'
+    elif 'REPORTER' in df_eur.columns:
+        col = 'REPORTER'
+    else:
+        self.logger.error("Nenhuma coluna de país encontrada")
+        return pd.DataFrame()
+    
+    # Filtrar por país == 'DE'
+    df_deu = df_eur[df_eur[col] == 'DE'].copy()
+    
+    self.logger.info(f"Dados DEU filtrados: {len(df_deu)} registros (de {len(df_eur)} total)")
+    return df_deu</code></pre>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Sem Coleta Externa:</strong> Não faz requisições HTTP ou downloads de arquivos</li>
+                    <li><strong>Carregamento do ADLS:</strong> Usa método <code>_load_from_storage()</code> do framework</li>
+                    <li><strong>Filtro Simples:</strong> Aplica filtro por código de país 'DE'</li>
+                    <li><strong>Dependência do EUR:</strong> Requer que dados do EUR estejam disponíveis no ADLS</li>
+                    <li><strong>Eficiência:</strong> Reutiliza dados já coletados, evitando coletas duplicadas</li>
+                    <li><strong>Flexibilidade de Coluna:</strong> Funciona com <code>pais_origem</code> ou <code>REPORTER</code></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PRODUCT_NC</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>REPORTER</code></td>
+                        <td><code>pais_origem</code></td>
+                        <td>str</td>
+                        <td>Código do país de origem (DE para Alemanha)</td>
+                    </tr>
+                    <tr>
+                        <td><code>PARTNER</code></td>
+                        <td><code>pais_transacao</code></td>
+                        <td>str</td>
+                        <td>Código do país parceiro na transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>VALUE_EUR</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em EUR</td>
+                    </tr>
+                    <tr>
+                        <td><code>QUANTITY_KG</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>PERIOD</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYYMM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'pais_origem', 'pais_transacao', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação é idêntico ao de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PRODUCT_NC</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM</td>
+                    </tr>
+                    <tr>
+                        <td><code>REPORTER</code></td>
+                        <td><code>pais_origem</code></td>
+                        <td>str</td>
+                        <td>Código do país de origem (DE)</td>
+                    </tr>
+                    <tr>
+                        <td><code>PARTNER</code></td>
+                        <td><code>pais_transacao</code></td>
+                        <td>str</td>
+                        <td>Código do país parceiro</td>
+                    </tr>
+                    <tr>
+                        <td><code>VALUE_EUR</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em EUR</td>
+                    </tr>
+                    <tr>
+                        <td><code>QUANTITY_KG</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>PERIOD</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYYMM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'pais_origem', 'pais_transacao', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> Note que o data contract especifica <code>REPORTER | pais_origem: DE</code>, 
+                indicando que o REPORTER deve ser sempre 'DE' para este país. O crawler filtra por este valor antes da normalização.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados da Alemanha após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Filtra NCM "TOTAL":</strong> Remove linhas onde <code>ncm == "TOTAL"</code> (agregações que não são úteis)</li>
+                    <li><strong>Mapeia TRADE_TYPE:</strong> Se existir coluna <code>TRADE_TYPE</code> e não existir <code>ImportExport</code>, 
+                        mapeia valores:
+                        <ul>
+                            <li><code>'I'</code> → <code>1</code> (importação)</li>
+                            <li><code>'E'</code> → <code>0</code> (exportação)</li>
+                        </ul>
+                        Remove coluna <code>TRADE_TYPE</code> após mapeamento
+                    </li>
+                    <li><strong>Remove coluna 'pais':</strong> Remove coluna <code>pais</code> se existir (não necessária após normalização)</li>
+                    <li><strong>Valida coluna Data:</strong> 
+                        <ul>
+                            <li>Se não existir, tenta criar a partir de <code>PERIOD</code> (formato YYYYMM)</li>
+                            <li>Se existir, garante que está em formato datetime</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados da Alemanha."""
+    # Filtrar linhas onde NCM == "TOTAL"
+    if 'ncm' in df.columns:
+        df = df[df['ncm'] != "TOTAL"].copy()
+    
+    # Mapear TRADE_TYPE para ImportExport
+    if 'TRADE_TYPE' in df.columns and 'ImportExport' not in df.columns:
+        IE_map = {'I': 1, 'E': 0}
+        df['ImportExport'] = df['TRADE_TYPE'].map(IE_map)
+        df.drop(columns=['TRADE_TYPE'], inplace=True)
+    
+    # Remover coluna Pais se existir
+    if 'pais' in df.columns:
+        df.drop(columns=['pais'], inplace=True)
+    
+    # Garantir que coluna Data existe e está no formato correto
+    if 'Data' not in df.columns:
+        if 'PERIOD' in df.columns:
+            df['Data'] = pd.to_datetime(df['PERIOD'].astype(str), format='%Y%m', errors='coerce')
+    else:
+        if not pd.api.types.is_datetime64_any_dtype(df['Data']):
+            df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
+    
+    return df</code></pre>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de <code>PERIOD</code> no formato <code>YYYYMM</code>, 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Filtro de NCM:</strong> Remove registros com <code>ncm == "TOTAL"</code> (agregações)</li>
+                <li><strong>Mapeamento TRADE_TYPE:</strong> Converte 'I'/'E' para 1/0 (ImportExport)</li>
+                <li><strong>Valores em EUR:</strong> Os valores estão em EUR, não em USD como outros países</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <ul>
+                <li><strong>Filtro Principal:</strong> <code>pais_origem == 'DE'</code> ou <code>REPORTER == 'DE'</code> (aplicado na coleta)</li>
+                <li><strong>Filtro de NCM:</strong> Remove <code>ncm == "TOTAL"</code> (aplicado no tratamento específico)</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão do framework. 
+                            <strong>Nota:</strong> Este parâmetro não afeta a coleta diretamente, pois os dados vêm do EUR.</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local. 
+                            <strong>Importante:</strong> Deve ser True para carregar dados do EUR.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>Caminho EUR Raw:</strong> <code>staging/comex/EUR/raw</code></li>
+                <li><strong>Arquivo Import:</strong> <code>import_raw.parquet</code></li>
+                <li><strong>Arquivo Export:</strong> <code>export_raw.parquet</code></li>
+                <li><strong>Código País:</strong> <code>'DE'</code> (ISO 3166-1 alpha-2 para Alemanha)</li>
+                <li><strong>Data Contract Path:</strong> <code>include/data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>include/IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Requisitos Importantes</h3>
+                <ul>
+                    <li><strong>Azure ADLS2:</strong> Deve estar configurado e acessível</li>
+                    <li><strong>Dados do EUR:</strong> Pipeline EUR deve ter sido executado e dados salvos no ADLS</li>
+                    <li><strong>Permissões:</strong> Deve ter permissão de leitura no caminho <code>staging/comex/EUR/raw/</code></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Pipeline EUR (deve ser executado primeiro)
+    ↓
+Coleta dados de todos os países europeus
+    ↓
+Salva em Azure ADLS2:
+    staging/comex/EUR/raw/import_raw.parquet
+    staging/comex/EUR/raw/export_raw.parquet
+    ↓
+═══════════════════════════════════════════
+Pipeline DEU (este crawler)
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+_load_from_storage("staging/comex/EUR/raw", "import_raw.parquet")
+    ↓
+Carrega DataFrame do EUR (todos os países)
+    ↓
+_filter_country(df_eur)
+    ↓ (Identifica coluna: pais_origem ou REPORTER)
+    ↓ (Filtra: col == 'DE')
+DataFrame Filtrado (apenas Alemanha)
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓
+Tratamento Específico (_country_specific_treatment)
+    ↓ (Remove NCM == "TOTAL")
+    ↓ (Mapeia TRADE_TYPE → ImportExport)
+    ↓ (Valida/Converte Data)
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+
+# IMPORTANTE: Certifique-se de que os dados do EUR estão disponíveis no ADLS
+pipeline = COMEX_DEU()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_DEU import COMEX_DEU
+
+# Usar Azure ADLS2 (necessário para carregar dados do EUR)
+pipeline = COMEX_DEU(
+    start_date=datetime(2023, 1, 1),
+    use_azure=True  # Deve ser True
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+
+pipeline = COMEX_DEU()
+
+# Apenas coletar dados (carrega e filtra do EUR)
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Verificar Dependência do EUR</h3>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+
+pipeline = COMEX_DEU()
+
+# Tentar carregar dados do EUR
+try:
+    import_df, export_df = pipeline.collect()
+    if import_df.empty and export_df.empty:
+        print("AVISO: Nenhum dado encontrado. Verifique se o pipeline EUR foi executado.")
+    else:
+        print(f"Dados carregados: {len(import_df)} import, {len(export_df)} export")
+except Exception as e:
+    print(f"ERRO: Não foi possível carregar dados do EUR: {e}")
+    print("Execute o pipeline EUR primeiro!")</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="warning-box">
+                <h3>Pontos de Atenção Críticos</h3>
+                <ul>
+                    <li><strong>Dependência do EUR:</strong> Este crawler <strong>não funciona</strong> sem dados do EUR no ADLS. 
+                        O pipeline EUR deve ser executado primeiro.</li>
+                    <li><strong>Azure ADLS2 Obrigatório:</strong> Não funciona com storage local, pois precisa acessar dados do EUR 
+                        que estão no ADLS.</li>
+                    <li><strong>Ordem de Execução:</strong> Execute sempre EUR antes de DEU. Se EUR falhar, DEU também falhará.</li>
+                    <li><strong>Filtro por Coluna:</strong> O código procura por <code>pais_origem</code> ou <code>REPORTER</code>. 
+                        Se nenhuma existir, retorna DataFrame vazio.</li>
+                    <li><strong>Valores em EUR:</strong> Os valores estão em EUR, não em USD como outros países. 
+                        Isso pode afetar análises comparativas.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Sem Coleta Externa:</strong> Único crawler que não faz requisições HTTP ou downloads</li>
+                    <li><strong>Dados Derivados:</strong> Processa dados já coletados, não coleta novos dados</li>
+                    <li><strong>Dependência Explícita:</strong> Depende de outro pipeline (EUR) para funcionar</li>
+                    <li><strong>Filtro Simples:</strong> A lógica principal é apenas filtrar por código de país</li>
+                    <li><strong>Reutilização:</strong> Economiza recursos ao reutilizar dados já coletados</li>
+                    <li><strong>Colunas Especiais:</strong> Mantém <code>pais_origem</code> e <code>pais_transacao</code> 
+                        (não apenas <code>pais_id</code>)</li>
+                    <li><strong>Valores em EUR:</strong> Usa EUR ao invés de USD</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> DataFrame vazio após coleta
+                    <br><strong>Causa:</strong> Dados do EUR não disponíveis ou filtro não encontrou registros da Alemanha
+                    <br><strong>Solução:</strong> Verificar se pipeline EUR foi executado e se há dados da Alemanha no conjunto EUR</li>
+                <li><strong>Problema:</strong> Erro ao carregar do ADLS
+                    <br><strong>Causa:</strong> Permissões insuficientes ou caminho incorreto
+                    <br><strong>Solução:</strong> Verificar permissões no Azure ADLS2 e caminho <code>staging/comex/EUR/raw/</code></li>
+                <li><strong>Problema:</strong> Coluna de país não encontrada
+                    <br><strong>Causa:</strong> Estrutura dos dados do EUR mudou
+                    <br><strong>Solução:</strong> Verificar se dados do EUR contêm <code>pais_origem</code> ou <code>REPORTER</code></li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum dado encontrado no EUR"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Pipeline EUR não foi executado</li>
+                    <li>Dados do EUR não foram salvos no ADLS</li>
+                    <li>Caminho incorreto no ADLS</li>
+                    <li>Permissões insuficientes para acessar ADLS</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Execute o pipeline EUR primeiro: <code>COMEX_EUR().run()</code></li>
+                    <li>Verifique se arquivos existem em <code>staging/comex/EUR/raw/</code></li>
+                    <li>Verifique permissões no Azure ADLS2</li>
+                    <li>Verifique logs do pipeline EUR para erros</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum registro da Alemanha encontrado após filtro"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Dados do EUR não contêm registros da Alemanha</li>
+                    <li>Coluna de país tem nome diferente</li>
+                    <li>Código do país não é 'DE' nos dados</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar se dados do EUR contêm registros com <code>REPORTER == 'DE'</code></li>
+                    <li>Verificar estrutura dos dados do EUR</li>
+                    <li>Verificar logs para ver quantos registros foram encontrados antes do filtro</li>
+                    <li>Inspecionar dados do EUR diretamente</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhuma coluna de país encontrada"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura dos dados do EUR mudou</li>
+                    <li>Colunas não foram normalizadas corretamente</li>
+                    <li>Nome da coluna é diferente</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar estrutura dos dados do EUR carregados</li>
+                    <li>Verificar se normalização está funcionando corretamente</li>
+                    <li>Ajustar método <code>_filter_country()</code> se necessário</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Verificar Dependência do EUR</h4>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+import pandas as pd
+
+pipeline = COMEX_DEU()
+
+# Tentar carregar dados do EUR diretamente
+try:
+    eur_raw_path = "staging/comex/EUR/raw"
+    df_eur_import = pipeline._load_from_storage(eur_raw_path, "import_raw.parquet")
+    df_eur_export = pipeline._load_from_storage(eur_raw_path, "export_raw.parquet")
+    
+    print(f"Dados EUR import: {len(df_eur_import)} registros")
+    print(f"Dados EUR export: {len(df_eur_export)} registros")
+    print(f"\nColunas EUR: {df_eur_import.columns.tolist()}")
+    
+    # Verificar se há dados da Alemanha
+    if 'REPORTER' in df_eur_import.columns:
+        de_count = (df_eur_import['REPORTER'] == 'DE').sum()
+        print(f"\nRegistros com REPORTER == 'DE': {de_count}")
+    elif 'pais_origem' in df_eur_import.columns:
+        de_count = (df_eur_import['pais_origem'] == 'DE').sum()
+        print(f"\nRegistros com pais_origem == 'DE': {de_count}")
+    else:
+        print("\nAVISO: Coluna de país não encontrada!")
+        
+except Exception as e:
+    print(f"ERRO ao carregar dados do EUR: {e}")
+    print("Execute o pipeline EUR primeiro!")</code></pre>
+            
+            <h4>Executar Apenas a Coleta</h4>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+
+pipeline = COMEX_DEU()
+import_df, export_df = pipeline.collect()
+
+# Inspecionar dados coletados
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar filtro
+if not import_df.empty:
+    if 'pais_origem' in import_df.columns:
+        unique_countries = import_df['pais_origem'].unique()
+        print(f"\nPaíses únicos: {unique_countries}")
+        assert 'DE' in unique_countries or len(unique_countries) == 0, "Filtro não funcionou!"
+    elif 'REPORTER' in import_df.columns:
+        unique_countries = import_df['REPORTER'].unique()
+        print(f"\nPaíses únicos: {unique_countries}")
+        assert 'DE' in unique_countries or len(unique_countries) == 0, "Filtro não funcionou!"</code></pre>
+            
+            <h4>Inspecionar Dados Intermediários</h4>
+            <pre><code>from COMEX_DEU import COMEX_DEU
+
+pipeline = COMEX_DEU()
+
+# Coletar
+import_df, export_df = pipeline.collect()
+if not import_df.empty:
+    import_df.to_excel("debug_import_raw.xlsx")
+if not export_df.empty:
+    export_df.to_excel("debug_export_raw.xlsx")
+
+# Tratar
+silver_df = pipeline.treat()
+if not silver_df.empty:
+    silver_df.to_excel("debug_silver.xlsx")
+    
+    # Verificar filtro de NCM TOTAL
+    if 'ncm' in silver_df.columns:
+        total_count = (silver_df['ncm'] == 'TOTAL').sum()
+        print(f"Registros com NCM == 'TOTAL' (devem ser 0): {total_count}")
+    
+    # Verificar ImportExport
+    if 'ImportExport' in silver_df.columns:
+        print(f"\nDistribuição ImportExport:")
+        print(silver_df['ImportExport'].value_counts())</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_DEU import COMEX_DEU
+
+pipeline = COMEX_DEU()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Pipeline EUR:</strong> Consulte documentação de <code>COMEX_EUR</code> para entender a fonte original dos dados</li>
+                <li><strong>Azure ADLS2:</strong> Documentação do Azure Data Lake Storage Gen2</li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_DEU.py</code> - Código fonte do crawler</li>
+                <li><code>COMEX_EUR.py</code> - Pipeline que coleta dados europeus (dependência)</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção DEU)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Alemanha")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>Azure ADLS2</code> - Storage para carregar dados do EUR</li>
+                <li><code>costdrivers_comex</code> - Framework base</li>
+            </ul>
+            
+            <div class="note">
+                <strong>Nota Importante:</strong> Este crawler não tem dependências externas diretas além do framework e pandas. 
+                Sua principal dependência é o pipeline EUR que deve ser executado primeiro.
+            </div>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

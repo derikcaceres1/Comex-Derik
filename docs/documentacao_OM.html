@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: OM - Metodologia Antiga COMEX</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f7fa; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 4px solid #3498db; 
+            padding-bottom: 15px; 
+            margin-top: 0; 
+            font-size: 2.5em;
+        }
+        h2 { 
+            color: #34495e; 
+            margin-top: 50px; 
+            border-bottom: 3px solid #ecf0f1; 
+            padding-bottom: 10px; 
+            font-size: 1.8em; 
+        }
+        h3 { 
+            color: #7f8c8d; 
+            margin-top: 30px; 
+            font-size: 1.4em; 
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h4 { 
+            color: #95a5a6; 
+            margin-top: 20px; 
+            font-size: 1.2em; 
+        }
+        .nav-links { 
+            margin: 25px 0; 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 6px; 
+            border-left: 4px solid #3498db; 
+        }
+        .nav-links a { 
+            margin-right: 20px; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-weight: 500; 
+        }
+        .nav-links a:hover { 
+            text-decoration: underline; 
+        }
+        .info-box { 
+            background: #e8f4f8; 
+            padding: 20px; 
+            border-left: 4px solid #3498db; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .warning-box { 
+            background: #fff3cd; 
+            padding: 20px; 
+            border-left: 4px solid #ffc107; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .success-box { 
+            background: #d4edda; 
+            padding: 20px; 
+            border-left: 4px solid #28a745; 
+            margin: 20px 0; 
+            border-radius: 6px; 
+        }
+        .code-block { 
+            background: #2d2d2d; 
+            color: #f8f8f2; 
+            padding: 20px; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            font-family: "Courier New", "Consolas", monospace; 
+            font-size: 13px; 
+            line-height: 1.5; 
+            margin: 15px 0;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        .file-item { 
+            margin: 25px 0; 
+            padding: 25px; 
+            border: 2px solid #dee2e6; 
+            border-radius: 8px; 
+            background: #f8f9fa; 
+        }
+        .file-item h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .file-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        .file-path { 
+            font-family: "Courier New", monospace; 
+            color: #6c757d; 
+            font-size: 0.9em; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+        }
+        table th, table td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #dee2e6; 
+        }
+        table th { 
+            background: #f8f9fa; 
+            font-weight: 600; 
+            color: #495057; 
+        }
+        table tr:hover { background: #f8f9fa; }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            line-height: 2;
+        }
+        .flow-step {
+            padding: 8px 15px;
+            margin: 5px 0;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .arrow {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        code { 
+            font-family: "Courier New", "Consolas", monospace; 
+            background: #f4f4f4; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-size: 0.9em; 
+            color: #e83e8c;
+        }
+        .section { margin: 40px 0; }
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .toc li:last-child { border-bottom: none; }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .footer { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 2px solid #ecf0f1; 
+            text-align: center; 
+            color: #7f8c8d; 
+            font-size: 0.9em; 
+        }
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .country-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .country-card h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+        .phase-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .phase-box h4 {
+            color: #856404;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">← Voltar ao Índice</a>
+            <a href="documentacao_globinho.html">NM/globinho</a>
+            <a href="documentacao_NM.html">NM - Série Temporal</a>
+            <a href="documentacao_projecao_cif.html">Projeção CIF</a>
+        </div>
+
+        <h1>Documentação: OM - Metodologia Antiga COMEX</h1>
+        <p style="font-size: 1.1em; color: #6c757d; margin-top: 10px;">
+            Processamento de Dados de Comércio Exterior - Metodologia Antiga
+        </p>
+
+        <!-- Índice -->
+        <div class="toc">
+            <h3>Índice</h3>
+            <ul>
+                <li><a href="#visao-geral">1. Visão Geral</a></li>
+                <li><a href="#estrutura">2. Estrutura do Módulo</a></li>
+                <li><a href="#framework-base">3. Framework Base (ComexPipeline)</a></li>
+                <li><a href="#paises-suportados">4. Países Suportados</a></li>
+                <li><a href="#fases-pipeline">5. As 4 Fases do Pipeline</a></li>
+                <li><a href="#estrutura-dados">6. Estrutura de Dados (OM/dados)</a></li>
+                <li><a href="#arquivos">7. Arquivos do Módulo</a></li>
+                <li><a href="#execucao-airflow">8. Execução no Airflow</a></li>
+                <li><a href="#exemplos-uso">9. Exemplos de Uso</a></li>
+                <li><a href="#troubleshooting">10. Troubleshooting</a></li>
+            </ul>
+        </div>
+
+        <!-- Seção 1: Visão Geral -->
+        <div class="section" id="visao-geral">
+            <h2>1. Visão Geral</h2>
+            
+            <div class="info-box">
+                <h3>O que é o OM (Old Methodology)?</h3>
+                <p>
+                    O módulo <strong>OM</strong> (Old Methodology - Metodologia Antiga) contém os processos de coleta, tratamento, 
+                    cálculo e upload de dados de comércio exterior da metodologia antiga do sistema COMEX. Este módulo implementa 
+                    uma arquitetura em camadas (medallion architecture) com três níveis de dados: Raw, Silver e Gold.
+                </p>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ IMPORTANTE: Estrutura de Dados OM/dados</h3>
+                <p>
+                    O diretório <code>OM/dados</code> é onde estamos <strong>simulando a saída dos processos COMEX da metodologia antiga</strong>. 
+                    Esta estrutura de dados representa os arquivos Parquet gerados pelos pipelines de cada país, organizados em três camadas:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>raw/</strong> - Dados brutos coletados das fontes externas</li>
+                    <li><strong>silver/</strong> - Dados tratados, normalizados e validados</li>
+                    <li><strong>gold/</strong> - Dados finais com cálculos e análises aplicadas</li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    Quando o pipeline não está usando Azure Storage (<code>use_azure=False</code>), os dados são salvos localmente 
+                    em <code>OM/dados/{ISO_CODE}/{camada}/</code>, simulando a estrutura de saída dos processos COMEX da metodologia antiga.
+                </p>
+            </div>
+
+            <div class="success-box">
+                <h3>Objetivo Principal</h3>
+                <p>
+                    Processar dados de comércio exterior de diferentes países através de um pipeline padronizado com 4 fases:
+                </p>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Coleta (collect):</strong> Coleta dados brutos de fontes externas</li>
+                    <li><strong>Tratamento (treat):</strong> Normaliza, valida e enriquece os dados</li>
+                    <li><strong>Cálculo (calculate):</strong> Aplica cálculos estatísticos e suavização</li>
+                    <li><strong>Upload (upload):</strong> Envia dados finais para a API de Cost Drivers</li>
+                </ol>
+            </div>
+
+            <div class="info-box">
+                <h3>Características do Framework</h3>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Arquitetura orientada a objetos:</strong> Classe base abstrata com métodos específicos por país</li>
+                    <li><strong>Medallion Architecture:</strong> Dados organizados em Raw → Silver → Gold</li>
+                    <li><strong>Suporte a Azure e Local:</strong> Pode usar Azure ADLS2 ou storage local</li>
+                    <li><strong>Cache local:</strong> Sistema de cache para desenvolvimento (evita coletas repetidas)</li>
+                    <li><strong>Contrato de dados:</strong> Usa <code>data-contract.yaml</code> para mapeamento de colunas</li>
+                    <li><strong>Integração com Airflow:</strong> DAGs configurados para execução automatizada</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 2: Estrutura -->
+        <div class="section" id="estrutura">
+            <h2>2. Estrutura do Módulo</h2>
+
+            <div class="code-block">
+<pre>OM/
+├── costdrivers_comex_OM.py          # Classe base abstrata ComexPipeline
+├── dados/                            # Simulação da saída dos processos COMEX
+│   ├── ARG/
+│   │   ├── raw/                      # Dados brutos
+│   │   ├── silver/                   # Dados tratados
+│   │   └── gold/                     # Dados finais
+│   ├── BRA/
+│   │   ├── raw/
+│   │   ├── silver/
+│   │   └── gold/
+│   └── ...
+├── COMEX_ARG/                        # Pipeline específico Argentina
+│   ├── COMEX_ARG.py
+│   ├── COMEX_ARG_DAG.py
+│   └── comex_ARG.html
+├── COMEX_BRA/                        # Pipeline específico Brasil
+│   ├── COMEX_BRA.py
+│   ├── COMEX_BRA_DAG.py
+│   └── comex_BRA.html
+├── COMEX_COL/                        # Pipeline específico Colômbia
+│   ├── COMEX_COL.py
+│   ├── COMEX_COL_DAG.py
+│   └── comex_COL.html
+├── COMEX_DEU/                        # Pipeline específico Alemanha
+│   ├── COMEX_DEU.py
+│   ├── COMEX_DEU_DAG.py
+│   └── comex_DEU.html
+├── COMEX_EUR/                        # Pipeline específico União Europeia
+│   ├── COMEX_EUR.py
+│   ├── COMEX_EUR_DAG.py
+│   └── comex_EUR.html
+├── COMEX_IND/                        # Pipeline específico Índia
+│   ├── COMEX_IND.py
+│   └── comex_IND.html
+├── COMEX_MEX/                        # Pipeline específico México
+│   ├── COMEX_MEX.py
+│   └── *.html
+└── COMEX_USA/                        # Pipeline específico Estados Unidos
+    ├── COMEX_USA.py
+    ├── COMEX_USA_DAG.py
+    └── comex_USA.html
+</pre>
+            </div>
+
+            <h3>Estrutura de Diretórios</h3>
+            <div class="file-item">
+                <h4>costdrivers_comex_OM.py</h4>
+                <p>
+                    Classe base abstrata <code>ComexPipeline</code> que define toda a lógica comum do pipeline. 
+                    Contém as 4 fases principais e métodos auxiliares para storage, cache e processamento.
+                </p>
+            </div>
+
+            <div class="file-item">
+                <h4>COMEX_{ISO_CODE}/</h4>
+                <p>
+                    Cada país possui seu próprio diretório com:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><code>COMEX_{ISO_CODE}.py</code> - Implementação específica do país (herda de ComexPipeline)</li>
+                    <li><code>COMEX_{ISO_CODE}_DAG.py</code> - DAG do Airflow para execução automatizada (quando disponível)</li>
+                    <li><code>comex_{ISO_CODE}.html</code> - Documentação específica do país (quando disponível)</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <h4>OM/dados/</h4>
+                <p>
+                    <strong>Diretório onde simulamos a saída dos processos COMEX da metodologia antiga.</strong> 
+                    Quando <code>use_azure=False</code>, os dados são salvos localmente nesta estrutura:
+                </p>
+                <div class="code-block">
+<pre>OM/dados/
+└── {ISO_CODE}/
+    ├── raw/              # Dados brutos coletados
+    │   ├── import_raw_{data}.parquet
+    │   └── export_raw_{data}.parquet
+    ├── silver/           # Dados tratados e normalizados
+    │   └── silver_{data}.parquet
+    └── gold/             # Dados finais com cálculos
+        └── gold_{data}.parquet
+</pre>
+                </div>
+                <p style="margin-top: 10px;">
+                    Esta estrutura simula exatamente como os dados seriam organizados na saída dos processos COMEX da metodologia antiga, 
+                    permitindo desenvolvimento e testes locais antes de fazer deploy para Azure.
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 3: Framework Base -->
+        <div class="section" id="framework-base">
+            <h2>3. Framework Base (ComexPipeline)</h2>
+
+            <div class="info-box">
+                <h3>Classe ComexPipeline</h3>
+                <p>
+                    A classe <code>ComexPipeline</code> é uma classe abstrata que define toda a lógica comum do pipeline. 
+                    Ela utiliza o padrão Template Method, onde o fluxo geral é definido na classe base, mas métodos específicos 
+                    são implementados pelas classes filhas de cada país.
+                </p>
+            </div>
+
+            <h3>Inicialização</h3>
+            <div class="code-block">
+<pre>def __init__(
+    self, 
+    iso_code: str, 
+    start_date: Optional[datetime] = None,
+    data_contract_path: str = None,
+    ids_table_path: str = None,
+    storage_base_path: str = "staging/comex",
+    use_azure: bool = True
+):
+    """
+    Inicializa o pipeline de COMEX.
+    
+    Args:
+        iso_code: Código ISO do país (ex: 'ARG', 'BRA')
+        start_date: Data inicial para coleta (padrão: 60 dias atrás)
+        data_contract_path: Caminho para data-contract.yaml
+        ids_table_path: Caminho para IDS_comex.xlsx
+        storage_base_path: Caminho base no ADLS2 ou local
+        use_azure: Se True, usa ADLS2; se False, usa storage local (OM/dados)
+    """
+</pre>
+            </div>
+
+            <h3>Métodos Abstratos (devem ser implementados por cada país)</h3>
+            <div class="file-item">
+                <h4>collect_import_data() → pd.DataFrame</h4>
+                <p>Coleta dados brutos de importação específicos do país.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>collect_export_data() → pd.DataFrame</h4>
+                <p>Coleta dados brutos de exportação específicos do país.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>_get_country_name() → str</h4>
+                <p>Retorna nome do país para filtro na tabela de IDs.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>_country_specific_treatment(df: pd.DataFrame) → pd.DataFrame</h4>
+                <p>Aplica tratamento específico do país (opcional, retorna DataFrame sem modificação por padrão).</p>
+            </div>
+
+            <h3>Métodos Comuns (implementados na classe base)</h3>
+            <div class="file-item">
+                <h4>collect() → Tuple[pd.DataFrame, pd.DataFrame]</h4>
+                <p>Executa fase de coleta completa, usando cache se disponível.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>treat() → pd.DataFrame</h4>
+                <p>Executa fase de tratamento: normalização, merge com IDs, validação.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>calculate() → pd.DataFrame</h4>
+                <p>Executa fase de cálculo: suavização, detecção de outliers, interpolação.</p>
+            </div>
+
+            <div class="file-item">
+                <h4>upload() → None</h4>
+                <p>Executa fase de upload para API de Cost Drivers.</p>
+            </div>
+
+            <h3>Storage e Cache</h3>
+            <div class="info-box">
+                <p>
+                    O framework suporta dois tipos de storage:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Azure ADLS2:</strong> Quando <code>use_azure=True</code>, salva em <code>staging/comex/{ISO_CODE}/{camada}/</code></li>
+                    <li><strong>Local:</strong> Quando <code>use_azure=False</code>, salva em <code>OM/dados/{ISO_CODE}/{camada}/</code></li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    Além disso, há um sistema de cache local (apenas em desenvolvimento) que salva dados coletados em <code>.cache/comex/{ISO_CODE}/</code> 
+                    para evitar coletas repetidas durante desenvolvimento.
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 4: Países Suportados -->
+        <div class="section" id="paises-suportados">
+            <h2>4. Países Suportados</h2>
+
+            <div class="country-grid">
+                <div class="country-card">
+                    <h4>🇦🇷 Argentina (ARG)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_ARG/COMEX_ARG.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_ARG_DAG.py</code>)</p>
+                    <p>Coleta dados de importação e exportação.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇧🇷 Brasil (BRA)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_BRA/COMEX_BRA.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_BRA_DAG.py</code>)</p>
+                    <p>Coleta dados do portal COMEX usando web scraping.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇨🇴 Colômbia (COL)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_COL/COMEX_COL.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_COL_DAG.py</code>)</p>
+                    <p>Processa dados de importação e exportação.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇩🇪 Alemanha (DEU)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_DEU/COMEX_DEU.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_DEU_DAG.py</code>)</p>
+                    <p>Processa dados da Alemanha.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇪🇺 União Europeia (EUR)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_EUR/COMEX_EUR.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_EUR_DAG.py</code>)</p>
+                    <p>Processa dados agregados da União Europeia.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇮🇳 Índia (IND)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_IND/COMEX_IND.py</code></p>
+                    <p><strong>DAG:</strong> Não</p>
+                    <p>Processa dados da Índia.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇲🇽 México (MEX)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_MEX/COMEX_MEX.py</code></p>
+                    <p><strong>DAG:</strong> Não</p>
+                    <p>Processa dados do México.</p>
+                </div>
+
+                <div class="country-card">
+                    <h4>🇺🇸 Estados Unidos (USA)</h4>
+                    <p><strong>Arquivo:</strong> <code>COMEX_USA/COMEX_USA.py</code></p>
+                    <p><strong>DAG:</strong> Sim (<code>COMEX_USA_DAG.py</code>)</p>
+                    <p>Processa dados de importação e exportação dos EUA.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: As 4 Fases do Pipeline -->
+        <div class="section" id="fases-pipeline">
+            <h2>5. As 4 Fases do Pipeline</h2>
+
+            <div class="flow-diagram">
+                <div class="flow-step">FASE 1: COLETA (collect)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">FASE 2: TRATAMENTO (treat)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">FASE 3: CÁLCULO (calculate)</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">FASE 4: UPLOAD (upload)</div>
+            </div>
+
+            <div class="phase-box">
+                <h4>Fase 1: Coleta (collect)</h4>
+                <p><strong>Objetivo:</strong> Coletar dados brutos de fontes externas (APIs, web scraping, arquivos).</p>
+                <p><strong>Processo:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifica cache local (se em ambiente de desenvolvimento)</li>
+                    <li>Se cache válido, usa dados do cache</li>
+                    <li>Senão, executa <code>collect_import_data()</code> e <code>collect_export_data()</code></li>
+                    <li>Salva dados brutos em <code>raw/import_raw_{data}.parquet</code> e <code>raw/export_raw_{data}.parquet</code></li>
+                    <li>Salva no cache local (se em desenvolvimento)</li>
+                </ol>
+                <p><strong>Saída:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/{ISO_CODE}/raw/import_raw_{data}.parquet</code> (local)</li>
+                    <li><code>staging/comex/{ISO_CODE}/raw/import_raw_{data}.parquet</code> (Azure)</li>
+                    <li><code>OM/dados/{ISO_CODE}/raw/export_raw_{data}.parquet</code> (local)</li>
+                    <li><code>staging/comex/{ISO_CODE}/raw/export_raw_{data}.parquet</code> (Azure)</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h4>Fase 2: Tratamento (treat)</h4>
+                <p><strong>Objetivo:</strong> Normalizar, validar e enriquecer os dados brutos.</p>
+                <p><strong>Processo:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Carrega dados brutos do storage (raw)</li>
+                    <li>Normaliza colunas usando <code>data-contract.yaml</code> (separadamente para import e export)</li>
+                    <li>Aplica tratamento específico do país (<code>_country_specific_treatment()</code>)</li>
+                    <li>Padroniza tipos de dados conforme schema</li>
+                    <li>Concatena dados de importação e exportação</li>
+                    <li>Faz merge com <code>IDS_comex.xlsx</code> para obter <code>IDIndicePrincipal</code></li>
+                    <li>Agrega por ID, Data e ImportExport</li>
+                    <li>Calcula FOB e CIF (quando disponível)</li>
+                </ol>
+                <p><strong>Saída:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/{ISO_CODE}/silver/silver_{data}.parquet</code> (local)</li>
+                    <li><code>staging/comex/{ISO_CODE}/silver/silver_{data}.parquet</code> (Azure)</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h4>Fase 3: Cálculo (calculate)</h4>
+                <p><strong>Objetivo:</strong> Aplicar cálculos estatísticos, suavização e detecção de outliers.</p>
+                <p><strong>Processo:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Carrega dados silver do storage</li>
+                    <li>Aplica suavização usando método de outliers (IQR) por grupo</li>
+                    <li>Detecta e trata outliers usando Q1, Q3 e IQR</li>
+                    <li>Calcula variação percentual mês a mês</li>
+                    <li>Preenche lacunas usando interpolação linear</li>
+                    <li>Obtém dados de cost drivers da API</li>
+                    <li>Faz merge com dados históricos</li>
+                </ol>
+                <p><strong>Saída:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/{ISO_CODE}/gold/gold_{data}.parquet</code> (local)</li>
+                    <li><code>staging/comex/{ISO_CODE}/gold/gold_{data}.parquet</code> (Azure)</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h4>Fase 4: Upload (upload)</h4>
+                <p><strong>Objetivo:</strong> Enviar dados finais para a API de Cost Drivers.</p>
+                <p><strong>Processo:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Carrega dados gold do storage</li>
+                    <li>Prepara dados no formato esperado pela API</li>
+                    <li>Valida dados antes de enviar</li>
+                    <li>Envia dados para API de Cost Drivers</li>
+                    <li>Registra resultados do upload</li>
+                </ol>
+                <p><strong>Saída:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Dados enviados para API de Cost Drivers</li>
+                    <li>Logs de sucesso/erro do upload</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seção 6: Estrutura de Dados -->
+        <div class="section" id="estrutura-dados">
+            <h2>6. Estrutura de Dados (OM/dados)</h2>
+
+            <div class="warning-box">
+                <h3>⚠️ Simulação da Saída dos Processos COMEX</h3>
+                <p>
+                    O diretório <code>OM/dados</code> é onde estamos <strong>simulando a saída dos processos COMEX da metodologia antiga</strong>. 
+                    Esta estrutura representa exatamente como os dados seriam organizados na saída dos pipelines de cada país.
+                </p>
+            </div>
+
+            <h3>Estrutura de Diretórios</h3>
+            <div class="code-block">
+<pre>OM/dados/
+└── {ISO_CODE}/                    # Código ISO do país (ex: ARG, BRA, COL)
+    ├── raw/                       # Camada Raw (Bronze) - Dados brutos
+    │   ├── import_raw_{YYYY-MM-DD}.parquet
+    │   └── export_raw_{YYYY-MM-DD}.parquet
+    ├── silver/                    # Camada Silver - Dados tratados
+    │   └── silver_{YYYY-MM-DD}.parquet
+    └── gold/                      # Camada Gold - Dados finais
+        └── gold_{YYYY-MM-DD}.parquet
+</pre>
+            </div>
+
+            <h3>Camada Raw (Bronze)</h3>
+            <div class="info-box">
+                <p>
+                    <strong>Conteúdo:</strong> Dados brutos coletados diretamente das fontes externas (APIs, web scraping, arquivos).
+                </p>
+                <p><strong>Formato:</strong> Parquet com colunas originais da fonte</p>
+                <p><strong>Exemplo de arquivos:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/BRA/raw/import_raw_2026-01-08.parquet</code></li>
+                    <li><code>OM/dados/BRA/raw/export_raw_2026-01-08.parquet</code></li>
+                </ul>
+            </div>
+
+            <h3>Camada Silver</h3>
+            <div class="info-box">
+                <p>
+                    <strong>Conteúdo:</strong> Dados tratados, normalizados e validados. Colunas padronizadas, tipos corrigidos, 
+                    merge com IDs de indicadores aplicado.
+                </p>
+                <p><strong>Formato:</strong> Parquet com schema padronizado</p>
+                <p><strong>Colunas principais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>ID</code> - ID do indicador (IDIndicePrincipal)</li>
+                    <li><code>Data</code> - Data do registro</li>
+                    <li><code>FOB</code> - Valor FOB</li>
+                    <li><code>CIF</code> - Valor CIF (quando disponível)</li>
+                    <li><code>ImportExport</code> - Tipo de comércio (0=export, 1=import)</li>
+                </ul>
+                <p><strong>Exemplo de arquivo:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/BRA/silver/silver_2026-01-08.parquet</code></li>
+                </ul>
+            </div>
+
+            <h3>Camada Gold</h3>
+            <div class="info-box">
+                <p>
+                    <strong>Conteúdo:</strong> Dados finais com cálculos estatísticos aplicados. Suavização, detecção de outliers, 
+                    interpolação, variação percentual, merge com dados históricos da API.
+                </p>
+                <p><strong>Formato:</strong> Parquet com dados prontos para upload</p>
+                <p><strong>Colunas adicionais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Colunas da camada Silver</li>
+                    <li><code>Variacao</code> - Variação percentual mês a mês</li>
+                    <li>Dados suavizados e tratados</li>
+                    <li>Dados históricos da API mergeados</li>
+                </ul>
+                <p><strong>Exemplo de arquivo:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>OM/dados/BRA/gold/gold_2026-01-08.parquet</code></li>
+                </ul>
+            </div>
+
+            <h3>Quando os Dados são Salvos em OM/dados?</h3>
+            <div class="info-box">
+                <p>
+                    Os dados são salvos em <code>OM/dados</code> quando:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><code>use_azure=False</code> na inicialização do pipeline</li>
+                    <li>O pipeline detecta que está rodando em ambiente local (não Airflow)</li>
+                    <li>Azure Storage não está disponível (fallback automático)</li>
+                </ul>
+                <p style="margin-top: 10px;">
+                    <strong>Importante:</strong> Esta estrutura simula exatamente a saída dos processos COMEX da metodologia antiga, 
+                    permitindo desenvolvimento e testes locais antes de fazer deploy para Azure ADLS2.
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 7: Arquivos do Módulo -->
+        <div class="section" id="arquivos">
+            <h2>7. Arquivos do Módulo</h2>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>costdrivers_comex_OM.py</h3>
+                    <span class="file-path">OM/costdrivers_comex_OM.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Classe base abstrata</p>
+                <p><strong>Descrição:</strong> Define a estrutura comum para todos os pipelines de países. Contém toda a lógica de processamento, 
+                storage, cache e as 4 fases principais.</p>
+                <p><strong>Classe Principal:</strong> <code>ComexPipeline</code></p>
+                <p><strong>Métodos Principais:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>__init__()</code> - Inicializa pipeline com configurações</li>
+                    <li><code>collect()</code> - Executa fase de coleta</li>
+                    <li><code>treat()</code> - Executa fase de tratamento</li>
+                    <li><code>calculate()</code> - Executa fase de cálculo</li>
+                    <li><code>upload()</code> - Executa fase de upload</li>
+                    <li><code>normalize_columns()</code> - Normaliza colunas usando data-contract</li>
+                    <li><code>_save_to_storage()</code> - Salva dados no storage (Azure ou local)</li>
+                    <li><code>_load_from_storage()</code> - Carrega dados do storage</li>
+                    <li><code>_save_to_cache()</code> - Salva dados no cache local</li>
+                    <li><code>_load_from_cache()</code> - Carrega dados do cache local</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>COMEX_{ISO_CODE}/COMEX_{ISO_CODE}.py</h3>
+                    <span class="file-path">OM/COMEX_{ISO_CODE}/COMEX_{ISO_CODE}.py</span>
+                </div>
+                <p><strong>Tipo:</strong> Implementação específica por país</p>
+                <p><strong>Descrição:</strong> Cada país implementa uma classe que herda de <code>ComexPipeline</code> e implementa os métodos abstratos.</p>
+                <p><strong>Métodos Implementados:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li><code>collect_import_data()</code> - Coleta dados de importação específicos do país</li>
+                    <li><code>collect_export_data()</code> - Coleta dados de exportação específicos do país</li>
+                    <li><code>_get_country_name()</code> - Retorna nome do país para filtro</li>
+                    <li><code>_country_specific_treatment()</code> - Tratamento específico (opcional)</li>
+                </ul>
+            </div>
+
+            <div class="file-item">
+                <div class="file-header">
+                    <h3>COMEX_{ISO_CODE}/COMEX_{ISO_CODE}_DAG.py</h3>
+                    <span class="file-path">OM/COMEX_{ISO_CODE}/COMEX_{ISO_CODE}_DAG.py</span>
+                </div>
+                <p><strong>Tipo:</strong> DAG do Airflow</p>
+                <p><strong>Descrição:</strong> Define o DAG do Airflow para execução automatizada do pipeline. Alguns países possuem DAG configurado.</p>
+                <p><strong>Estrutura:</strong></p>
+                <div class="code-block">
+<pre>@dag(
+    dag_id="COMEX_{ISO_CODE}",
+    schedule_interval=None,
+    catchup=False,
+    tags=['COMEX']
+)
+def init():
+    @task()
+    def coleta():
+        bot = COMEX_{ISO_CODE}()
+        bot.collect()
+    
+    @task()
+    def tratamento():
+        bot = COMEX_{ISO_CODE}()
+        bot.treat()
+    
+    @task()
+    def calculo():
+        bot = COMEX_{ISO_CODE}()
+        bot.calculate()
+    
+    step_coleta >> step_tratamento >> step_calculo
+</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 8: Execução no Airflow -->
+        <div class="section" id="execucao-airflow">
+            <h2>8. Execução no Airflow</h2>
+
+            <div class="info-box">
+                <h3>DAGs Configurados</h3>
+                <p>
+                    Os seguintes países possuem DAGs configurados no Airflow:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>COMEX_ARG:</strong> <code>COMEX_ARG_DAG.py</code></li>
+                    <li><strong>COMEX_BRA:</strong> <code>COMEX_BRA_DAG.py</code></li>
+                    <li><strong>COMEX_COL:</strong> <code>COMEX_COL_DAG.py</code></li>
+                    <li><strong>COMEX_DEU:</strong> <code>COMEX_DEU_DAG.py</code></li>
+                    <li><strong>COMEX_EUR:</strong> <code>COMEX_EUR_DAG.py</code></li>
+                    <li><strong>COMEX_USA:</strong> <code>COMEX_USA_DAG.py</code></li>
+                </ul>
+            </div>
+
+            <h3>Estrutura do DAG</h3>
+            <div class="code-block">
+<pre>from airflow.decorators import dag, task
+from airflow import utils
+from datetime import datetime, timedelta
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': utils.dates.days_ago(2),
+    'depends_on_past': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=1)
+}
+
+@dag(
+    dag_id="COMEX_BRA",
+    default_args=default_args,
+    schedule_interval=None,
+    catchup=False,
+    tags=['COMEX'],
+    max_active_runs=1
+)
+def init():
+    import sys
+    import os
+    airflow_include_path = os.getenv('AIRFLOW_INCLUDE_PATH', '/opt/airflow/include')
+    sys.path.append(airflow_include_path)
+    
+    from COMEX_BRA import COMEX_BRA
+
+    @task()
+    def coleta():
+        bot = COMEX_BRA()
+        bot.collect()
+    
+    @task()
+    def tratamento():
+        bot = COMEX_BRA()
+        bot.treat()
+    
+    @task()
+    def calculo():
+        bot = COMEX_BRA()
+        bot.calculate()
+    
+    # Tasks chain
+    step_coleta = coleta()
+    step_tratamento = tratamento()
+    step_calculo = calculo()
+    
+    step_coleta >> step_tratamento >> step_calculo
+
+dag_def = init()
+</pre>
+            </div>
+
+            <h3>Fluxo de Execução</h3>
+            <div class="flow-diagram">
+                <div class="flow-step">1. Task: coleta() - Executa bot.collect()</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">2. Task: tratamento() - Executa bot.treat()</div>
+                <div class="arrow">↓</div>
+                <div class="flow-step">3. Task: calculo() - Executa bot.calculate()</div>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ Observação sobre Upload</h3>
+                <p>
+                    Note que os DAGs atuais executam apenas as 3 primeiras fases (coleta, tratamento, cálculo). 
+                    A fase de upload (<code>bot.upload()</code>) não está incluída nos DAGs por padrão, mas pode ser adicionada se necessário.
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 9: Exemplos de Uso -->
+        <div class="section" id="exemplos-uso">
+            <h2>9. Exemplos de Uso</h2>
+
+            <h3>Exemplo 1: Executar Pipeline Completo Localmente</h3>
+            <div class="code-block">
+<pre>from OM.COMEX_BRA.COMEX_BRA import COMEX_BRA
+
+# Criar pipeline (usa storage local por padrão se Azure não disponível)
+bot = COMEX_BRA(use_azure=False)
+
+# Executar todas as fases
+bot.collect()      # Fase 1: Coleta
+bot.treat()        # Fase 2: Tratamento
+bot.calculate()    # Fase 3: Cálculo
+bot.upload()       # Fase 4: Upload
+
+# Dados serão salvos em OM/dados/BRA/{raw,silver,gold}/
+</pre>
+            </div>
+
+            <h3>Exemplo 2: Executar Apenas Coleta</h3>
+            <div class="code-block">
+<pre>from OM.COMEX_ARG.COMEX_ARG import COMEX_ARG
+
+bot = COMEX_ARG(use_azure=False)
+
+# Executar apenas coleta
+import_df, export_df = bot.collect()
+
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Dados serão salvos em OM/dados/ARG/raw/
+</pre>
+            </div>
+
+            <h3>Exemplo 3: Executar com Azure Storage</h3>
+            <div class="code-block">
+<pre>from OM.COMEX_COL.COMEX_COL import COMEX_COL
+
+# Usar Azure Storage (produção)
+bot = COMEX_COL(use_azure=True)
+
+# Executar pipeline
+bot.collect()
+bot.treat()
+bot.calculate()
+
+# Dados serão salvos em staging/comex/COL/{raw,silver,gold}/ no Azure ADLS2
+</pre>
+            </div>
+
+            <h3>Exemplo 4: Executar com Data Inicial Específica</h3>
+            <div class="code-block">
+<pre>from OM.COMEX_USA.COMEX_USA import COMEX_USA
+from datetime import datetime
+
+# Definir data inicial (coleta dados desde janeiro de 2024)
+start_date = datetime(2024, 1, 1)
+bot = COMEX_USA(start_date=start_date, use_azure=False)
+
+bot.collect()
+bot.treat()
+bot.calculate()
+</pre>
+            </div>
+
+            <h3>Exemplo 5: Verificar Dados Salvos Localmente</h3>
+            <div class="code-block">
+<pre>import pandas as pd
+from pathlib import Path
+
+# Verificar dados raw
+raw_path = Path("OM/dados/BRA/raw/import_raw_2026-01-08.parquet")
+if raw_path.exists():
+    df_raw = pd.read_parquet(raw_path)
+    print(f"Dados raw: {len(df_raw)} registros")
+    print(df_raw.head())
+
+# Verificar dados silver
+silver_path = Path("OM/dados/BRA/silver/silver_2026-01-08.parquet")
+if silver_path.exists():
+    df_silver = pd.read_parquet(silver_path)
+    print(f"Dados silver: {len(df_silver)} registros")
+    print(df_silver.head())
+
+# Verificar dados gold
+gold_path = Path("OM/dados/BRA/gold/gold_2026-01-08.parquet")
+if gold_path.exists():
+    df_gold = pd.read_parquet(gold_path)
+    print(f"Dados gold: {len(df_gold)} registros")
+    print(df_gold.head())
+</pre>
+            </div>
+        </div>
+
+        <!-- Seção 10: Troubleshooting -->
+        <div class="section" id="troubleshooting">
+            <h2>10. Troubleshooting</h2>
+
+            <h3>Problema: Dados não são salvos em OM/dados</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Arquivos não aparecem em <code>OM/dados/{ISO_CODE}/</code></p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se <code>use_azure=False</code> na inicialização</li>
+                    <li>Verifique se o diretório <code>OM/dados/{ISO_CODE}/</code> existe</li>
+                    <li>Verifique permissões de escrita no diretório</li>
+                    <li>Verifique logs para erros de salvamento</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro ao coletar dados</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Erro durante fase de coleta</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique conexão com internet</li>
+                    <li>Verifique se a fonte de dados está acessível</li>
+                    <li>Verifique logs para erros específicos</li>
+                    <li>Tente usar cache local se disponível</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Erro ao normalizar colunas</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Erro durante fase de tratamento (normalização)</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se <code>data-contract.yaml</code> existe e está correto</li>
+                    <li>Verifique se as colunas esperadas existem nos dados brutos</li>
+                    <li>Verifique se o mapeamento de colunas está correto para import e export</li>
+                    <li>Verifique logs para identificar coluna problemática</li>
+                </ol>
+            </div>
+
+            <h3>Problema: Cache não funciona</h3>
+            <div class="warning-box">
+                <p><strong>Sintoma:</strong> Cache não é usado mesmo em ambiente local</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="margin-left: 20px;">
+                    <li>Verifique se está rodando em ambiente local (não Airflow)</li>
+                    <li>Verifique se o diretório <code>.cache/comex/{ISO_CODE}/</code> existe</li>
+                    <li>Verifique se o cache não expirou (válido por 24 horas)</li>
+                    <li>Limpe o cache manualmente se necessário: <code>rm -rf .cache/comex/{ISO_CODE}/</code></li>
+                </ol>
+            </div>
+
+            <h3>Dicas de Debug</h3>
+            <div class="info-box">
+                <ul style="margin-left: 20px;">
+                    <li>Use <code>logger.setLevel(logging.DEBUG)</code> para ver logs detalhados</li>
+                    <li>Inspecione DataFrames intermediários usando <code>.head()</code> e <code>.info()</code></li>
+                    <li>Verifique arquivos salvos em <code>OM/dados/{ISO_CODE}/</code> após cada fase</li>
+                    <li>Use cache local para evitar coletas repetidas durante desenvolvimento</li>
+                    <li>Verifique se <code>data-contract.yaml</code> e <code>IDS_comex.xlsx</code> estão corretos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Módulo: OM - Metodologia Antiga COMEX</p>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+                <p style="margin-bottom: 10px;"><strong>Navegação:</strong></p>
+                <a href="index.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Índice</a>
+                <a href="documentacao_globinho.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM/globinho</a>
+                <a href="documentacao_NM.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">NM Série Temporal</a>
+                <a href="documentacao_projecao_cif.html" style="color: #3498db; text-decoration: none; margin: 0 10px;">Projeção CIF</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação COMEX - Índice</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 4px solid #3498db; 
+            padding-bottom: 15px; 
+            margin-top: 0; 
+            font-size: 2.5em;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .doc-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+        .doc-card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .doc-card p {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .doc-card .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .badge-om {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-nm {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-process {
+            background: #e8f4f8;
+            color: #004085;
+        }
+        .info-section {
+            background: #e8f4f8;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            margin: 30px 0;
+        }
+        .info-section h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .quick-links {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .quick-links h3 {
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+        .quick-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .quick-links li {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .quick-links li:last-child {
+            border-bottom: none;
+        }
+        .quick-links a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .quick-links a:hover {
+            text-decoration: underline;
+        }
+        .usage-section {
+            background: #fff9e6;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 30px 0;
+        }
+        .usage-section h3 {
+            color: #856404;
+            margin-top: 0;
+            border-left: none;
+            padding-left: 0;
+        }
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .usage-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ffc107;
+        }
+        .usage-item h4 {
+            color: #856404;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        .usage-item code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            color: #e83e8c;
+            display: block;
+            margin: 5px 0;
+        }
+        .usage-item ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+        .usage-item li {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Documentação COMEX</h1>
+        <p class="subtitle">Documentação completa do sistema de processamento de dados de comércio exterior</p>
+
+        <div class="info-section">
+            <h3>Bem-vindo à Documentação COMEX</h3>
+            <p>
+                Esta documentação cobre todos os módulos e processos do sistema COMEX, incluindo metodologias antigas e novas,
+                processamento de dados, projeções e integrações. Use o índice abaixo para navegar entre as diferentes seções.
+            </p>
+        </div>
+
+        <div class="docs-grid">
+            <a href="documentacao_OM.html" class="doc-card">
+                <h2>🏛️ OM - Metodologia Antiga</h2>
+                <p>
+                    Processamento de dados de comércio exterior usando a metodologia antiga. 
+                    Inclui pipelines para múltiplos países com arquitetura em camadas (Raw → Silver → Gold).
+                </p>
+                <div>
+                    <span class="badge badge-om">Metodologia Antiga</span>
+                    <span class="badge badge-process">Pipeline</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #95a5a6;">
+                    <strong>Países:</strong> ARG, BRA, COL, DEU, EUR, IND, MEX, USA
+                </p>
+            </a>
+
+            <a href="documentacao_globinho.html" class="doc-card">
+                <h2>🌍 NM/globinho</h2>
+                <p>
+                    Processamento COMEX Globe - Nova Metodologia. Processa dados históricos de comércio exterior,
+                    faz merge com indicadores e envia para API de Cost Drivers.
+                </p>
+                <div>
+                    <span class="badge badge-nm">Nova Metodologia</span>
+                    <span class="badge badge-process">Globe</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #95a5a6;">
+                    <strong>Países:</strong> ARG, BRA, COL, EUR, USA
+                </p>
+            </a>
+
+            <a href="documentacao_NM.html" class="doc-card">
+                <h2>📊 NM/serie_temporal</h2>
+                <p>
+                    Processamento de séries temporais - Nova Metodologia. Aplica técnicas estatísticas avançadas
+                    para análise e tratamento de dados de comércio exterior.
+                </p>
+                <div>
+                    <span class="badge badge-nm">Nova Metodologia</span>
+                    <span class="badge badge-process">Série Temporal</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #95a5a6;">
+                    <strong>Países:</strong> BRA, EUR, AUT, BEL, BGR, DEU, FRA, HUN, ITA, NLD, PRT
+                </p>
+            </a>
+
+            <a href="documentacao_projecao_cif.html" class="doc-card">
+                <h2>📈 Projeção CIF</h2>
+                <p>
+                    Processo de projeção de valores CIF para dados do Brasil. Calcula valores CIF faltantes
+                    com base na projeção do FOB usando razões históricas.
+                </p>
+                <div>
+                    <span class="badge badge-process">Projeção</span>
+                    <span class="badge badge-process">SQL</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em; color: #95a5a6;">
+                    <strong>País:</strong> Brasil (BRA)
+                </p>
+            </a>
+        </div>
+
+        <div class="quick-links">
+            <h3>🔗 Links Rápidos</h3>
+            <ul>
+                <li><a href="documentacao_OM.html">OM - Metodologia Antiga COMEX</a></li>
+                <li><a href="documentacao_globinho.html">NM/globinho - Processamento COMEX Globe</a></li>
+                <li><a href="documentacao_NM.html">NM/serie_temporal - Processamento de Séries Temporais</a></li>
+                <li><a href="documentacao_projecao_cif.html">Projeção CIF - Projeção de Valores CIF</a></li>
+            </ul>
+        </div>
+
+        <div class="usage-section">
+            <h3>🚀 Guia Rápido de Uso</h3>
+            <p>
+                Resumo do guia completo disponível em <code>COMO_USAR_O_PROJETO.md</code>. 
+                <strong>Importante:</strong> Sempre execute os scripts a partir da raiz do projeto usando <code>python -m</code>.
+            </p>
+
+            <div class="usage-grid">
+                <div class="usage-item">
+                    <h4>📋 Pré-requisitos</h4>
+                    <ul>
+                        <li>Python 3.8+</li>
+                        <li><code>pip install -r requirements.txt</code></li>
+                        <li>Variáveis de ambiente configuradas</li>
+                    </ul>
+                </div>
+
+                <div class="usage-item">
+                    <h4>🆕 Nova Metodologia (NM)</h4>
+                    <code>python -m NM.serie_temporal.COMEX_BRA.COMEX_BRA_NM</code>
+                    <code>python -m NM.globinho.ARG.COMEX_ARG_GLOBE</code>
+                </div>
+
+                <div class="usage-item">
+                    <h4>🔄 Metodologia Antiga (OM)</h4>
+                    <code>python -m OM.COMEX_BRA.COMEX_BRA</code>
+                    <code>python -m OM.COMEX_ARG.COMEX_ARG</code>
+                </div>
+
+                <div class="usage-item">
+                    <h4>🎯 Orquestrador Europeu</h4>
+                    <code>python -m NM.serie_temporal.orquestrador_europa_NM</code>
+                    <p style="margin-top: 10px; font-size: 0.85em;">
+                        Processa: AUT, ITA, FRA, BEL, DEU, PRT, HUN, BGR, NLD
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 6px;">
+                <h4 style="color: #856404; margin-top: 0;">🔧 Variáveis de Ambiente Obrigatórias</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><code>COSTDRIVERS_PASSWORD</code> - Senha para autenticação</li>
+                    <li><code>COSTDRIVERS_API_KEY</code> - Chave da API</li>
+                    <li><code>COSTDRIVERS_API_EMAIL</code> - Email para autenticação</li>
+                    <li><code>COSTDRIVERS_API_PASSWORD</code> - Senha da API</li>
+                </ul>
+                <p style="margin-top: 10px; font-size: 0.9em;">
+                    <strong>Recomendação:</strong> Crie um arquivo <code>.env</code> na raiz do projeto com essas variáveis.
+                </p>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 6px;">
+                <h4 style="color: #856404; margin-top: 0;">💡 Dicas Importantes</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Sempre execute da raiz:</strong> Use <code>python -m</code> a partir da raiz do projeto</li>
+                    <li><strong>Verifique variáveis:</strong> Muitos erros são causados por variáveis não configuradas</li>
+                    <li><strong>Use logs:</strong> Os scripts geram logs detalhados para debug</li>
+                    <li><strong>Teste localmente:</strong> Execute scripts localmente antes de usar em produção</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 20px; text-align: center;">
+                <strong>📖 Para mais detalhes, consulte:</strong> <code>COMO_USAR_O_PROJETO.md</code> na raiz do projeto
+            </p>
+        </div>
+
+        <div class="info-section">
+            <h3>📖 Sobre a Documentação</h3>
+            <p>
+                Cada documentação contém informações detalhadas sobre:
+            </p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Visão geral e objetivos do módulo</li>
+                <li>Estrutura de arquivos e diretórios</li>
+                <li>Fluxos de processamento detalhados</li>
+                <li>Exemplos de uso práticos</li>
+                <li>Troubleshooting e soluções para problemas comuns</li>
+            </ul>
+            <p style="margin-top: 15px;">
+                <strong>Navegação:</strong> Todas as páginas possuem links de navegação no topo para facilitar 
+                a movimentação entre as diferentes documentações.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Sistema COMEX - Processamento de Dados de Comércio Exterior</p>
+        </div>
+    </div>
+</body>
+</html>
