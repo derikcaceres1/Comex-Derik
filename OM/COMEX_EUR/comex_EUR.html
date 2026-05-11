@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Europa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Europa</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_EUR</strong> é responsável por coletar, processar e enviar dados de comércio exterior 
+                de todos os países europeus através do portal Eurostat (Statistical Office of the European Union). Este pipeline 
+                é fundamental pois fornece dados agregados de toda a Europa, que são posteriormente utilizados por outros crawlers 
+                (como COMEX_DEU) para extrair dados de países específicos.
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos e atuais de importação e exportação de todos os países europeus, 
+                normalizá-los conforme o padrão do framework e disponibilizá-los no Azure ADLS2 para uso por outros pipelines.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados de todos os países europeus de uma vez</li>
+                    <li>Utiliza portal oficial Eurostat</li>
+                    <li>Processa arquivos .7z comprimidos</li>
+                    <li>Extrai arquivos .dat de dentro dos .7z</li>
+                    <li>Coleta import e export juntos e depois separa</li>
+                    <li>Processa apenas os 3 arquivos mais recentes</li>
+                    <li>Usa web scraping para descobrir arquivos disponíveis</li>
+                    <li>Gera dados que são reutilizados por outros crawlers (ex: COMEX_DEU)</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>EUR</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Europa 15</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_EUR</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_EUR.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção EUR)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Europa 15")</td>
+                </tr>
+                <tr>
+                    <td><strong>Formato de Arquivo</strong></td>
+                    <td>.7z (comprimido) contendo .dat (dados)</td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivos Processados</strong></td>
+                    <td>Configurável via <code>last_months</code> (padrão: 3)</td>
+                </tr>
+                <tr>
+                    <td><strong>Países Suportados (Histórico)</strong></td>
+                    <td>AUT, BEL, BGR, DEU, FRA, HUN, ITA, NLD, PRT</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Portal Oficial</h3>
+            <p>
+                Os dados são coletados diretamente do portal oficial do Eurostat (Statistical Office of the European Union):
+            </p>
+            <div class="step">
+                <h4>URL Base</h4>
+                <p><strong>Portal:</strong> <code>https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS</code></p>
+                <p>
+                    Este portal disponibiliza arquivos .7z comprimidos contendo dados de comércio exterior de todos os países europeus. 
+                    Cada arquivo contém dados mensais completos (import + export) de todos os países.
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Portal Web com arquivos .7z para download</li>
+                <li><strong>Método de acesso:</strong> Web Scraping (BeautifulSoup) + Download HTTP</li>
+                <li><strong>Formato dos dados:</strong> .7z (comprimido) contendo .dat (CSV-like)</li>
+                <li><strong>Encoding:</strong> ISO-8859-1 (Latin-1)</li>
+                <li><strong>Separador CSV:</strong> Vírgula (,)</li>
+                <li><strong>Autenticação:</strong> Não requerida (dados públicos)</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo Eurostat)</li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Arquivos</h3>
+            <p>
+                Os arquivos seguem um padrão de nomenclatura:
+            </p>
+            <ul>
+                <li><strong>Formato:</strong> <code>full_v2_YYYYMM.7z</code></li>
+                <li><strong>Exemplo:</strong> <code>full_v2_202412.7z</code> (dados de dezembro de 2024)</li>
+                <li><strong>Conteúdo:</strong> Arquivo .dat com nome similar: <code>full_YYYYMM.dat</code></li>
+            </ul>
+            <p>
+                Cada arquivo .7z contém um arquivo .dat com dados completos de importação e exportação de todos os países europeus.
+            </p>
+            
+            <div class="note">
+                <strong>Nota:</strong> O crawler processa apenas os 3 arquivos mais recentes para otimizar tempo e recursos. 
+                Arquivos com "52" no nome (dados anuais) são excluídos automaticamente.
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect()`</h3>
+                <p>
+                    <strong>Método principal de coleta.</strong> Este método sobrescreve o comportamento padrão do framework 
+                    para coletar import e export juntos e depois separar.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Verifica cache local (se disponível e válido)</li>
+                    <li>Se não houver cache, chama <code>_collect_all_data()</code></li>
+                    <li>Separa dados em import e export usando coluna <code>TRADE_TYPE</code> ou <code>FLOW</code></li>
+                    <li>Salva separadamente no ADLS como <code>import_raw.parquet</code> e <code>export_raw.parquet</code></li>
+                    <li>Retorna tupla (import_df, export_df)</li>
+                </ol>
+                <p><strong>Separação Import/Export:</strong></p>
+                <ul>
+                    <li>Se <code>TRADE_TYPE</code> existe: 'I' = importação, 'E' = exportação</li>
+                    <li>Se <code>FLOW</code> existe: '1' = importação, '2' = exportação</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_import_data()` e `collect_export_data()`</h3>
+                <p>
+                    <strong>Métodos mantidos para compatibilidade, mas não são usados diretamente.</strong> 
+                    A coleta é feita através do método <code>collect()</code> que coleta tudo junto.
+                </p>
+                <p>
+                    Estes métodos retornam DataFrame vazio e são mantidos apenas para compatibilidade com a interface do framework.
+                </p>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_get_available_files()`</h3>
+                <p>
+                    Descobre automaticamente quais arquivos .7z estão disponíveis no portal Eurostat usando web scraping.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Acessa URL base do portal</li>
+                    <li>Faz parsing do HTML usando BeautifulSoup</li>
+                    <li>Encontra tabela HTML com lista de arquivos</li>
+                    <li>Lê tabela usando <code>pd.read_html()</code></li>
+                    <li>Filtra apenas arquivos .7z (Type == "7z")</li>
+                    <li>Extrai data do nome do arquivo (formato: <code>full_v2_YYYYMM</code>)</li>
+                    <li>Exclui arquivos com "52" no nome (dados anuais)</li>
+                    <li>Filtra arquivos com tamanho > 20 MB</li>
+                    <li>Extrai links de download do HTML</li>
+                    <li>Ordena por data (mais recente primeiro)</li>
+                    <li>Retorna lista de dicionários com informações dos arquivos</li>
+                </ol>
+                <p><strong>Retorno:</strong></p>
+                <pre><code>[
+    {
+        "url": "https://ec.europa.eu/...",
+        "name": "full_v2_202412.7z",
+        "date": datetime(2024, 12, 1),
+        "size": 123.4  # MB
+    },
+    ...
+]</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `_download_and_extract()`</h3>
+                <p>
+                    Baixa arquivo .7z e extrai arquivo .dat usando biblioteca py7zr.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Cria pasta temporária se não existir (<code>.temp/eurostat/</code>)</li>
+                    <li>Verifica se arquivo .dat já existe (cache local)</li>
+                    <li>Se não existir, verifica se .7z existe</li>
+                    <li>Se .7z não existir, baixa do portal (stream=True, timeout=300s)</li>
+                    <li>Salva .7z na pasta temporária</li>
+                    <li>Extrai .7z usando <code>py7zr</code></li>
+                    <li>Procura arquivo .dat extraído</li>
+                    <li>Se não encontrar com nome esperado, procura qualquer .dat</li>
+                    <li>Retorna caminho do arquivo .dat extraído</li>
+                </ol>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li><strong>Cache Local:</strong> Mantém arquivos extraídos para evitar re-extração</li>
+                    <li><strong>Download em Stream:</strong> Usa <code>stream=True</code> para arquivos grandes</li>
+                    <li><strong>Timeout Longo:</strong> 300 segundos (5 minutos) para downloads grandes</li>
+                    <li><strong>Extraction Inteligente:</strong> Procura arquivo .dat mesmo se nome mudou</li>
+                    <li><strong>Dependência:</strong> Requer biblioteca <code>py7zr</code></li>
+                </ul>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _download_and_extract(self, file_info: Dict[str, any]) -> Optional[Path]:
+    """Baixa arquivo .7z e extrai arquivo .dat."""
+    # Criar pasta temporária
+    if not self.temp_folder:
+        self._create_temp_folder()
+    
+    # Verificar se .dat já existe (cache)
+    if file_path_dat.exists():
+        return file_path_dat
+    
+    # Baixar .7z se não existir
+    if not file_path_7z.exists():
+        response = requests.get(file_info["url"], stream=True, timeout=300)
+        # Salvar arquivo
+    
+    # Extrair .dat do .7z
+    import py7zr
+    with py7zr.SevenZipFile(file_path_7z, mode='r') as archive:
+        archive.extractall(path=self.temp_folder)
+    
+    return file_path_dat</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `_process_dat_file()`</h3>
+                <p>
+                    Processa arquivo .dat completo (import + export juntos) e retorna DataFrame.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Lê arquivo .dat usando <code>pd.read_csv()</code>:
+                        <ul>
+                            <li>Separador: vírgula (,)</li>
+                            <li>Encoding: ISO-8859-1</li>
+                            <li>Tipo: string inicialmente (<code>dtype=str</code>)</li>
+                            <li><code>low_memory=False</code> para arquivos grandes</li>
+                        </ul>
+                    </li>
+                    <li>Filtra linhas onde <code>PRODUCT_NC != "TOTAL"</code></li>
+                    <li>Converte <code>PERIOD</code> (YYYYMM) para coluna <code>Data</code> (datetime)</li>
+                    <li>Remove coluna <code>PERIOD</code></li>
+                    <li>Adiciona colunas <code>frete</code> e <code>seguro</code> com valor 0.0</li>
+                    <li>Retorna DataFrame processado</li>
+                </ol>
+                <p><strong>Nota:</strong> Este método processa import e export juntos. A separação é feita posteriormente.</p>
+            </div>
+            
+            <div class="step">
+                <h3>4.6 Método Auxiliar: `_collect_all_data()`</h3>
+                <p>
+                    Coleta todos os dados (import + export) processando os 3 arquivos mais recentes.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Obtém lista de arquivos disponíveis (já ordenados por data)</li>
+                    <li>Seleciona apenas os 3 arquivos mais recentes</li>
+                    <li>Cria pasta temporária</li>
+                    <li>Para cada arquivo:
+                        <ul>
+                            <li>Baixa e extrai arquivo .dat</li>
+                            <li>Processa arquivo .dat completo</li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se arquivo não encontrado: loga warning e continua</li>
+                    <li>Se erro ao baixar/extrair: loga warning e continua</li>
+                    <li>Se erro ao processar: loga warning e continua</li>
+                    <li>Se nenhum arquivo processado: retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.7 Métodos de Gerenciamento de Pasta Temporária</h3>
+                <p><strong>`_create_temp_folder()`:</strong></p>
+                <ul>
+                    <li>Cria pasta <code>.temp/eurostat/</code> se não existir</li>
+                    <li>Armazena caminho em <code>self.temp_folder</code></li>
+                </ul>
+                <p><strong>`_cleanup_temp_folder()`:</strong></p>
+                <ul>
+                    <li>Remove pasta temporária após uso</li>
+                    <li>Chamado automaticamente no final do pipeline</li>
+                    <li>Permite cache entre chamadas durante execução</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Coleta Unificada:</strong> Coleta import e export juntos, depois separa</li>
+                    <li><strong>3 Arquivos Mais Recentes:</strong> Processa apenas os 3 arquivos mais recentes para otimizar</li>
+                    <li><strong>Web Scraping:</strong> Descobre arquivos disponíveis automaticamente via HTML parsing</li>
+                    <li><strong>Arquivos .7z:</strong> Requer extração usando biblioteca py7zr</li>
+                    <li><strong>Pasta Temporária:</strong> Usa <code>.temp/eurostat/</code> para extração e cache</li>
+                    <li><strong>Cache Local:</strong> Mantém arquivos extraídos para evitar re-extração</li>
+                    <li><strong>Filtro de Tamanho:</strong> Processa apenas arquivos > 20 MB</li>
+                    <li><strong>Exclusão de Anuais:</strong> Exclui arquivos com "52" no nome (dados anuais)</li>
+                    <li><strong>Encoding ISO-8859-1:</strong> Usa encoding Latin-1 para dados europeus</li>
+                    <li><strong>Valores em EUR:</strong> Valores estão em EUR, não USD</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PRODUCT_NC</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>REPORTER</code></td>
+                        <td><code>pais_origem</code></td>
+                        <td>str</td>
+                        <td>Código do país de origem (ex: DE, FR, IT)</td>
+                    </tr>
+                    <tr>
+                        <td><code>PARTNER</code></td>
+                        <td><code>pais_transacao</code></td>
+                        <td>str</td>
+                        <td>Código do país parceiro na transação</td>
+                    </tr>
+                    <tr>
+                        <td><code>VALUE_EUR</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em EUR</td>
+                    </tr>
+                    <tr>
+                        <td><code>QUANTITY_KG</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>PERIOD</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYYMM)</td>
+                    </tr>
+                    <tr>
+                        <td><code>TRADE_TYPE</code> ou <code>FLOW</code></td>
+                        <td><code>ImportExport</code></td>
+                        <td>int</td>
+                        <td>Tipo de comércio (1 = importação, 0 = exportação)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'pais_origem', 'pais_transacao', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação é idêntico ao de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PRODUCT_NC</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM</td>
+                    </tr>
+                    <tr>
+                        <td><code>REPORTER</code></td>
+                        <td><code>pais_origem</code></td>
+                        <td>str</td>
+                        <td>Código do país de origem</td>
+                    </tr>
+                    <tr>
+                        <td><code>PARTNER</code></td>
+                        <td><code>pais_transacao</code></td>
+                        <td>str</td>
+                        <td>Código do país parceiro</td>
+                    </tr>
+                    <tr>
+                        <td><code>VALUE_EUR</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor em EUR</td>
+                    </tr>
+                    <tr>
+                        <td><code>QUANTITY_KG</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>PERIOD</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYYYMM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'pais_origem', 'pais_transacao', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> Note que este crawler mantém colunas <code>pais_origem</code> e <code>pais_transacao</code> 
+                separadas, permitindo que outros crawlers (como COMEX_DEU) filtrem por país específico.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    <strong>Este crawler não implementa tratamento específico.</strong> Usa o tratamento padrão do framework.
+                </p>
+                <p>
+                    O tratamento específico é feito durante o processamento do arquivo .dat no método <code>_process_dat_file()</code>:
+                </p>
+                <ul>
+                    <li>Filtro de NCM "TOTAL"</li>
+                    <li>Conversão de PERIOD para Data</li>
+                    <li>Adição de colunas frete e seguro com valor 0</li>
+                </ul>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de <code>PERIOD</code> no formato <code>YYYYMM</code>, 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Filtro de NCM:</strong> Remove registros com <code>PRODUCT_NC == "TOTAL"</code> durante processamento</li>
+                <li><strong>Encoding ISO-8859-1:</strong> Usa encoding Latin-1 para dados europeus</li>
+                <li><strong>Separador CSV:</strong> Vírgula (,)</li>
+                <li><strong>Valores em EUR:</strong> Valores estão em EUR, não USD</li>
+                <li><strong>Frete e Seguro:</strong> Adicionados com valor 0.0 (não disponíveis nos dados do Eurostat)</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <ul>
+                <li><strong>Filtro de Arquivo:</strong> Processa apenas arquivos > 20 MB</li>
+                <li><strong>Filtro de Data:</strong> Exclui arquivos com "52" no nome (dados anuais)</li>
+                <li><strong>Filtro de Quantidade:</strong> Processa apenas os 3 arquivos mais recentes</li>
+                <li><strong>Filtro de NCM:</strong> Remove <code>PRODUCT_NC == "TOTAL"</code></li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão do framework.</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                    <tr>
+                        <td><code>last_months</code></td>
+                        <td>int</td>
+                        <td>3</td>
+                        <td>Número de arquivos (meses) mais recentes a processar. Use valores maiores (ex: 60) para coleta histórica completa.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>URL Base:</strong> <code>https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS</code></li>
+                <li><strong>Pasta Temporária:</strong> <code>.temp/eurostat/</code></li>
+                <li><strong>Arquivos Processados:</strong> Configurável via <code>last_months</code> (padrão: 3)</li>
+                <li><strong>Tamanho Mínimo:</strong> 20 MB</li>
+                <li><strong>Timeout Download:</strong> 300 segundos (5 minutos)</li>
+                <li><strong>Encoding:</strong> ISO-8859-1</li>
+                <li><strong>Data Contract Path:</strong> <code>include/data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>library/IDS_comex.xlsx</code></li>
+                <li><strong>Históricos Path:</strong> <code>NM/dados/{ISO3}/database/historical.parquet</code></li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Dependências Importantes</h3>
+                <ul>
+                    <li><strong>py7zr:</strong> Biblioteca obrigatória para extrair arquivos .7z
+                        <br>Instalar com: <code>pip install py7zr</code></li>
+                    <li><strong>beautifulsoup4:</strong> Para web scraping (parsing HTML)</li>
+                    <li><strong>lxml:</strong> Parser HTML para BeautifulSoup</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Portal Eurostat
+    ↓
+_get_available_files()
+    ↓ (Web Scraping com BeautifulSoup)
+    ↓ (Parsing HTML, leitura de tabela)
+Lista de Arquivos .7z Disponíveis
+    ↓
+Filtros:
+    - Apenas Type == "7z"
+    - Tamanho > 20 MB
+    - Excluir arquivos com "52" (anuais)
+    ↓
+Ordenar por Data (mais recente primeiro)
+    ↓
+Selecionar 3 Arquivos Mais Recentes
+    ↓
+Para cada arquivo:
+    ↓
+_download_and_extract()
+    ↓ (Download HTTP com stream=True)
+    ↓ (Timeout: 300s)
+Arquivo .7z Baixado
+    ↓
+Extração com py7zr
+    ↓
+Arquivo .dat Extraído
+    ↓
+_process_dat_file()
+    ↓ (pd.read_csv com sep=',', encoding='iso-8859-1')
+    ↓ (Filtra PRODUCT_NC != "TOTAL")
+    ↓ (Converte PERIOD → Data)
+    ↓ (Adiciona frete=0, seguro=0)
+DataFrame Processado (import + export juntos)
+    ↓
+Concatenação de Todos os DataFrames
+    ↓
+_collect_all_data()
+    ↓
+collect()
+    ↓ (Separa por TRADE_TYPE ou FLOW)
+    ↓ (TRADE_TYPE: 'I' = import, 'E' = export)
+    ↓ (FLOW: '1' = import, '2' = export)
+import_df e export_df Separados
+    ↓
+Salva no ADLS:
+    staging/comex/EUR/raw/import_raw.parquet
+    staging/comex/EUR/raw/export_raw.parquet
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓
+Tratamento Específico (padrão do framework)
+    ↓
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]
+    ↓
+Limpeza de Pasta Temporária (_cleanup_temp_folder)</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR(
+    start_date=datetime(2023, 1, 1),
+    use_azure=True  # Necessário para salvar dados para outros crawlers
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+
+# Coletar dados (import + export juntos, depois separa)
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Verificar Arquivos Disponíveis</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+
+# Verificar quais arquivos estão disponíveis
+files = pipeline._get_available_files()
+print(f"Arquivos disponíveis: {len(files)}")
+for i, file_info in enumerate(files[:5]):  # Mostrar 5 primeiros
+    print(f"{i+1}. {file_info['name']} - {file_info['date'].strftime('%Y-%m')} - {file_info['size']} MB")</code></pre>
+            
+            <h3>9.5 Atualizar Históricos dos Países Europeus</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+# Criar pipeline com últimos 3 meses
+pipeline = COMEX_EUR(start_date=None, use_azure=False, last_months=3)
+
+# Coletar dados
+pipeline.collect()
+
+# Atualizar históricos de cada país
+# Isso atualiza os arquivos em NM/dados/{ISO3}/database/historical.parquet
+pipeline.atualizar_historico_europa()
+
+# Saída esperada:
+# [AUT] Histórico atualizado: 9148442 registros salvos
+# [BEL] Histórico atualizado: 4521123 registros salvos
+# [BGR] Histórico atualizado: 4341188 registros salvos
+# ...</code></pre>
+            
+            <h3>9.6 Coleta Histórica Completa</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+# Criar pipeline com 60 meses (5 anos) de histórico
+pipeline = COMEX_EUR(start_date=None, use_azure=False, last_months=60)
+
+# Coletar dados históricos
+pipeline.collect()
+
+# Atualizar todos os históricos
+pipeline.atualizar_historico_europa()
+
+print(f"Importação: {len(pipeline.raw_import_df)} registros")
+print(f"Exportação: {len(pipeline.raw_export_df)} registros")</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Método: atualizar_historico_europa()</h2>
+            
+            <div class="info-box">
+                <h4>Objetivo</h4>
+                <p>
+                    Atualiza os arquivos históricos de cada país europeu com dados novos coletados.
+                    Este método deve ser chamado após <code>collect()</code> ter sido executado.
+                </p>
+            </div>
+            
+            <h3>10.1 Fluxo de Execução</h3>
+            <pre><code>atualizar_historico_europa()
+    ↓
+1. Verificar se raw_import_df e raw_export_df existem
+    ↓
+2. Concatenar import + export em df_historic
+    ↓
+3. Carregar histórico de referência (BGR)
+    ↓ (NM/dados/BGR/database/historical.parquet)
+4. Comparar PERIOD máximo
+    ↓ (Se max_period_new <= max_period_db → Early Exit)
+5. Filtrar por países de interesse (REPORTER)
+    ↓ (AT, BE, BG, DE, FR, HU, IT, NL, PT)
+6. Para cada país:
+    ↓
+    a. Carregar histórico existente
+    ↓ (NM/dados/{ISO3}/database/historical.parquet)
+    b. Normalizar TRADE_TYPE (I/E → 1/2)
+    ↓
+    c. Concatenar novo + existente
+    ↓
+    d. Normalizar tipos (PERIOD, VALUE_EUR, QUANTITY_KG)
+    ↓
+    e. Salvar parquet atualizado
+    ↓
+7. Log resumo final</code></pre>
+            
+            <h3>10.2 Mapeamento ISO-2 → ISO-3</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código ISO-2 (REPORTER)</th>
+                        <th>Código ISO-3 (Pasta)</th>
+                        <th>País</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>AT</td><td>AUT</td><td>Áustria</td></tr>
+                    <tr><td>BE</td><td>BEL</td><td>Bélgica</td></tr>
+                    <tr><td>BG</td><td>BGR</td><td>Bulgária</td></tr>
+                    <tr><td>DE</td><td>DEU</td><td>Alemanha</td></tr>
+                    <tr><td>FR</td><td>FRA</td><td>França</td></tr>
+                    <tr><td>HU</td><td>HUN</td><td>Hungria</td></tr>
+                    <tr><td>IT</td><td>ITA</td><td>Itália</td></tr>
+                    <tr><td>NL</td><td>NLD</td><td>Países Baixos</td></tr>
+                    <tr><td>PT</td><td>PRT</td><td>Portugal</td></tr>
+                </tbody>
+            </table>
+            
+            <h3>10.3 Exemplo de Uso</h3>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+# Criar instância
+pipeline = COMEX_EUR(start_date=None, use_azure=False, last_months=3)
+
+# Coletar dados (popula raw_import_df e raw_export_df)
+pipeline.collect()
+
+# Atualizar históricos de cada país europeu
+pipeline.atualizar_historico_europa()</code></pre>
+            
+            <h3>10.4 Estrutura dos Arquivos Históricos</h3>
+            <p>Os arquivos históricos são salvos em:</p>
+            <pre><code>NM/dados/{ISO3}/database/historical.parquet
+
+Exemplo:
+  NM/dados/AUT/database/historical.parquet
+  NM/dados/BGR/database/historical.parquet
+  NM/dados/DEU/database/historical.parquet
+  ...</code></pre>
+            
+            <p><strong>Colunas do arquivo histórico:</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>VALUE_EUR</td><td>float</td><td>Valor em EUR</td></tr>
+                    <tr><td>QUANTITY_KG</td><td>float</td><td>Peso em quilogramas</td></tr>
+                    <tr><td>TRADE_TYPE</td><td>Int64</td><td>Tipo (1=import, 2=export)</td></tr>
+                    <tr><td>PRODUCT_NC</td><td>str</td><td>Código NCM</td></tr>
+                    <tr><td>REPORTER</td><td>str</td><td>Código ISO-2 do país</td></tr>
+                    <tr><td>PARTNER</td><td>str</td><td>País parceiro</td></tr>
+                    <tr><td>PERIOD</td><td>Int64</td><td>Período (YYYYMM)</td></tr>
+                </tbody>
+            </table>
+            
+            <div class="warning-box">
+                <h4>⚠️ Pré-requisitos</h4>
+                <ul>
+                    <li>O método <code>collect()</code> deve ser executado antes</li>
+                    <li><code>self.raw_import_df</code> e <code>self.raw_export_df</code> devem estar populados</li>
+                    <li>A pasta <code>NM/dados/</code> deve existir (será criada automaticamente se não existir)</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h4>Características</h4>
+                <ul>
+                    <li><strong>Early Exit:</strong> Se não houver dados novos (baseado em PERIOD), o método retorna sem modificar arquivos</li>
+                    <li><strong>Criação Automática:</strong> Se o arquivo histórico não existir, será criado</li>
+                    <li><strong>Normalização de Tipos:</strong> Converte TRADE_TYPE ('I'/'E' → 1/2) e tipos numéricos</li>
+                    <li><strong>Log Detalhado:</strong> Logs informativos para cada país atualizado ou ignorado</li>
+                    <li><strong>Resumo Final:</strong> Exibe resumo com países atualizados e ignorados</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>11. Particularidades e Observações</h2>
+            
+            <div class="info-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Dependência de py7zr:</strong> Biblioteca obrigatória que pode não estar instalada por padrão. 
+                        Instalar com <code>pip install py7zr</code></li>
+                    <li><strong>Arquivos Grandes:</strong> Arquivos .7z podem ser muito grandes (centenas de MB). 
+                        Downloads podem levar vários minutos.</li>
+                    <li><strong>Pasta Temporária:</strong> Cria pasta <code>.temp/eurostat/</code> que pode ocupar espaço significativo. 
+                        É limpa automaticamente ao final.</li>
+                    <li><strong>Web Scraping:</strong> Depende da estrutura HTML do portal. Se estrutura mudar, 
+                        <code>_get_available_files()</code> pode precisar atualização.</li>
+                    <li><strong>3 Arquivos Mais Recentes:</strong> Processa apenas 3 arquivos. Se precisar de mais dados históricos, 
+                        ajustar código.</li>
+                    <li><strong>Separação Import/Export:</strong> Dados vêm juntos e são separados após coleta. 
+                        Requer coluna TRADE_TYPE ou FLOW.</li>
+                    <li><strong>Valores em EUR:</strong> Valores estão em EUR, não USD. Considerar em análises comparativas.</li>
+                    <li><strong>Dados para Outros Crawlers:</strong> Este crawler gera dados que são usados por COMEX_DEU e outros.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Coleta Unificada:</strong> Único crawler que coleta import e export juntos e depois separa</li>
+                    <li><strong>Arquivos .7z:</strong> Único que processa arquivos .7z comprimidos</li>
+                    <li><strong>Web Scraping Avançado:</strong> Faz parsing de tabela HTML para descobrir arquivos</li>
+                    <li><strong>Múltiplos Países:</strong> Coleta dados de todos os países europeus de uma vez</li>
+                    <li><strong>Dependência de py7zr:</strong> Requer biblioteca específica para extração</li>
+                    <li><strong>Pasta Temporária:</strong> Usa pasta temporária para extração e cache</li>
+                    <li><strong>3 Arquivos:</strong> Processa apenas 3 arquivos mais recentes (otimização)</li>
+                    <li><strong>Geração de Dados Derivados:</strong> Seus dados são reutilizados por outros crawlers</li>
+                    <li><strong>Valores em EUR:</strong> Usa EUR ao invés de USD</li>
+                    <li><strong>Colunas Especiais:</strong> Mantém <code>pais_origem</code> e <code>pais_transacao</code> para filtragem</li>
+                    <li><strong>Atualização de Históricos:</strong> Possui método dedicado para atualizar históricos de 9 países europeus</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Erro "py7zr não encontrado"
+                    <br><strong>Solução:</strong> Instalar biblioteca: <code>pip install py7zr</code></li>
+                <li><strong>Problema:</strong> Timeout em downloads grandes
+                    <br><strong>Solução:</strong> Timeout já é de 300s. Se persistir, verificar conexão ou aumentar timeout</li>
+                <li><strong>Problema:</strong> Pasta temporária não é limpa
+                    <br><strong>Solução:</strong> Limpeza automática no final do pipeline. Se falhar, limpar manualmente <code>.temp/eurostat/</code></li>
+                <li><strong>Problema:</strong> Nenhum arquivo encontrado
+                    <br><strong>Solução:</strong> Verificar se estrutura HTML do portal mudou. Verificar logs para detalhes</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>12. Troubleshooting</h2>
+            
+            <h3>12.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro: "py7zr não encontrado"</h4>
+                <p><strong>Causa:</strong> Biblioteca py7zr não está instalada</p>
+                <p><strong>Solução:</strong></p>
+                <pre><code>pip install py7zr</code></pre>
+                <p>Ou adicionar ao requirements.txt do projeto.</p>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Tabela não encontrada no portal Eurostat"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura HTML do portal mudou</li>
+                    <li>Portal temporariamente indisponível</li>
+                    <li>URL do portal mudou</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente o portal para confirmar estrutura atual</li>
+                    <li>Atualizar método <code>_get_available_files()</code> se necessário</li>
+                    <li>Verificar logs para ver resposta HTTP recebida</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Arquivo .dat não encontrado após extração"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Nome do arquivo .dat mudou</li>
+                    <li>Estrutura do .7z mudou</li>
+                    <li>Arquivo .7z corrompido</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>O código já procura por qualquer arquivo .dat se não encontrar com nome esperado</li>
+                    <li>Verificar conteúdo do .7z manualmente</li>
+                    <li>Verificar logs para ver quais arquivos foram extraídos</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Coluna TRADE_TYPE ou FLOW não encontrada"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura dos dados mudou</li>
+                    <li>Formato do arquivo .dat mudou</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar estrutura dos dados coletados</li>
+                    <li>Verificar quais colunas existem no DataFrame</li>
+                    <li>Ajustar método <code>collect()</code> se necessário</li>
+                </ul>
+            </div>
+            
+            <h3>12.2 Como Debugar</h3>
+            
+            <h4>Verificar Arquivos Disponíveis</h4>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+
+# Verificar quais arquivos estão disponíveis
+files = pipeline._get_available_files()
+print(f"Total de arquivos encontrados: {len(files)}")
+print("\nPrimeiros 5 arquivos:")
+for i, file_info in enumerate(files[:5]):
+    print(f"{i+1}. {file_info['name']}")
+    print(f"   Data: {file_info['date']}")
+    print(f"   Tamanho: {file_info['size']} MB")
+    print(f"   URL: {file_info['url']}")
+    print()</code></pre>
+            
+            <h4>Testar Download e Extração</h4>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+
+# Obter arquivos disponíveis
+files = pipeline._get_available_files()
+if files:
+    # Testar download e extração do primeiro arquivo
+    file_info = files[0]
+    print(f"Testando download: {file_info['name']}")
+    
+    dat_path = pipeline._download_and_extract(file_info)
+    if dat_path:
+        print(f"Arquivo .dat extraído: {dat_path}")
+        print(f"Tamanho: {dat_path.stat().st_size / 1024 / 1024:.2f} MB")
+    else:
+        print("Erro ao extrair arquivo")
+else:
+    print("Nenhum arquivo encontrado")</code></pre>
+            
+            <h4>Inspecionar Dados Coletados</h4>
+            <pre><code>from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+
+# Coletar dados
+import_df, export_df = pipeline.collect()
+
+# Inspecionar estrutura
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar separação
+if 'TRADE_TYPE' in import_df.columns:
+    print(f"\nValores únicos em TRADE_TYPE: {import_df['TRADE_TYPE'].unique()}")
+elif 'FLOW' in import_df.columns:
+    print(f"\nValores únicos em FLOW: {import_df['FLOW'].unique()}")
+
+# Verificar países
+if 'REPORTER' in import_df.columns:
+    print(f"\nPaíses únicos (REPORTER): {sorted(import_df['REPORTER'].unique())[:10]}...")
+elif 'pais_origem' in import_df.columns:
+    print(f"\nPaíses únicos (pais_origem): {sorted(import_df['pais_origem'].unique())[:10]}...")</code></pre>
+            
+            <h4>Verificar Pasta Temporária</h4>
+            <pre><code>from pathlib import Path
+
+temp_folder = Path(".temp/eurostat")
+if temp_folder.exists():
+    print("Arquivos na pasta temporária:")
+    for file in temp_folder.iterdir():
+        size_mb = file.stat().st_size / 1024 / 1024
+        print(f"  - {file.name} ({size_mb:.2f} MB)")
+else:
+    print("Pasta temporária não existe")</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_EUR import COMEX_EUR
+
+pipeline = COMEX_EUR()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>13. Referências</h2>
+            
+            <h3>13.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Portal Eurostat:</strong> 
+                    <a href="https://ec.europa.eu/eurostat" target="_blank">Eurostat - Statistical Office of the European Union</a></li>
+                <li><strong>API de Disseminação:</strong> 
+                    <a href="https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS" target="_blank">Arquivos COMEXT - Eurostat</a></li>
+                <li><strong>Documentação py7zr:</strong> 
+                    <a href="https://github.com/miurahr/py7zr" target="_blank">py7zr no GitHub</a></li>
+            </ul>
+            
+            <h3>13.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_EUR.py</code> - Código fonte do crawler</li>
+                <li><code>COMEX_DEU.py</code> - Crawler que usa dados do EUR (dependência)</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção EUR)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Europa 15")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>13.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>requests</code> - Requisições HTTP</li>
+                <li><code>beautifulsoup4</code> - Web scraping (parsing HTML)</li>
+                <li><code>lxml</code> - Parser HTML para BeautifulSoup</li>
+                <li><code>py7zr</code> - Extração de arquivos .7z <strong>(obrigatória)</strong></li>
+                <li><code>shutil</code> - Limpeza de pastas (biblioteca padrão)</li>
+                <li><code>pathlib</code> - Manipulação de caminhos (biblioteca padrão)</li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Instalação de Dependências</h3>
+                <p>
+                    Certifique-se de instalar todas as dependências antes de executar:
+                </p>
+                <pre><code>pip install pandas requests beautifulsoup4 lxml py7zr</code></pre>
+                <p>
+                    A biblioteca <code>py7zr</code> é especialmente importante e pode não estar instalada por padrão.
+                </p>
+            </div>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

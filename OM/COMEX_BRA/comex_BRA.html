@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Brasil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Brasil</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_BRA</strong> é responsável por coletar, processar e enviar dados de comércio exterior do Brasil. 
+                Este pipeline faz parte do framework COMEX e utiliza dados oficiais disponibilizados pelo portal do governo brasileiro 
+                através do Ministério da Economia (Produtividade e Comércio Exterior).
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos e atuais de importação e exportação brasileira, normalizá-los conforme 
+                o padrão do framework e integrá-los ao sistema de cost drivers para análise e projeção de custos.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados diretamente do portal oficial do governo brasileiro</li>
+                    <li>Processa arquivos CSV disponibilizados publicamente</li>
+                    <li>Suporta dados de importação e exportação</li>
+                    <li>Processa múltiplos anos automaticamente</li>
+                    <li>Utiliza web scraping para descobrir arquivos disponíveis</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>BRA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Brasil</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_BRA</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_BRA.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção BRA)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Brasil")</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Portal Oficial</h3>
+            <p>
+                Os dados são coletados diretamente do portal oficial do governo brasileiro:
+            </p>
+            <div class="step">
+                <h4>URL Base</h4>
+                <p><strong>Portal:</strong> <code>https://www.gov.br/produtividade-e-comercio-exterior/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta</code></p>
+                <p>
+                    Este portal disponibiliza arquivos CSV com dados brutos de comércio exterior organizados por ano e tipo 
+                    (importação/exportação).
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Portal Web com arquivos CSV para download</li>
+                <li><strong>Método de acesso:</strong> Web Scraping (BeautifulSoup) + Download HTTP</li>
+                <li><strong>Formato dos dados:</strong> CSV delimitado por ponto e vírgula (;)</li>
+                <li><strong>Encoding:</strong> UTF-8</li>
+                <li><strong>Autenticação:</strong> Não requerida (dados públicos)</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo governo)</li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Arquivos</h3>
+            <p>
+                Os arquivos CSV são nomeados seguindo o padrão:
+            </p>
+            <ul>
+                <li><strong>Importação:</strong> Contém "ncm" e "import" no nome do arquivo</li>
+                <li><strong>Exportação:</strong> Contém "ncm" e "EXP" no nome do arquivo</li>
+                <li><strong>Ano:</strong> O ano aparece no nome do arquivo</li>
+            </ul>
+            
+            <div class="note">
+                <strong>Nota:</strong> O crawler utiliza web scraping para descobrir automaticamente quais arquivos estão disponíveis 
+                no portal, filtrando por ano e tipo (importação/exportação).
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Coleta dados de importação do Brasil através do método auxiliar <code>_process_ie_type("import")</code>.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Chama <code>_process_ie_type("import")</code></li>
+                    <li>O método auxiliar descobre arquivos disponíveis</li>
+                    <li>Filtra apenas arquivos de importação</li>
+                    <li>Baixa e processa cada arquivo</li>
+                    <li>Concatena todos os DataFrames em um único resultado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Coleta dados de exportação do Brasil através do método auxiliar <code>_process_ie_type("export")</code>.
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li>Chama <code>_process_ie_type("export")</code></li>
+                    <li>O método auxiliar descobre arquivos disponíveis</li>
+                    <li>Filtra apenas arquivos de exportação</li>
+                    <li>Baixa e processa cada arquivo</li>
+                    <li>Concatena todos os DataFrames em um único resultado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_get_available_files()`</h3>
+                <p>
+                    Descobre automaticamente quais arquivos CSV estão disponíveis no portal.
+                </p>
+                <p><strong>Funcionamento:</strong></p>
+                <ol>
+                    <li>Acessa a URL base do portal</li>
+                    <li>Faz parsing do HTML usando BeautifulSoup</li>
+                    <li>Procura por links que contenham:
+                        <ul>
+                            <li>"ncm" no nome</li>
+                            <li>"csv" no nome</li>
+                            <li>Ano dentro do range configurado</li>
+                        </ul>
+                    </li>
+                    <li>Identifica o tipo (import/export) baseado na presença de "EXP" no nome</li>
+                    <li>Retorna lista de dicionários com informações dos arquivos</li>
+                </ol>
+                <p><strong>Retorno:</strong></p>
+                <pre><code>[
+    {
+        "url": "https://...",
+        "ImportExport": "import" ou "export",
+        "year": "2024"
+    },
+    ...
+]</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `_download_file()`</h3>
+                <p>
+                    Baixa um arquivo CSV específico do portal.
+                </p>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li>Usa <code>requests.get()</code> com <code>stream=True</code> para downloads grandes</li>
+                    <li>SSL não verificado (<code>verify=False</code>) devido a problemas de certificado no portal</li>
+                    <li>Timeout de 60 segundos</li>
+                    <li>Retorna bytes do arquivo ou <code>None</code> em caso de erro</li>
+                    <li>Logging detalhado de cada operação</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `_process_ie_type()`</h3>
+                <p>
+                    Processa dados de importação ou exportação de forma unificada.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Obtém lista de arquivos disponíveis</li>
+                    <li>Filtra arquivos do tipo solicitado (import/export)</li>
+                    <li>Para cada arquivo:
+                        <ul>
+                            <li>Baixa o arquivo CSV</li>
+                            <li>Lê o CSV usando pandas (separador: <code>;</code>, encoding: UTF-8)</li>
+                            <li>Cria coluna <code>Data</code> a partir de <code>CO_MES</code> e <code>CO_ANO</code></li>
+                            <li>Adiciona flag <code>ImportExport</code> (1 para import, 0 para export)</li>
+                            <li>Adiciona ao conjunto de DataFrames</li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames em um único resultado</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se arquivo não encontrado: loga warning e continua</li>
+                    <li>Se erro ao baixar: loga erro e continua com próximo arquivo</li>
+                    <li>Se erro ao processar CSV: loga erro e continua</li>
+                    <li>Se nenhum arquivo encontrado: retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Processamento Multi-Ano:</strong> Processa automaticamente todos os anos desde <code>start_date</code> até o ano atual</li>
+                    <li><strong>Descoberta Automática:</strong> Não precisa conhecer URLs específicas, descobre arquivos disponíveis automaticamente</li>
+                    <li><strong>Web Scraping:</strong> Utiliza BeautifulSoup para fazer parsing do HTML do portal</li>
+                    <li><strong>SSL Não Verificado:</strong> Configura SSL não verificado devido a problemas de certificado no portal</li>
+                    <li><strong>Encoding UTF-8:</strong> Todos os arquivos são lidos com encoding UTF-8</li>
+                    <li><strong>Separador CSV:</strong> Usa ponto e vírgula (;) como separador</li>
+                    <li><strong>Criação de Data:</strong> Combina <code>CO_MES</code> e <code>CO_ANO</code> para criar coluna <code>Data</code></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>CO_NCM</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CO_PAIS</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país de origem</td>
+                    </tr>
+                    <tr>
+                        <td><code>KG_LIQUIDO</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>VL_FOB</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>VL_FRETE</code></td>
+                        <td><code>frete</code></td>
+                        <td>float</td>
+                        <td>Valor do frete em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>VL_SEGURO</code></td>
+                        <td><code>seguro</code></td>
+                        <td>float</td>
+                        <td>Valor do seguro em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>CO_MES</code> + <code>CO_ANO</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação (criada durante processamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>CO_NCM</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>CO_PAIS</code></td>
+                        <td><code>pais_id</code></td>
+                        <td>int</td>
+                        <td>Código do país de destino</td>
+                    </tr>
+                    <tr>
+                        <td><code>KG_LIQUIDO</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>VL_FOB</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em USD</td>
+                    </tr>
+                    <tr>
+                        <td><code>CO_MES</code> + <code>CO_ANO</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Data da transação (criada durante processamento)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'pais_id', 'peso', 'valor']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> A exportação não possui colunas de frete e seguro, pois esses custos são incorridos 
+                apenas na importação.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados do Brasil após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Remove colunas auxiliares:</strong> Remove as colunas <code>CO_MES</code> e <code>CO_ANO</code> que foram 
+                        usadas apenas para criar a coluna <code>Data</code> e não são mais necessárias</li>
+                    <li><strong>Valida coluna Data:</strong> Verifica se a coluna <code>Data</code> existe após normalização 
+                        (deve existir, mas valida por segurança)</li>
+                </ol>
+                <p><strong>Por que é necessário:</strong></p>
+                <ul>
+                    <li>As colunas <code>CO_MES</code> e <code>CO_ANO</code> são usadas apenas durante o processamento para criar 
+                        a coluna <code>Data</code></li>
+                    <li>Após a criação da coluna <code>Data</code>, essas colunas não são mais necessárias e devem ser removidas</li>
+                    <li>Isso mantém o DataFrame limpo e evita confusão</li>
+                </ul>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados do Brasil."""
+    # Remover colunas que não são mais necessárias após normalização
+    columns_to_drop = ['CO_MES', 'CO_ANO']
+    for col in columns_to_drop:
+        if col in df.columns:
+            df.drop(columns=[col], inplace=True)
+    
+    # Garantir que coluna Data existe
+    if 'Data' not in df.columns:
+        self.logger.warning("Coluna Data não encontrada após normalização")
+    
+    return df</code></pre>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir de <code>CO_MES</code> e <code>CO_ANO</code> no formato <code>MM-YYYY</code>, 
+                    convertida para datetime usando <code>pd.to_datetime()</code></li>
+                <li><strong>Formato Numérico:</strong> Dados são lidos como string inicialmente (<code>dtype=str</code>) e convertidos 
+                    posteriormente pelo framework conforme schema do data-contract</li>
+                <li><strong>Encoding:</strong> UTF-8 (padrão)</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <p>
+                Não há filtros específicos aplicados aos dados brasileiros. Todos os dados coletados são processados.
+            </p>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime ou None</td>
+                        <td>None</td>
+                        <td>Data inicial para coleta. Se None, usa padrão do framework (primeiro dia do mês há 60 dias)</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>URL Base:</strong> <code>https://www.gov.br/produtividade-e-comercio-exterior/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta</code></li>
+                <li><strong>SSL:</strong> Configurado para não verificar certificados (<code>ssl._create_unverified_context</code>)</li>
+                <li><strong>Timeout:</strong> 30 segundos para requisições HTTP (portal), 60 segundos para downloads</li>
+                <li><strong>Data Contract Path:</strong> <code>include/data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>include/IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>Aviso: SSL Não Verificado</h3>
+                <p>
+                    O crawler configura SSL para não verificar certificados devido a problemas conhecidos com o certificado SSL 
+                    do portal do governo. Isso é necessário para permitir o acesso aos dados, mas deve ser considerado ao avaliar 
+                    a segurança da conexão.
+                </p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Portal do Governo Brasileiro
+    ↓
+_get_available_files()
+    ↓ (Web Scraping com BeautifulSoup)
+Lista de Arquivos CSV Disponíveis
+    ↓
+_process_ie_type("import" ou "export")
+    ↓
+Filtra Arquivos por Tipo
+    ↓
+Para cada arquivo:
+    ↓
+_download_file()
+    ↓ (HTTP GET com stream=True)
+Bytes do CSV
+    ↓
+pd.read_csv() (sep=';', encoding='utf-8')
+    ↓
+DataFrame Bruto
+    ↓
+Criação de Coluna Data (CO_MES + CO_ANO)
+    ↓
+Adição de Flag ImportExport
+    ↓
+Concatenação de Todos os DataFrames
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓
+Tratamento Específico (_country_specific_treatment)
+    ↓
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+
+pipeline = COMEX_BRA()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Parâmetros</h3>
+            <pre><code>from datetime import datetime
+from COMEX_BRA import COMEX_BRA
+
+# Coletar dados a partir de janeiro de 2023
+pipeline = COMEX_BRA(
+    start_date=datetime(2023, 1, 1),
+    use_azure=False  # Usar storage local
+)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução por Fases</h3>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+
+pipeline = COMEX_BRA()
+
+# Apenas coletar dados
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+            
+            <h3>9.4 Execução Local com Salvamento</h3>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+from datetime import datetime
+
+pipeline = COMEX_BRA()
+result_df = pipeline.run()
+
+# Salvar resultado em Excel
+timestamp = datetime.now().strftime('%Y%m%dT%H%M')
+result_df.to_excel(f'subir_COMEX_BRA_{timestamp}.xlsx', index=False)</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="info-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Web Scraping:</strong> O crawler depende da estrutura HTML do portal. Se a estrutura mudar, 
+                        o método <code>_get_available_files()</code> pode precisar ser atualizado.</li>
+                    <li><strong>SSL Não Verificado:</strong> O crawler desabilita verificação SSL devido a problemas com o 
+                        certificado do portal. Isso é necessário mas deve ser considerado em ambientes de produção.</li>
+                    <li><strong>Nomes de Arquivos:</strong> O crawler identifica arquivos por padrões no nome. Se o padrão de 
+                        nomenclatura mudar, pode ser necessário ajustar a lógica de filtragem.</li>
+                    <li><strong>Disponibilidade:</strong> Os arquivos são disponibilizados mensalmente pelo governo. O crawler 
+                        processa todos os anos disponíveis desde <code>start_date</code>.</li>
+                    <li><strong>Encoding:</strong> Todos os arquivos são assumidos como UTF-8. Se houver arquivos com encoding 
+                        diferente, pode ser necessário ajustar.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Descoberta Automática:</strong> Ao contrário de outros crawlers que usam URLs fixas, este crawler 
+                        descobre automaticamente quais arquivos estão disponíveis.</li>
+                    <li><strong>Web Scraping:</strong> Utiliza BeautifulSoup para fazer parsing do HTML, enquanto outros crawlers 
+                        podem usar APIs diretas.</li>
+                    <li><strong>Processamento Multi-Arquivo:</strong> Processa múltiplos arquivos CSV automaticamente, um para cada ano.</li>
+                    <li><strong>SSL Não Verificado:</strong> É o único crawler que desabilita verificação SSL explicitamente.</li>
+                    <li><strong>Criação de Data:</strong> Cria coluna Data a partir de duas colunas separadas (CO_MES e CO_ANO), 
+                        enquanto outros podem receber data já formatada.</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Erro de certificado SSL ao acessar portal
+                    <br><strong>Solução:</strong> SSL não verificado configurado no <code>__init__()</code></li>
+                <li><strong>Problema:</strong> Avisos do BeautifulSoup sobre parsing HTML
+                    <br><strong>Solução:</strong> Avisos desabilitados com <code>warnings.filterwarnings()</code></li>
+                <li><strong>Problema:</strong> Arquivos não encontrados para determinado ano
+                    <br><strong>Solução:</strong> Crawler continua processando outros anos e loga warning</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro na Coleta: "Nenhum arquivo encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura HTML do portal mudou</li>
+                    <li>Padrão de nomes de arquivos mudou</li>
+                    <li>Portal temporariamente indisponível</li>
+                    <li>Range de anos muito restrito</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente o portal para confirmar estrutura atual</li>
+                    <li>Atualizar método <code>_get_available_files()</code> se necessário</li>
+                    <li>Verificar logs para ver quantos arquivos foram encontrados</li>
+                    <li>Ajustar <code>start_date</code> se necessário</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro ao Baixar Arquivo: Timeout ou Erro de Conexão</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Arquivo muito grande</li>
+                    <li>Portal lento ou sobrecarregado</li>
+                    <li>Problemas de rede</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Aumentar timeout em <code>_download_file()</code></li>
+                    <li>Verificar conectividade com o portal</li>
+                    <li>Tentar baixar manualmente para validar disponibilidade</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro no Tratamento: "Coluna Data não encontrada"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Colunas CO_MES ou CO_ANO não existem nos dados</li>
+                    <li>Formato dos dados mudou</li>
+                    <li>Erro na criação da coluna Data</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar estrutura dos dados coletados</li>
+                    <li>Verificar se CO_MES e CO_ANO existem</li>
+                    <li>Verificar logs para ver onde falhou</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Executar Apenas a Coleta</h4>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+
+pipeline = COMEX_BRA()
+import_df, export_df = pipeline.collect()
+
+# Inspecionar dados coletados
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar arquivos encontrados
+files = pipeline._get_available_files()
+print(f"\nArquivos encontrados: {len(files)}")
+for f in files:
+    print(f"  - {f['url']} ({f['ImportExport']}, {f['year']})")</code></pre>
+            
+            <h4>Inspecionar Dados Intermediários</h4>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+import pandas as pd
+
+pipeline = COMEX_BRA()
+
+# Coletar
+import_df, export_df = pipeline.collect()
+import_df.to_excel("debug_import_raw.xlsx")
+export_df.to_excel("debug_export_raw.xlsx")
+
+# Tratar
+silver_df = pipeline.treat()
+silver_df.to_excel("debug_silver.xlsx")
+
+# Verificar merge com IDs
+print(f"Registros antes do merge: {len(import_df) + len(export_df)}")
+print(f"Registros após merge: {len(silver_df)}")
+print(f"Taxa de match: {len(silver_df) / (len(import_df) + len(export_df)) * 100:.2f}%")</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_BRA import COMEX_BRA
+
+pipeline = COMEX_BRA()
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+            
+            <h4>Validar Dados Coletados</h4>
+            <pre><code>from COMEX_BRA import COMEX_BRA
+
+pipeline = COMEX_BRA()
+import_df, export_df = pipeline.collect()
+
+# Verificações básicas
+assert not import_df.empty, "Importação não deve estar vazia"
+assert not export_df.empty, "Exportação não deve estar vazia"
+
+# Verificar colunas esperadas
+required_cols_import = ['CO_NCM', 'CO_PAIS', 'KG_LIQUIDO', 'VL_FOB', 'VL_FRETE', 'VL_SEGURO', 'CO_MES', 'CO_ANO']
+missing_import = [col for col in required_cols_import if col not in import_df.columns]
+assert not missing_import, f"Colunas faltando em importação: {missing_import}"
+
+required_cols_export = ['CO_NCM', 'CO_PAIS', 'KG_LIQUIDO', 'VL_FOB', 'CO_MES', 'CO_ANO']
+missing_export = [col for col in required_cols_export if col not in export_df.columns]
+assert not missing_export, f"Colunas faltando em exportação: {missing_export}"
+
+print("Validação passou!")</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Portal Oficial:</strong> 
+                    <a href="https://www.gov.br/produtividade-e-comercio-exterior/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta" 
+                       target="_blank">Base de Dados Bruta - Comércio Exterior</a></li>
+                <li><strong>Ministério da Economia:</strong> 
+                    <a href="https://www.gov.br/produtividade-e-comercio-exterior" target="_blank">Produtividade e Comércio Exterior</a></li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_BRA.py</code> - Código fonte do crawler</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção BRA)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Brasil")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>requests</code> - Requisições HTTP</li>
+                <li><code>beautifulsoup4</code> - Web scraping (parsing HTML)</li>
+                <li><code>ssl</code> - Configuração SSL (biblioteca padrão)</li>
+            </ul>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+
+

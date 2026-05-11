@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: COMEX Colômbia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #f8f8f2;
+            padding: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .step h4 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976D2;
+            margin-top: 0;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .success-box h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .note {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .note strong {
+            color: #1976D2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação: COMEX Colômbia</h1>
+        
+        <section>
+            <h2>1. Visão Geral</h2>
+            <p>
+                O crawler <strong>COMEX_COL</strong> é responsável por coletar, processar e enviar dados de comércio exterior da Colômbia. 
+                Este pipeline faz parte do framework COMEX e utiliza dados oficiais disponibilizados pelo DANE (Departamento Administrativo 
+                Nacional de Estadística) através de seu portal de microdados, que disponibiliza arquivos ZIP contendo dados históricos e 
+                atuais de importação e exportação.
+            </p>
+            <p>
+                O objetivo principal é coletar dados históricos e atuais de comércio exterior colombiano desde um ano inicial configurável 
+                (padrão: ano atual - 1), normalizá-los conforme o padrão do framework e integrá-los ao sistema de cost drivers para análise 
+                e projeção de custos.
+            </p>
+            <div class="info-box">
+                <h4>Características Principais</h4>
+                <ul>
+                    <li>Coleta dados diretamente do portal oficial DANE</li>
+                    <li>Utiliza web scraping com BeautifulSoup para extrair links de download</li>
+                    <li>Processa arquivos ZIP aninhados (ZIP dentro de ZIP)</li>
+                    <li>Coleta dados recentes (ano atual) e históricos (desde ano inicial configurável)</li>
+                    <li>Suporta configuração de ano inicial via parâmetro (padrão: ano atual - 1)</li>
+                    <li>Processa múltiplos arquivos CSV dentro dos ZIPs</li>
+                    <li>Trata problemas de certificado SSL do servidor DANE</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>2. Informações Técnicas</h2>
+            <table>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td><strong>Código ISO</strong></td>
+                    <td><code>COL</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Nome do País</strong></td>
+                    <td>Colômbia</td>
+                </tr>
+                <tr>
+                    <td><strong>Classe Python</strong></td>
+                    <td><code>COMEX_COL</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Arquivo</strong></td>
+                    <td><code>COMEX_COL.py</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Herança</strong></td>
+                    <td><code>ComexPipeline</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Data Contract</strong></td>
+                    <td><code>data-contract.yaml</code> (seção COL)</td>
+                </tr>
+                <tr>
+                    <td><strong>Tabela de IDs</strong></td>
+                    <td><code>IDS_comex.xlsx</code> (filtro: Pais_1 = "Colômbia")</td>
+                </tr>
+                <tr>
+                    <td><strong>Período de Coleta</strong></td>
+                    <td>Desde ano inicial configurável (padrão: ano atual - 1) até ano atual</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section>
+            <h2>3. Fonte de Dados</h2>
+            
+            <h3>3.1 Portal Oficial</h3>
+            <p>
+                Os dados são coletados diretamente do portal oficial do DANE (Departamento Administrativo Nacional de Estadística):
+            </p>
+            <div class="step">
+                <h4>URLs</h4>
+                <p><strong>Importação Recente:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/856/get-microdata</code></p>
+                <p><strong>Exportação Recente:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/859/get-microdata</code></p>
+                <p><strong>Importação Histórica:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/473/get-microdata</code></p>
+                <p><strong>Exportação Histórica:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/472/get-microdata</code></p>
+                <p>
+                    O portal disponibiliza dados através de páginas HTML que contêm links de download para arquivos ZIP. 
+                    Os dados recentes são disponibilizados em uma única página, enquanto os dados históricos são disponibilizados 
+                    em uma página com múltiplos links (um por ano).
+                </p>
+            </div>
+            
+            <h3>3.2 Tipo de Fonte</h3>
+            <ul>
+                <li><strong>Tipo:</strong> Portal Web com links de download para arquivos ZIP</li>
+                <li><strong>Método de acesso:</strong> Web Scraping (BeautifulSoup) + Download HTTP</li>
+                <li><strong>Formato dos dados:</strong> ZIP contendo CSV (pode ter ZIPs aninhados)</li>
+                <li><strong>Encoding:</strong> ISO-8859-1 (Latin-1)</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+                <li><strong>Autenticação:</strong> Não requerida (dados públicos)</li>
+                <li><strong>SSL:</strong> Requer <code>verify=False</code> devido a problemas de certificado</li>
+                <li><strong>Frequência de atualização:</strong> Mensal (conforme disponibilização pelo DANE)</li>
+            </ul>
+            
+            <h3>3.3 Estrutura dos Arquivos</h3>
+            <p>
+                Os arquivos seguem uma estrutura hierárquica:
+            </p>
+            <ol>
+                <li><strong>ZIP Principal:</strong> Contém um ou mais arquivos</li>
+                <li><strong>ZIPs Aninhados:</strong> Podem conter ZIPs dentro do ZIP principal</li>
+                <li><strong>CSVs:</strong> Arquivos CSV dentro dos ZIPs (aninhados ou diretos)</li>
+            </ol>
+            <p>
+                Cada arquivo CSV contém dados mensais, com a primeira coluna representando o período no formato <code>YYMM</code> 
+                (ex: "2401" para janeiro de 2024).
+            </p>
+            
+            <div class="warning-box">
+                <h3>⚠️ Problema de Certificado SSL</h3>
+                <p>
+                    O servidor DANE apresenta problemas com certificado SSL. Por isso, todas as requisições HTTP usam 
+                    <code>verify=False</code> e os avisos SSL são suprimidos usando <code>urllib3.disable_warnings()</code>.
+                </p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>4. Processo de Coleta</h2>
+            
+            <div class="step">
+                <h3>4.1 Método `collect_import_data()`</h3>
+                <p>
+                    Coleta dados de importação da Colômbia (recentes + históricos).
+                </p>
+                <p><strong>Fluxo:</strong></p>
+                <ol>
+                    <li><strong>Coleta Dados Recentes:</strong>
+                        <ul>
+                            <li>Obtém link de download da URL de importação recente</li>
+                            <li>Baixa e processa arquivo ZIP</li>
+                            <li>Adiciona flag <code>ImportExport = 1</code></li>
+                        </ul>
+                    </li>
+                    <li><strong>Coleta Dados Históricos:</strong>
+                        <ul>
+                            <li>Obtém todos os links históricos desde <code>start_year</code> até ano atual</li>
+                            <li>Para cada ano encontrado:
+                                <ul>
+                                    <li>Baixa e processa arquivo ZIP do ano</li>
+                                    <li>Adiciona flag <code>ImportExport = 1</code></li>
+                                    <li>Adiciona ao conjunto de DataFrames</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Consolidação:</strong>
+                        <ul>
+                            <li>Concatena todos os DataFrames (recentes + históricos)</li>
+                            <li>Retorna DataFrame consolidado</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.2 Método `collect_export_data()`</h3>
+                <p>
+                    Coleta dados de exportação da Colômbia (recentes + históricos). 
+                    Segue o mesmo fluxo de <code>collect_import_data()</code>, mas usa URLs de exportação e adiciona 
+                    flag <code>ImportExport = 0</code>.
+                </p>
+            </div>
+            
+            <div class="step">
+                <h3>4.3 Método Auxiliar: `_get_download_link()`</h3>
+                <p>
+                    Obtém o link de download de uma página HTML (para URLs com um único arquivo).
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Faz requisição GET na URL (com <code>verify=False</code>)</li>
+                    <li>Faz parsing do HTML usando BeautifulSoup</li>
+                    <li>Encontra todos os inputs com <code>type="image"</code></li>
+                    <li>Extrai link do atributo <code>onclick</code> do primeiro input</li>
+                    <li>Procura por strings contendo "download" no onclick</li>
+                    <li>Retorna o primeiro link encontrado</li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _get_download_link(self, source_url: str) -> str:
+    """Obtém o link de download da página HTML."""
+    response = requests.get(source_url, timeout=30, verify=False)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    inputs = soup.find_all('input', type="image")
+    onclick = inputs[0].get('onclick', '')
+    links = [link.strip() for link in onclick.split("'") if 'download' in link]
+    return links[0] if links else None</code></pre>
+            </div>
+            
+            <div class="step">
+                <h3>4.4 Método Auxiliar: `_get_historical_download_links()`</h3>
+                <p>
+                    Obtém todos os links de download da página HTML histórica, filtrando por anos necessários.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Faz requisição GET na URL histórica (com <code>verify=False</code>)</li>
+                    <li>Faz parsing do HTML usando BeautifulSoup</li>
+                    <li>Encontra todos os inputs com <code>type="image"</code></li>
+                    <li>Determina prefixo esperado:
+                        <ul>
+                            <li><code>"Impo_"</code> para importação</li>
+                            <li><code>"Expo_"</code> para exportação</li>
+                        </ul>
+                    </li>
+                    <li>Calcula anos necessários: desde <code>start_year</code> até ano atual</li>
+                    <li>Para cada input:
+                        <ul>
+                            <li>Extrai link do <code>onclick</code></li>
+                            <li>Tenta extrair ano do título, onclick ou span próximo usando regex</li>
+                            <li>Se ano está no range necessário e ainda não foi adicionado, adiciona ao dicionário</li>
+                        </ul>
+                    </li>
+                    <li>Retorna lista de dicionários com <code>{'year': ano, 'link': link, 'filename': nome}</code></li>
+                </ol>
+                <p><strong>Extraction de Ano:</strong></p>
+                <p>
+                    O método tenta extrair o ano em três locais diferentes (em ordem de prioridade):
+                </p>
+                <ol>
+                    <li><strong>Título do input:</strong> Procura padrão como "Impo_2023.zip"</li>
+                    <li><strong>Atributo onclick:</strong> Procura padrão no texto do onclick</li>
+                    <li><strong>Span próximo:</strong> Procura em span com classe 'resource-info'</li>
+                </ol>
+                <p>
+                    Usa regex: <code>rf'{prefix}(\d{{4}})'</code> onde prefix é "Impo_" ou "Expo_".
+                </p>
+            </div>
+            
+            <div class="step">
+                <h3>4.5 Método Auxiliar: `_read_csv_file()`</h3>
+                <p>
+                    Lê um arquivo CSV e cria coluna Data a partir da primeira coluna.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Lê CSV usando <code>pd.read_csv()</code>:
+                        <ul>
+                            <li>Encoding: ISO-8859-1</li>
+                            <li>Separador: ponto e vírgula (;)</li>
+                            <li>Tipo inicial: string (<code>dtype=str</code>)</li>
+                            <li><code>low_memory=False</code> para arquivos grandes</li>
+                        </ul>
+                    </li>
+                    <li>Remove espaços em branco dos nomes das colunas</li>
+                    <li>Cria coluna <code>Data</code> a partir da primeira coluna (formato YYMM)</li>
+                    <li>Retorna DataFrame processado</li>
+                </ol>
+            </div>
+            
+            <div class="step">
+                <h3>4.6 Método Auxiliar: `_read_files_from_link()`</h3>
+                <p>
+                    Baixa e processa arquivos ZIP aninhados de um link.
+                </p>
+                <p><strong>Processo:</strong></p>
+                <ol>
+                    <li>Baixa arquivo ZIP do link (com <code>verify=False</code> e <code>stream=True</code>)</li>
+                    <li>Abre ZIP usando <code>ZipFile</code></li>
+                    <li>Para cada arquivo no ZIP:
+                        <ul>
+                            <li><strong>Se é ZIP aninhado:</strong>
+                                <ul>
+                                    <li>Abre ZIP aninhado</li>
+                                    <li>Para cada CSV dentro do ZIP aninhado:
+                                        <ul>
+                                            <li>Lê CSV usando <code>_read_csv_file()</code></li>
+                                            <li>Adiciona à lista de DataFrames</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><strong>Se é CSV direto:</strong>
+                                <ul>
+                                    <li>Lê CSV usando <code>_read_csv_file()</code></li>
+                                    <li>Adiciona à lista de DataFrames</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Concatena todos os DataFrames</li>
+                    <li>Retorna DataFrame consolidado</li>
+                </ol>
+                <p><strong>Tratamento de Erros:</strong></p>
+                <ul>
+                    <li>Se erro ao baixar: loga erro e retorna DataFrame vazio</li>
+                    <li>Se erro ao processar: loga erro e retorna DataFrame vazio</li>
+                    <li>Se nenhum CSV encontrado: loga warning e retorna DataFrame vazio</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4>Particularidades da Coleta</h4>
+                <ul>
+                    <li><strong>Coleta Dupla:</strong> Coleta dados recentes (ano atual) e históricos (desde start_year)</li>
+                    <li><strong>Ano Inicial Configurável:</strong> Padrão é ano atual - 1, mas pode ser configurado</li>
+                    <li><strong>ZIPs Aninhados:</strong> Processa ZIPs dentro de ZIPs automaticamente</li>
+                    <li><strong>Múltiplos CSVs:</strong> Processa todos os CSVs encontrados e concatena</li>
+                    <li><strong>Web Scraping:</strong> Extrai links de download do HTML usando BeautifulSoup</li>
+                    <li><strong>SSL Desabilitado:</strong> Usa <code>verify=False</code> devido a problemas de certificado</li>
+                    <li><strong>Extraction Inteligente:</strong> Extrai ano dos nomes de arquivos usando regex</li>
+                    <li><strong>Evita Duplicatas:</strong> Usa dicionário para evitar links duplicados por ano</li>
+                    <li><strong>Encoding Latin-1:</strong> Usa ISO-8859-1 para dados colombianos</li>
+                    <li><strong>Formato de Data:</strong> Primeira coluna do CSV contém período no formato YYMM</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>5. Mapeamento de Colunas (Data Contract)</h2>
+            
+            <h3>5.1 Importação</h3>
+            <p>
+                O mapeamento de colunas para dados de importação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>NABAN</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM (Nomenclatura Comum do Mercosul)</td>
+                    </tr>
+                    <tr>
+                        <td><code>VAFODO</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em dólares</td>
+                    </tr>
+                    <tr>
+                        <td><code>PBK</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>Primeira coluna</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYMM, ex: "2401" = jan/2024)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <h3>5.2 Exportação</h3>
+            <p>
+                O mapeamento de colunas para dados de exportação:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coluna Original</th>
+                        <th>Coluna Normalizada</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>POSAR</code></td>
+                        <td><code>ncm</code></td>
+                        <td>int</td>
+                        <td>Código NCM</td>
+                    </tr>
+                    <tr>
+                        <td><code>FOBDOL</code></td>
+                        <td><code>valor</code></td>
+                        <td>float</td>
+                        <td>Valor FOB em dólares</td>
+                    </tr>
+                    <tr>
+                        <td><code>PBK</code></td>
+                        <td><code>peso</code></td>
+                        <td>float</td>
+                        <td>Peso líquido em quilogramas</td>
+                    </tr>
+                    <tr>
+                        <td><code>Primeira coluna</code></td>
+                        <td><code>Data</code></td>
+                        <td>datetime</td>
+                        <td>Período da transação (formato YYMM)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Colunas mantidas após normalização:</strong></p>
+            <code>['Data', 'ncm', 'ImportExport', 'peso', 'valor', 'frete', 'seguro']</code>
+            
+            <div class="note">
+                <strong>Observação:</strong> Note que as colunas originais são diferentes para importação (<code>NABAN</code>, <code>VAFODO</code>) 
+                e exportação (<code>POSAR</code>, <code>FOBDOL</code>), mas ambas são mapeadas para o mesmo schema normalizado.
+            </div>
+        </section>
+        
+        <section>
+            <h2>6. Tratamento Específico</h2>
+            
+            <div class="step">
+                <h3>6.1 Método `_country_specific_treatment()`</h3>
+                <p>
+                    O método implementa tratamento específico para dados da Colômbia após a normalização de colunas.
+                </p>
+                <p><strong>O que faz:</strong></p>
+                <ol>
+                    <li><strong>Remove NCM Nulos:</strong>
+                        <ul>
+                            <li>Remove linhas onde <code>ncm</code> é nulo</li>
+                        </ul>
+                    </li>
+                    <li><strong>Remove Linhas com '-':</strong>
+                        <ul>
+                            <li>Remove linhas onde <code>valor</code> contém '-'</li>
+                            <li>Remove linhas onde <code>peso</code> contém '-'</li>
+                            <li>O caractere '-' indica dados não disponíveis</li>
+                        </ul>
+                    </li>
+                    <li><strong>Converte Formato Numérico:</strong>
+                        <ul>
+                            <li>Para <code>valor</code> e <code>peso</code>:
+                                <ul>
+                                    <li>Remove pontos (.) usados como separador de milhar</li>
+                                    <li>Substitui vírgula (,) por ponto (.) para separador decimal</li>
+                                    <li>Exemplo: "1.234,56" → 1234.56</li>
+                                </ul>
+                            </li>
+                            <li>Converte para float</li>
+                        </ul>
+                    </li>
+                    <li><strong>Converte Data:</strong>
+                        <ul>
+                            <li>Converte coluna <code>Data</code> de formato YYMM para datetime</li>
+                            <li>Usa <code>pd.to_datetime()</code> com formato <code>'%y%m'</code></li>
+                            <li>Remove linhas com data inválida</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Código:</strong></p>
+                <pre><code>def _country_specific_treatment(self, df: pd.DataFrame) -> pd.DataFrame:
+    """Tratamento específico para dados da Colômbia."""
+    # Remover NCM nulo
+    df = df[~df['ncm'].isnull()]
+    
+    # Remover linhas com '-' em valor e peso
+    df = df[~df['valor'].astype(str).str.contains('-', na=False)]
+    df = df[~df['peso'].astype(str).str.contains('-', na=False)]
+    
+    # Converter formato numérico (formato colombiano: 1.234,56)
+    df['valor'] = df['valor'].astype(str).apply(
+        lambda x: str(x).replace('.', '').replace(',', '.').strip()
+    ).astype(float)
+    
+    df['peso'] = df['peso'].astype(str).apply(
+        lambda x: str(x).replace('.', '').replace(',', '.')
+    ).astype(float)
+    
+    # Converter Data para datetime (formato '%y%m')
+    df['Data'] = pd.to_datetime(df['Data'], format='%y%m', errors='coerce')
+    df = df[df['Data'].notna()]
+    
+    return df</code></pre>
+            </div>
+            
+            <h3>6.2 Conversões de Dados</h3>
+            <ul>
+                <li><strong>Formato de Data:</strong> Criada a partir da primeira coluna do CSV no formato <code>YYMM</code> 
+                    (ex: "2401" = janeiro de 2024), convertida para datetime usando <code>pd.to_datetime()</code> com formato <code>'%y%m'</code></li>
+                <li><strong>Formato Numérico:</strong> Formato colombiano (ex: "1.234,56") convertido para formato padrão (1234.56)</li>
+                <li><strong>Encoding:</strong> ISO-8859-1 (Latin-1) para dados colombianos</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+            </ul>
+            
+            <h3>6.3 Filtros Aplicados</h3>
+            <ul>
+                <li><strong>Filtro de NCM:</strong> Remove linhas com NCM nulo</li>
+                <li><strong>Filtro de Dados Inválidos:</strong> Remove linhas com '-' em valor ou peso</li>
+                <li><strong>Filtro de Data:</strong> Remove linhas com data inválida após conversão</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>7. Configurações e Parâmetros</h2>
+            
+            <h3>7.1 Parâmetros do `__init__()`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>start_date</code></td>
+                        <td>datetime, int, None</td>
+                        <td>None</td>
+                        <td>Data ou ano inicial para coleta histórica. Se None, usa padrão (ano atual - 1). 
+                            Aceita datetime, int (ano) ou outros tipos (tenta converter para int).</td>
+                    </tr>
+                    <tr>
+                        <td><code>use_azure</code></td>
+                        <td>bool</td>
+                        <td>True</td>
+                        <td>Se True, usa Azure ADLS2 para storage; se False, usa storage local</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.2 Configurações Específicas</h3>
+            <ul>
+                <li><strong>URL Import Recente:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/856/get-microdata</code></li>
+                <li><strong>URL Export Recente:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/859/get-microdata</code></li>
+                <li><strong>URL Import Histórica:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/473/get-microdata</code></li>
+                <li><strong>URL Export Histórica:</strong> <code>https://microdatos.dane.gov.co/index.php/catalog/472/get-microdata</code></li>
+                <li><strong>Ano Inicial Padrão:</strong> Ano atual - 1</li>
+                <li><strong>Timeout:</strong> 30s para páginas HTML, 120s para downloads</li>
+                <li><strong>SSL:</strong> Desabilitado (<code>verify=False</code>)</li>
+                <li><strong>Encoding:</strong> ISO-8859-1</li>
+                <li><strong>Separador CSV:</strong> Ponto e vírgula (;)</li>
+                <li><strong>Data Contract Path:</strong> <code>data-contract.yaml</code></li>
+                <li><strong>IDs Table Path:</strong> <code>IDS_comex.xlsx</code></li>
+            </ul>
+            
+            <div class="info-box">
+                <h4>Tratamento de start_date</h4>
+                <p>
+                    O parâmetro <code>start_date</code> é tratado de forma flexível:
+                </p>
+                <ul>
+                    <li><strong>None:</strong> Usa padrão (ano atual - 1)</li>
+                    <li><strong>datetime:</strong> Extrai o ano do objeto datetime</li>
+                    <li><strong>int:</strong> Usa diretamente como ano</li>
+                    <li><strong>Outros tipos:</strong> Tenta converter para int. Se falhar, usa padrão e loga warning</li>
+                </ul>
+                <p>
+                    O ano inicial é armazenado em <code>self.start_year</code> e usado para filtrar quais anos históricos coletar.
+                </p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>8. Fluxo de Dados Detalhado</h2>
+            <pre><code>Portal DANE (microdatos.dane.gov.co)
+    ↓
+collect_import_data() / collect_export_data()
+    ↓
+═══════════════════════════════════════════
+1. COLETA DE DADOS RECENTES
+    ↓
+_get_download_link(URL_recente)
+    ↓ (Web Scraping: BeautifulSoup)
+    ↓ (Extrai link do onclick)
+Link de Download Recente
+    ↓
+_read_files_from_link(link)
+    ↓ (Download ZIP com verify=False)
+    ↓ (Processa ZIPs aninhados)
+    ↓ (Lê CSVs com _read_csv_file)
+DataFrame de Dados Recentes
+    ↓
+═══════════════════════════════════════════
+2. COLETA DE DADOS HISTÓRICOS
+    ↓
+_get_historical_download_links(URL_historica, tipo)
+    ↓ (Web Scraping: BeautifulSoup)
+    ↓ (Encontra todos os inputs)
+    ↓ (Extrai ano usando regex)
+    ↓ (Filtra anos desde start_year até atual)
+Lista de Links Históricos por Ano
+    ↓
+Para cada ano:
+    ↓
+_read_files_from_link(link_ano)
+    ↓ (Download ZIP)
+    ↓ (Processa ZIPs aninhados)
+    ↓ (Lê CSVs)
+DataFrame do Ano
+    ↓
+Concatenação de Todos os Anos
+    ↓
+═══════════════════════════════════════════
+CONSOLIDAÇÃO
+    ↓
+Concatena Dados Recentes + Históricos
+    ↓
+Adiciona ImportExport (1 ou 0)
+    ↓
+Framework ComexPipeline
+    ↓
+Normalização (data-contract.yaml)
+    ↓ (Mapeia NABAN/VAFODO/PBK → ncm/valor/peso)
+Tratamento Específico (_country_specific_treatment)
+    ↓ (Remove NCM nulos)
+    ↓ (Remove linhas com '-')
+    ↓ (Converte formato numérico: 1.234,56 → 1234.56)
+    ↓ (Converte Data: YYMM → datetime)
+Merge com IDs (IDS_comex.xlsx)
+    ↓
+Cálculo FOB/CIF
+    ↓
+Silver Layer
+    ↓
+[Fases seguintes do framework]</code></pre>
+        </section>
+        
+        <section>
+            <h2>9. Exemplos de Uso</h2>
+            
+            <h3>9.1 Execução Básica</h3>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+# Usando padrão (ano atual - 1)
+pipeline = COMEX_COL()
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.2 Execução com Ano Inicial Específico</h3>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+# Coletar desde 2020
+pipeline = COMEX_COL(start_date=2020)
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.3 Execução com Data Inicial</h3>
+            <pre><code>from datetime import datetime
+from COMEX_COL import COMEX_COL
+
+# Coletar desde janeiro de 2020
+pipeline = COMEX_COL(start_date=datetime(2020, 1, 1))
+result_df = pipeline.run()</code></pre>
+            
+            <h3>9.4 Execução por Fases</h3>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL(start_date=2023)
+
+# Apenas coletar dados
+import_df, export_df = pipeline.collect()
+print(f"Importação: {len(import_df)} registros")
+print(f"Exportação: {len(export_df)} registros")
+
+# Apenas tratamento
+silver_df = pipeline.treat()
+print(f"Silver: {len(silver_df)} registros")
+
+# Apenas cálculo
+gold_df = pipeline.calculate()
+print(f"Gold: {len(gold_df)} registros")</code></pre>
+        </section>
+        
+        <section>
+            <h2>10. Particularidades e Observações</h2>
+            
+            <div class="warning-box">
+                <h3>Pontos de Atenção</h3>
+                <ul>
+                    <li><strong>Problema de SSL:</strong> O servidor DANE tem problemas com certificado SSL. 
+                        Todas as requisições usam <code>verify=False</code>. Isso é necessário mas pode gerar avisos.</li>
+                    <li><strong>ZIPs Aninhados:</strong> Os arquivos podem conter ZIPs dentro de ZIPs. 
+                        O código processa isso automaticamente, mas pode ser lento para arquivos grandes.</li>
+                    <li><strong>Múltiplos CSVs:</strong> Cada ZIP pode conter múltiplos CSVs. Todos são processados e concatenados.</li>
+                    <li><strong>Formato Numérico:</strong> Dados usam formato colombiano (1.234,56). 
+                        O tratamento específico converte para formato padrão.</li>
+                    <li><strong>Formato de Data:</strong> Primeira coluna do CSV contém período no formato YYMM. 
+                        Precisa ser convertida para datetime.</li>
+                    <li><strong>Web Scraping Frágil:</strong> Depende da estrutura HTML do portal. 
+                        Se estrutura mudar, métodos podem precisar atualização.</li>
+                    <li><strong>Extraction de Ano:</strong> Extrai ano dos nomes de arquivos usando regex. 
+                        Se formato mudar, pode não funcionar corretamente.</li>
+                    <li><strong>Ano Inicial Padrão:</strong> Por padrão coleta desde ano atual - 1. 
+                        Se precisar de mais dados históricos, especificar <code>start_date</code>.</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <h3>Diferenças em Relação a Outros Crawlers</h3>
+                <ul>
+                    <li><strong>Coleta Dupla:</strong> Coleta dados recentes e históricos de fontes diferentes</li>
+                    <li><strong>ZIPs Aninhados:</strong> Único que processa ZIPs dentro de ZIPs</li>
+                    <li><strong>Ano Inicial Configurável:</strong> Permite configurar ano inicial para coleta histórica</li>
+                    <li><strong>SSL Desabilitado:</strong> Requer desabilitar verificação SSL devido a problemas do servidor</li>
+                    <li><strong>Formato Numérico Especial:</strong> Converte formato colombiano (1.234,56) para padrão</li>
+                    <li><strong>Formato de Data YYMM:</strong> Usa formato de 4 dígitos (YYMM) ao invés de YYYY-MM</li>
+                    <li><strong>Encoding Latin-1:</strong> Usa ISO-8859-1 ao invés de UTF-8</li>
+                    <li><strong>Separador CSV:</strong> Usa ponto e vírgula (;) ao invés de vírgula</li>
+                    <li><strong>Extraction Inteligente:</strong> Extrai ano de múltiplos locais no HTML</li>
+                </ul>
+            </div>
+            
+            <h3>Problemas Conhecidos e Soluções</h3>
+            <ul>
+                <li><strong>Problema:</strong> Erro de SSL ao fazer requisições
+                    <br><strong>Causa:</strong> Certificado SSL inválido no servidor DANE
+                    <br><strong>Solução:</strong> Código já usa <code>verify=False</code> e suprime avisos</li>
+                <li><strong>Problema:</strong> Nenhum link de download encontrado
+                    <br><strong>Causa:</strong> Estrutura HTML mudou ou portal indisponível
+                    <br><strong>Solução:</strong> Verificar estrutura HTML atual, ajustar código se necessário</li>
+                <li><strong>Problema:</strong> Ano não extraído corretamente
+                    <br><strong>Causa:</strong> Formato do nome do arquivo mudou
+                    <br><strong>Solução:</strong> Verificar formato atual, ajustar regex se necessário</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>11. Troubleshooting</h2>
+            
+            <h3>11.1 Problemas Comuns</h3>
+            
+            <div class="warning-box">
+                <h4>Erro: "SSL Certificate verification failed"</h4>
+                <p><strong>Causa:</strong> Problema de certificado SSL no servidor DANE</p>
+                <p><strong>Solução:</strong> O código já trata isso usando <code>verify=False</code>. Se ainda aparecer erro, 
+                    verificar se <code>urllib3.disable_warnings()</code> está sendo chamado.</p>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum input de imagem encontrado na página"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Estrutura HTML do portal mudou</li>
+                    <li>Portal temporariamente indisponível</li>
+                    <li>URL incorreta</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar manualmente a estrutura HTML do portal</li>
+                    <li>Atualizar método <code>_get_download_link()</code> se necessário</li>
+                    <li>Verificar logs para ver resposta HTML recebida</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum arquivo CSV encontrado no ZIP"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>ZIP não contém CSVs</li>
+                    <li>Estrutura do ZIP mudou</li>
+                    <li>Arquivo ZIP corrompido</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar conteúdo do ZIP manualmente</li>
+                    <li>Verificar se há ZIPs aninhados que não estão sendo processados</li>
+                    <li>Verificar logs para ver quais arquivos foram encontrados</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h4>Erro: "Nenhum link histórico encontrado"</h4>
+                <p><strong>Possíveis Causas:</strong></p>
+                <ul>
+                    <li>Anos solicitados não estão disponíveis</li>
+                    <li>Formato dos nomes de arquivos mudou</li>
+                    <li>Regex não está encontrando os anos</li>
+                </ul>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Verificar quais anos estão disponíveis no portal</li>
+                    <li>Verificar formato dos nomes de arquivos</li>
+                    <li>Ajustar regex se formato mudou</li>
+                    <li>Verificar se <code>start_year</code> está correto</li>
+                </ul>
+            </div>
+            
+            <h3>11.2 Como Debugar</h3>
+            
+            <h4>Testar Extração de Link Recente</h4>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL()
+
+# Testar extração de link de importação recente
+import_url = "https://microdatos.dane.gov.co/index.php/catalog/856/get-microdata"
+link = pipeline._get_download_link(import_url)
+
+if link:
+    print(f"Link encontrado: {link}")
+else:
+    print("ERRO: Link não encontrado")
+    print("Verificar estrutura HTML do portal")</code></pre>
+            
+            <h4>Testar Extração de Links Históricos</h4>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL(start_date=2020)
+
+# Testar extração de links históricos
+import_historical_url = "https://microdatos.dane.gov.co/index.php/catalog/473/get-microdata"
+links = pipeline._get_historical_download_links(import_historical_url, "import")
+
+print(f"Links encontrados: {len(links)}")
+for link_info in links:
+    print(f"  Ano {link_info['year']}: {link_info['filename']}")
+    print(f"    Link: {link_info['link']}")</code></pre>
+            
+            <h4>Testar Processamento de ZIP</h4>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL()
+
+# Obter link
+link = pipeline._get_download_link(pipeline.import_url)
+
+if link:
+    # Testar processamento
+    df = pipeline._read_files_from_link(link)
+    print(f"DataFrame criado: {len(df)} registros")
+    print(f"Colunas: {df.columns.tolist()}")
+    print(f"\nPrimeiras linhas:\n{df.head()}")
+    
+    # Verificar formato de data
+    if 'Data' in df.columns:
+        print(f"\nValores únicos em Data (primeiros 10):")
+        print(df['Data'].unique()[:10])
+else:
+    print("ERRO: Não foi possível obter link")</code></pre>
+            
+            <h4>Inspecionar Dados Coletados</h4>
+            <pre><code>from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL(start_date=2023)
+
+# Coletar dados
+import_df, export_df = pipeline.collect()
+
+# Inspecionar estrutura
+print(f"Importação: {len(import_df)} registros")
+print(f"Colunas: {import_df.columns.tolist()}")
+print(f"\nPrimeiras linhas:\n{import_df.head()}")
+
+# Verificar formato numérico antes do tratamento
+if 'valor' in import_df.columns:
+    print(f"\nValores únicos em valor (primeiros 10):")
+    print(import_df['valor'].unique()[:10])
+
+# Salvar para inspeção
+import_df.to_excel("debug_import_raw.xlsx", index=False)</code></pre>
+            
+            <h4>Verificar Logs</h4>
+            <pre><code>import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from COMEX_COL import COMEX_COL
+
+pipeline = COMEX_COL(start_date=2023)
+pipeline.run()  # Logs serão exibidos no console</code></pre>
+        </section>
+        
+        <section>
+            <h2>12. Referências</h2>
+            
+            <h3>12.1 Links Úteis</h3>
+            <ul>
+                <li><strong>Portal DANE Microdatos:</strong> 
+                    <a href="https://microdatos.dane.gov.co" target="_blank">DANE - Microdatos</a></li>
+                <li><strong>Importação Recente:</strong> 
+                    <a href="https://microdatos.dane.gov.co/index.php/catalog/856/get-microdata" target="_blank">Importação - Dados Recentes</a></li>
+                <li><strong>Exportação Recente:</strong> 
+                    <a href="https://microdatos.dane.gov.co/index.php/catalog/859/get-microdata" target="_blank">Exportação - Dados Recentes</a></li>
+                <li><strong>Importação Histórica:</strong> 
+                    <a href="https://microdatos.dane.gov.co/index.php/catalog/473/get-microdata" target="_blank">Importação - Dados Históricos</a></li>
+                <li><strong>Exportação Histórica:</strong> 
+                    <a href="https://microdatos.dane.gov.co/index.php/catalog/472/get-microdata" target="_blank">Exportação - Dados Históricos</a></li>
+            </ul>
+            
+            <h3>12.2 Arquivos Relacionados</h3>
+            <ul>
+                <li><code>COMEX_COL.py</code> - Código fonte do crawler</li>
+                <li><code>data-contract.yaml</code> - Mapeamento de colunas (seção COL)</li>
+                <li><code>IDS_comex.xlsx</code> - Tabela de IDs (filtro: Pais_1 = "Colômbia")</li>
+                <li><code>costdrivers_comex.py</code> - Framework base (ComexPipeline)</li>
+            </ul>
+            
+            <h3>12.3 Dependências</h3>
+            <ul>
+                <li><code>pandas</code> - Manipulação de dados</li>
+                <li><code>requests</code> - Requisições HTTP</li>
+                <li><code>beautifulsoup4</code> - Web scraping (parsing HTML)</li>
+                <li><code>urllib3</code> - Suprimir avisos SSL</li>
+                <li><code>lxml</code> - Parser HTML para BeautifulSoup (opcional, mas recomendado)</li>
+            </ul>
+            
+            <div class="warning-box">
+                <h3>⚠️ Instalação de Dependências</h3>
+                <p>
+                    Certifique-se de instalar todas as dependências antes de executar:
+                </p>
+                <pre><code>pip install pandas requests beautifulsoup4 urllib3 lxml</code></pre>
+            </div>
+        </section>
+        
+        <footer style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; color: #777; text-align: center;">
+            <p>Documentação gerada em: <span id="date"></span></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('pt-BR');
+    </script>
+</body>
+</html>
+

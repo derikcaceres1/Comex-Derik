@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEX — Pontos para decisão antes da reescrita</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #f5f7fa;
+        color: #2c3e50;
+        line-height: 1.65;
+        padding: 24px;
+    }
+    .page {
+        max-width: 880px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        padding: 48px 56px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    h1 {
+        font-size: 1.7em;
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+    }
+    h2 {
+        font-size: 1.15em;
+        color: #34495e;
+        margin-top: 36px;
+        margin-bottom: 14px;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    p { margin: 10px 0; }
+    ul { margin: 8px 0 8px 22px; }
+    li { margin: 4px 0; }
+
+    .filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+    }
+    .filter-card {
+        background: #f8f9fa;
+        border: 1px solid #e3e8ee;
+        border-left: 3px solid #3498db;
+        border-radius: 6px;
+        padding: 14px 16px;
+    }
+    .filter-card .num {
+        color: #3498db;
+        font-weight: 700;
+        font-size: 0.82em;
+        letter-spacing: 0.5px;
+    }
+    .filter-card .title {
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 2px 0 6px 0;
+    }
+    .filter-card .desc {
+        font-size: 0.92em;
+        color: #556877;
+    }
+
+    .question {
+        margin-top: 22px;
+        padding: 20px 24px;
+        border-radius: 8px;
+        background: #fafbfc;
+        border: 1px solid #e3e8ee;
+    }
+    .question h3 {
+        font-size: 1.05em;
+        color: #2c3e50;
+        margin-bottom: 6px;
+    }
+    .question .q-num {
+        display: inline-block;
+        background: #3498db;
+        color: white;
+        font-weight: 700;
+        font-size: 0.78em;
+        padding: 2px 9px;
+        border-radius: 12px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    .question .q-context {
+        color: #556877;
+        font-size: 0.95em;
+        margin: 8px 0 12px 0;
+    }
+
+    .recommendation {
+        margin-top: 12px;
+        padding: 12px 16px;
+        border: 1px solid #b8d9c1;
+        background: #f3faf5;
+        border-radius: 6px;
+        font-size: 0.95em;
+        color: #2c3e50;
+    }
+    .recommendation .tag {
+        display: inline-block;
+        background: #d4edda;
+        color: #155724;
+        font-size: 0.72em;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 10px;
+        letter-spacing: 0.3px;
+        margin-bottom: 6px;
+    }
+
+    .notice {
+        margin-top: 22px;
+        padding: 16px 20px;
+        border-radius: 8px;
+        background: #eef6fb;
+        border-left: 4px solid #3498db;
+        font-size: 0.95em;
+        color: #2c3e50;
+    }
+    .notice strong { color: #1f6391; }
+
+    @media print {
+        body { background: white; padding: 0; }
+        .page { box-shadow: none; padding: 28px; }
+    }
+</style>
+</head>
+<body>
+<div class="page">
+
+    <h1>COMEX — Pontos para sua decisão</h1>
+
+    <!-- =================================================== -->
+    <h2>Como os filtros vão funcionar</h2>
+    <p>Hoje os filtros estão espalhados em vários pontos do código. Na nova versão vamos concentrar tudo em uma etapa única, <strong>antes</strong> do cálculo, gerando três resultados:</p>
+    <ul>
+        <li>Um arquivo com os NCMs/IDs <strong>válidos</strong>, que seguem para o cálculo.</li>
+        <li>Um arquivo com os NCMs/IDs <strong>descartados</strong>, junto com o motivo de cada descarte (rastreabilidade completa).</li>
+        <li>Além do Gold, um arquivo <strong>somente com os dados que ainda não existem na plataforma</strong> — exatamente o que vai subir no upload, sem sobrescrever nada já publicado.</li>
+    </ul>
+
+    <p>Os filtros previstos são:</p>
+    <div class="filters">
+        <div class="filter-card">
+            <div class="num">F1</div>
+            <div class="title">NCM mapeado</div>
+            <div class="desc">O NCM tem que existir na tabela de indicadores (IDS_comex). Se não tem, não vira ID.</div>
+        </div>
+        <div class="filter-card">
+            <div class="num">F2</div>
+            <div class="title">Histórico mínimo</div>
+            <div class="desc">A série precisa ter pelo menos 24 meses de dados para ser considerada.</div>
+        </div>
+        <div class="filter-card">
+            <div class="num">F3</div>
+            <div class="title">Gap máximo</div>
+            <div class="desc">A série não pode ter buracos maiores que 3 meses consecutivos no histórico.</div>
+        </div>
+        <div class="filter-card">
+            <div class="num">F4</div>
+            <div class="title">Participação 80%</div>
+            <div class="desc">Só os países que somados formam 80% do peso importado/exportado do NCM entram no cálculo.</div>
+        </div>
+        <div class="filter-card">
+            <div class="num">F5</div>
+            <div class="title">Dados utilizáveis</div>
+            <div class="desc">Registros com peso ≤ 0, valor ausente ou totalmente zerados são descartados na origem.</div>
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <h2>O que precisamos que vocês decidam</h2>
+
+    <!-- Q1 -->
+    <div class="question">
+        <h3><span class="q-num">1</span>O que fazer quando um NCM tem gap maior que 3 meses no histórico?</h3>
+        <p class="q-context">Exemplo: um NCM tem dado de Jan a Abr/2023, fica 5 meses sem registro, e volta a ter dado em Out/2023.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Descartar o NCM inteiro.</strong> Regra simples, consistente e alinhada com a premissa de não adivinhar dados. O NCM entra no relatório de descartados com o motivo "gap maior que 3 meses". Caso prefiram outro caminho, nos digam.
+        </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question">
+        <h3><span class="q-num">2</span>O limite de 3 meses vale também para extrapolação no final da série?</h3>
+        <p class="q-context">Hoje, quando um NCM fica com meses faltando no fim da série (portal ainda não publicou), o sistema preenche esses meses com média dos anteriores, sem limite de quantos meses pode estender. A regra de 3 meses foi pensada para buracos internos, mas não ficou claro se vale também para o final.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Aplicar o limite de 3 meses também na cauda.</strong> Se faltam mais de 3 meses no fim da série, deixa em branco. Coerente com a premissa de não inventar dado. Caso prefiram outro caminho, nos digam.
+        </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question">
+        <h3><span class="q-num">3</span>Existe chance de um mês já publicado ser retificado pelo portal depois?</h3>
+        <p class="q-context">Queremos entender se, na prática de vocês, isso chega a acontecer — o portal republicar um mês antigo com valor diferente. Se sim, precisamos definir se devemos retificar o dado na plataforma ou manter o valor original que já foi publicado.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Se não acontece na prática, não precisamos tratar.</strong> Se acontece, a sugestão é <strong>não retificar</strong>: o valor já publicado na plataforma fica congelado e eventuais diferenças vão apenas para um relatório de auditoria. Confirmem para nós qual é a realidade de vocês.
+        </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question">
+        <h3><span class="q-num">4</span>Existe chance de o portal publicar um valor claramente errado (ex.: 100× ou 1000× fora do normal)?</h3>
+        <p class="q-context">Queremos saber se isso é uma situação que vocês já observaram na origem. Se existir essa chance, precisamos combinar a política de tratamento.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Se existir essa chance, não substituir automaticamente.</strong> O NCM com valor suspeito é marcado, alertado no relatório e segurado para revisão humana — vocês decidem liberar ou rejeitar antes de subir para a plataforma. Se preferirem outra abordagem (deixar passar com alerta, substituir por estimativa, etc.), nos digam.
+        </div>
+    </div>
+
+    <!-- Q5 (ex-Q6): histórico mínimo -->
+    <div class="question">
+        <h3><span class="q-num">5</span>E quando o NCM é novo e ainda não tem 24 meses de histórico?</h3>
+        <p class="q-context">O filtro F2 hoje descarta tudo com menos de 24 meses. NCMs recém-cadastrados ficam invisíveis até acumular 2 anos.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Manter 24 meses como mínimo rígido.</strong> Precisamos de histórico suficiente para identificar sazonalidade e calcular média confiável. NCMs novos ficam no relatório de descartados e passam a valer quando atingirem 24 meses. Caso prefiram flexibilizar, nos digam.
+        </div>
+    </div>
+
+    <!-- Q6 (ex-Q7): divergência de recálculo -->
+    <div class="question">
+        <h3><span class="q-num">6</span>Quando o valor recalculado para um mês já publicado for diferente do que está na plataforma, o que fazer?</h3>
+        <p class="q-context">Mesmo com todas as proteções, pode acontecer de o cálculo novo produzir um número diferente para um mês que já está na API.</p>
+        <div class="recommendation">
+            <span class="tag">nossa recomendação</span><br>
+            <strong>Ignorar e manter o que está na plataforma.</strong> O que foi publicado fica. A nova versão só envia meses que a plataforma ainda não tem. Opcionalmente, geramos um relatório de divergências para vocês auditarem. Caso prefiram outro caminho, nos digam.
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <div class="notice">
+        <strong>Sobre a projeção de CIF:</strong> o preenchimento do CIF nos meses futuros (quando não há razão CIF/FOB disponível) é feito <strong>diretamente no banco de dados</strong>, por um processo SQL separado do pipeline. Nenhuma ação é necessária dentro desta reescrita — mantemos o fluxo atual de projeção no banco.
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+  "api": {
+    "endpoint": "https://api-costdrivers.gep.com/costdrivers-api",
+    "_comment": "Credenciais devem ser configuradas via variáveis de ambiente: COSTDRIVERS_API_KEY, COSTDRIVERS_API_EMAIL, COSTDRIVERS_API_PASSWORD"
+  },
+  "upload": {
+    "batch_size": 20,
+    "workers": 10,
+    "timeout": 60
+  },
+  "paths": {
+    "ids_excel": "IDS_comex.xlsx",
+    "pais_table": "tblNCM_Pais.xlsx",
+    "bra": {
+      "database": "NM/dados/BRA/database/historical.parquet",
+      "pais_source": "paisID_BRA.csv"
+    },
+    "arg": {
+      "import": "NM/dados/ARG/database/import_hist_arg_raw.parquet",
+      "export": "NM/dados/ARG/database/export_hist_arg_raw.parquet",
+      "pais_source": "paisID_ARG.csv"
+    },
+    "eur": {
+      "database": "NM/dados/EUR/database/historical.parquet",
+      "aggregated": "NM/dados/EUR/aggregated",
+      "final": "NM/dados/EUR/final",
+      "pais_source": "PARTNERS_ISO.txt"
+    },
+    "usa": {
+      "import": "NM/dados/USA/database/import_hist_usa_raw.parquet",
+      "export": "NM/dados/USA/database/export_hist_usa_raw.parquet",
+      "aggregated": "NM/dados/USA/aggregated",
+      "final": "NM/dados/USA/final"
+    },
+    "col": {
+      "import": "NM/dados/COL/database/import_hist_col_raw.parquet",
+      "export": "NM/dados/COL/database/export_hist_col_raw.parquet",
+      "aggregated": "NM/dados/COL/aggregated",
+      "final": "NM/dados/COL/final",
+      "pais_source": "codpais_m49_colombia.xlsx"
+    }
+  },
+  "countries": {
+    "bra": "Brasil",
+    "arg": "Argentina",
+    "eur": "União Européia",
+    "usa": "Estados Unidos",
+    "col": "Colômbia"
+  }
+}
+

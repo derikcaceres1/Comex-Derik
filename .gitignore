@@ -1,0 +1,126 @@
+# ============================================================
+# DADOS / ARTEFATOS PESADOS (NUNCA versionar)
+# ============================================================
+# Parquets (raw, silver, gold, historical, to_upload, cache)
+*.parquet
+*.parquet.gz
+*.parquet.snappy
+
+# Caches e diretórios temporários do pipeline
+.cache/
+**/.cache/
+.temp/
+**/.temp/
+tmp/
+temp/
+
+# Downloads brutos do Eurostat / portais
+**/eurostat/**
+*.dat
+
+# Diretórios de dados (raw/silver/gold/database por país)
+NM/dados/**/raw/
+NM/dados/**/silver/
+NM/dados/**/gold/
+NM/dados/**/database/
+NM/dados/**/*.zip
+
+# OM (caso use a mesma estrutura)
+OM/dados/**/raw/
+OM/dados/**/silver/
+OM/dados/**/gold/
+OM/dados/**/database/
+OM/dados/**/*.zip
+
+# Staging (zips antigos de entrega)
+staging/
+
+# Zips de entrega versionados na raiz / por país
+entrega_*.zip
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
+# Manifestos/relatórios de execução
+**/manifest_v2_*.json
+**/run_report_*.json
+
+# Excel/CSV grandes gerados pelo pipeline (top_n_percent etc.)
+*.xlsx
+*.xls
+*.csv
+# Re-permitir tabelas pequenas de input que precisam ser versionadas:
+!IDS_comex.xlsx
+!**/data-contract.yaml
+
+# ============================================================
+# PYTHON
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtualenvs
+.venv/
+venv/
+venvc/
+env/
+ENV/
+.python-version
+pyvenv.cfg
+**/site-packages/
+
+# Testes / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# Notebooks (checkpoints)
+.ipynb_checkpoints/
+
+# ============================================================
+# IDE / SISTEMA
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# LOGS / TEMP / OUTPUTS
+# ============================================================
+*.log
+*_log.txt
+rerun_*_log.txt
+*.out
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ============================================================
+# SECRETS
+# ============================================================
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+secrets.json

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEX NM v2 — Refatoração</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #f5f7fa;
+        color: #2c3e50;
+        line-height: 1.6;
+        padding: 24px;
+    }
+    .page {
+        max-width: 980px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        padding: 40px 56px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    h1 {
+        font-size: 1.7em;
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 6px;
+    }
+    .subtitle { color: #7f8c8d; font-size: 0.95em; margin-bottom: 24px; }
+    h2 {
+        font-size: 1.15em;
+        color: #34495e;
+        margin: 32px 0 12px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        font-weight: 600;
+    }
+    h3 { font-size: 1.0em; color: #2c3e50; margin: 18px 0 8px 0; }
+    p { margin: 8px 0; }
+    ul { margin: 6px 0 6px 22px; }
+    li { margin: 3px 0; }
+    code {
+        font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+        background: #eef2f7;
+        color: #c0392b;
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 0.88em;
+    }
+
+    .file-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+    }
+    .file-card {
+        background: #f8f9fa;
+        border: 1px solid #e3e8ee;
+        border-left: 3px solid #27ae60;
+        border-radius: 6px;
+        padding: 12px 14px;
+    }
+    .file-card .path {
+        font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+        font-size: 0.85em;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    .file-card .desc {
+        font-size: 0.88em;
+        color: #556877;
+        margin-top: 4px;
+    }
+    .file-card.untouched { border-left-color: #95a5a6; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        font-size: 0.93em;
+    }
+    th, td {
+        text-align: left;
+        padding: 9px 12px;
+        border-bottom: 1px solid #e3e8ee;
+        vertical-align: top;
+    }
+    th {
+        background: #f8f9fa;
+        color: #34495e;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.78em;
+        letter-spacing: 0.4px;
+    }
+    tr:hover td { background: #fafbfc; }
+
+    .flow {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin: 14px 0;
+        font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+        font-size: 0.86em;
+        line-height: 1.85;
+        overflow-x: auto;
+    }
+    .flow .phase { color: #2980b9; font-weight: 600; }
+    .flow .new { color: #27ae60; font-weight: 600; }
+    .flow .arrow { color: #95a5a6; }
+    .flow .out { color: #7f8c8d; font-style: italic; }
+
+    .pill {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 12px;
+        font-size: 0.74em;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+    }
+    .pill-new { background: #d4edda; color: #155724; }
+    .pill-changed { background: #fff3cd; color: #856404; }
+    .pill-kept { background: #e2e3e5; color: #383d41; }
+
+    .callout {
+        background: #eef6fb;
+        border-left: 4px solid #3498db;
+        padding: 14px 18px;
+        border-radius: 6px;
+        margin: 14px 0;
+        font-size: 0.94em;
+    }
+    .callout.warn { background: #fffbeb; border-left-color: #f4c430; }
+    .callout strong { color: #1f6391; }
+    .callout.warn strong { color: #856404; }
+
+    .footer {
+        margin-top: 32px;
+        padding-top: 16px;
+        border-top: 1px solid #ecf0f1;
+        color: #95a5a6;
+        font-size: 0.82em;
+    }
+</style>
+</head>
+<body>
+<div class="page">
+
+    <h1>COMEX NM v2 — Refatoração</h1>
+    <p class="subtitle">O que mudou, como mudou, e a lógica da nova implementação. Os arquivos originais permanecem intactos para comparação.</p>
+
+    <div class="callout">
+        <strong>Princípio.</strong> O cálculo estatístico é idêntico ao v1 (preprocess + STL + IQR + last-month + negative). As diferenças do v2 são <em>antes</em> do cálculo (filtros explícitos, IDs com gap &gt; 3 meses são descartados) e <em>depois</em> dele (histórico em modo append-only e upload restrito a meses estritamente novos). Para os IDs em comum, os valores produzidos batem com o v1.
+    </div>
+
+    <!-- =================================================== -->
+    <h2>Arquivos criados</h2>
+    <div class="file-grid">
+        <div class="file-card">
+            <div class="path">NM/serie_temporal/nm_config.py</div>
+            <div class="desc">Dataclass <code>NMConfig</code> com todos os parâmetros do pipeline (filtros, comportamento de revisão, auditoria).</div>
+        </div>
+        <div class="file-card">
+            <div class="path">NM/serie_temporal/nm_reasons.py</div>
+            <div class="desc">Enum <code>DropReason</code> com os motivos de descarte e suas descrições.</div>
+        </div>
+        <div class="file-card">
+            <div class="path">NM/serie_temporal/nm_filters.py</div>
+            <div class="desc">Funções puras dos filtros F1..F4. Cada uma retorna <code>(df_valid, df_dropped)</code>.</div>
+        </div>
+        <div class="file-card">
+            <div class="path">NM/serie_temporal/costdrivers_comex_NM_v2.py</div>
+            <div class="desc">Classe base <code>ComexPipelineNMv2</code>. Herda do v1 só para reaproveitar storage/IDs e sobrescreve as fases problemáticas. O cálculo importa as funções estatísticas direto do v1.</div>
+        </div>
+        <div class="file-card">
+            <div class="path">NM/serie_temporal/COMEX_BRA/COMEX_BRA_NM_v2.py</div>
+            <div class="desc">Subclasse de Brasil — apenas troca de herança e mantém a coleta atual.</div>
+        </div>
+        <div class="file-card untouched">
+            <div class="path">NM/serie_temporal/costdrivers_comex_NM.py</div>
+            <div class="desc">Original — não foi modificado. Continua disponível para comparação A/B e fornece as funções estatísticas reaproveitadas pelo v2.</div>
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <h2>Fluxo das fases</h2>
+
+    <h3>Antes (v1)</h3>
+    <div class="flow">
+        <span class="phase">collect</span> <span class="arrow">→</span> <span class="phase">update_historical</span><sup>★</sup> <span class="arrow">→</span> <span class="phase">normalize_historical</span> <span class="arrow">→</span> <span class="phase">calculate</span> <span class="arrow">→</span> <span class="phase">upload</span><sup>★★</sup>
+        <br><span class="out">★ sobrescreve os últimos 3 meses do historical.parquet</span>
+        <br><span class="out">★★ filtra com Data &gt;= max_data (re-publica o último mês)</span>
+    </div>
+
+    <h3>Agora (v2)</h3>
+    <div class="flow">
+        <span class="phase">collect</span> <span class="arrow">→</span> <span class="phase">update_historical</span><sup>1</sup> <span class="arrow">→</span> <span class="phase">normalize_historical</span> <span class="arrow">→</span> <span class="new">filter_data</span><sup>2</sup> <span class="arrow">→</span> <span class="phase">calculate</span><sup>3</sup> <span class="arrow">→</span> <span class="new">prepare_upload</span><sup>4</sup> <span class="arrow">→</span> <span class="phase">upload</span><sup>5</sup>
+        <br>
+        <br><span class="out">1. append-only — só adiciona meses novos, nunca sobrescreve</span>
+        <br><span class="out">2. F1..F4 explícitos, gera silver.parquet (válidos) e dropped.parquet (descartados com motivo)</span>
+        <br><span class="out">3. cálculo idêntico ao v1: preprocess → STL → final_interpolation → fix_last_month → fix_negative</span>
+        <br><span class="out">4. lê max_data da plataforma e gera to_upload.parquet com Data &gt; max_data (estritamente)</span>
+        <br><span class="out">5. sobe to_upload sem aplicar nenhum filtro adicional</span>
+    </div>
+
+    <!-- =================================================== -->
+    <h2>Mapa: problema antigo → solução v2</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Comportamento problemático no v1</th>
+                <th>Como o v2 resolve</th>
+                <th>Onde</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>_update_historical_data</code> sobrescreve os últimos 3 meses do <code>historical.parquet</code> a cada execução.</td>
+                <td>Append-only por padrão (<code>NMConfig.overwrite_recent_history=False</code>). Anti-join por chave: só adiciona linhas inéditas.</td>
+                <td><code>ComexPipelineNMv2._append_only</code></td>
+            </tr>
+            <tr>
+                <td>Filtros (NCM mapeado, top 80%, 24 meses) espalhados em <code>treat</code>, <code>find_IDs</code>, <code>top_n_percent</code> sem rastro do que foi descartado nem por quê.</td>
+                <td>Fase única <code>filter_data</code>: aplica F1..F4 em ordem; gera <code>silver.parquet</code> e <code>dropped.parquet</code> com motivo por linha.</td>
+                <td><code>nm_filters.py</code> + <code>filter_data()</code></td>
+            </tr>
+            <tr>
+                <td>IDs com lacunas internas grandes seguiam para o cálculo e eram preenchidos via interpolação/extrapolação sem limite.</td>
+                <td><span class="pill pill-new">NOVO</span> <code>filter_max_gap</code> descarta IDs cujo maior gap interno consecutivo &gt; 3 meses.</td>
+                <td><code>filter_max_gap</code> (F3)</td>
+            </tr>
+            <tr>
+                <td><code>upload()</code> filtra com <code>Data &gt;= max_data</code> — re-envia o último mês já publicado, permitindo revisão silenciosa.</td>
+                <td><code>prepare_upload</code> filtra com <code>Data &gt; max_data</code> (estritamente). O resultado vira <code>to_upload.parquet</code> e o upload sobe somente isso.</td>
+                <td><code>prepare_upload</code></td>
+            </tr>
+            <tr>
+                <td><code>find_IDs</code> usa <code>inner</code> merge silencioso — NCMs fora de IDS_comex somem sem registro.</td>
+                <td><code>filter_ncm_mapped</code> faz <code>left</code> merge e empurra os não-mapeados para <code>dropped.parquet</code> com motivo <code>ncm_not_mapped</code>.</td>
+                <td><code>filter_ncm_mapped</code> (F1)</td>
+            </tr>
+            <tr>
+                <td>Sem manifesto de execução: difícil auditar quantos IDs foram descartados e por quê em cada run.</td>
+                <td><code>manifest_v2_{date}.json</code> grava parâmetros, contagens por filtro e IDs uploaded a cada execução.</td>
+                <td><code>_save_manifest</code></td>
+            </tr>
+            <tr>
+                <td>Cálculo (preprocess → STL → IQR → last-month → negative).</td>
+                <td><span class="pill pill-kept">MANTIDO</span> O cálculo permanece idêntico — o v2 importa e chama as funções do v1 diretamente. Para os IDs em comum, os valores batem.</td>
+                <td><code>ComexPipelineNMv2.calculate</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- =================================================== -->
+    <h2>Filtros</h2>
+    <p>Cada filtro é uma função pura em <code>nm_filters.py</code>, com o mesmo contrato: <code>(df_valid, df_dropped) = filter_xxx(df, ...)</code>. Sequência aplicada em <code>filter_data()</code>:</p>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:60px">#</th>
+                <th>Filtro</th>
+                <th>Regra</th>
+                <th>Motivo de descarte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>F1</strong></td><td><code>filter_ncm_mapped</code></td><td>(ncm, ImportExport) ∈ IDS_comex</td><td><code>ncm_not_mapped</code></td></tr>
+            <tr><td><strong>F2</strong></td><td><code>filter_min_history</code></td><td>≥ 24 meses distintos por ID</td><td><code>insufficient_history</code></td></tr>
+            <tr><td><strong>F3</strong></td><td><code>filter_max_gap</code></td><td>maior gap interno consecutivo ≤ 3 meses</td><td><code>gap_too_large</code></td></tr>
+            <tr><td><strong>F4</strong></td><td><code>top_n_percent</code> (do v1)</td><td>países que somam até 80% por peso, agrega FOB_80/CIF_80/FOB_100</td><td><code>not_in_top_percent</code></td></tr>
+        </tbody>
+    </table>
+    <p><strong>F4</strong> é a função <code>top_n_percent</code> original do v1, chamada diretamente. Isso garante paridade total na agregação. F1, F2 e F3 são novos: tornam explícito o que antes estava implícito (F1 e F2 dentro do <code>find_IDs</code>) ou ausente (F3, que é a regra nova de gap ≤ 3 meses).</p>
+
+    <!-- =================================================== -->
+    <h2>Configuração</h2>
+    <p>Tudo que é regra de negócio fica em uma única <code>NMConfig</code>. Cada país pode passar uma instância customizada, mas os defaults já refletem as decisões alinhadas com o cliente.</p>
+    <table>
+        <thead>
+            <tr><th>Campo</th><th>Default</th><th>O que controla</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>min_months_required</code></td><td>24</td><td>Histórico mínimo (F2)</td></tr>
+            <tr><td><code>max_internal_gap_months</code></td><td>3</td><td>Gap interno permitido (F3)</td></tr>
+            <tr><td><code>top_percent_threshold</code></td><td>0.8</td><td>Participação acumulada (F4)</td></tr>
+            <tr><td><code>historic_cutoff_date</code></td><td>2022-01-01</td><td>Corte para Type=historic vs target</td></tr>
+            <tr><td><code>revise_published_months</code></td><td>False</td><td>Se True, mês já publicado pode ser sobrescrito (default impede revisão)</td></tr>
+            <tr><td><code>overwrite_recent_history</code></td><td>False</td><td>Append-only por padrão</td></tr>
+            <tr><td><code>save_dropped_dataframe</code></td><td>True</td><td>Persiste o relatório de descartes em parquet</td></tr>
+            <tr><td><code>save_to_upload_dataframe</code></td><td>True</td><td>Persiste o que vai subir antes do upload</td></tr>
+            <tr><td><code>save_run_manifest</code></td><td>True</td><td>Gera o JSON de auditoria do run</td></tr>
+        </tbody>
+    </table>
+
+    <!-- =================================================== -->
+    <h2>Artefatos gerados a cada execução</h2>
+    <table>
+        <thead>
+            <tr><th>Arquivo</th><th>Conteúdo</th><th>Quando é gerado</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><code>silver_{date}.parquet</code></td><td>IDs válidos prontos para o cálculo, agregados por (ID, Data) com FOB_80/CIF_80.</td><td><code>filter_data</code></td></tr>
+            <tr><td><code>dropped_{date}.parquet</code></td><td>IDs/NCMs descartados, com colunas <code>reason</code> e <code>detail</code>.</td><td><code>filter_data</code></td></tr>
+            <tr><td><code>gold_NM_v2_{date}.parquet</code></td><td>Resultado do cálculo: <code>ID, Data, Valor, Valor_Cif</code>.</td><td><code>calculate</code></td></tr>
+            <tr><td><code>to_upload_{date}.parquet</code></td><td>Subconjunto do gold com <code>Data &gt; max_data</code> da plataforma. <strong>Exatamente o que vai subir.</strong></td><td><code>prepare_upload</code></td></tr>
+            <tr><td><code>manifest_v2_{date}.json</code></td><td>Auditoria da execução: parâmetros, contagens por filtro, IDs uploaded, timestamps.</td><td>final do <code>run()</code></td></tr>
+        </tbody>
+    </table>
+
+    <!-- =================================================== -->
+    <h2>O que cada país precisa fazer para usar a v2</h2>
+    <p>Pouca coisa. O pipeline base concentra todas as regras; o arquivo do país só lida com a coleta e o tratamento específico.</p>
+    <ul>
+        <li>Implementar <code>_get_country_name()</code>.</li>
+        <li>Implementar <code>collect_import_data()</code> e <code>collect_export_data()</code> (ou usar <code>iso_database='EUR'</code> para histórico compartilhado).</li>
+        <li>(Opcional) sobrescrever <code>_country_specific_treatment()</code> para regras peculiares do país.</li>
+        <li>(Opcional) passar um <code>NMConfig</code> customizado se quiser desviar dos defaults.</li>
+    </ul>
+
+    <p><code>COMEX_BRA_NM_v2</code> é a referência mínima: herda da nova base e mantém a coleta original do portal COMEX inalterada.</p>
+
+    <!-- =================================================== -->
+    <h2>Decisões de implementação</h2>
+    <ul>
+        <li><strong>Reaproveitamento direto da estatística do v1:</strong> as funções <code>preprocess_data</code>, <code>outlier_testing_stl</code>, <code>final_interpolation</code>, <code>fix_last_month_high_residual</code>, <code>fix_negative_values</code> e <code>find_alpha</code> são importadas do módulo original. Não há reimplementação — os valores produzidos batem com o v1 para os IDs em comum.</li>
+        <li><strong>Top 80% via função do v1:</strong> em vez de uma reimplementação custom, F4 chama <code>top_n_percent</code> diretamente. Garante paridade total na agregação, inclusive em casos de empate de peso entre países.</li>
+        <li><strong>Filtros como funções puras:</strong> dá para testar isoladamente — <code>(df_in) → (df_valid, df_dropped)</code>. Cada um vive em <code>nm_filters.py</code> e tem um motivo de descarte próprio.</li>
+        <li><strong>Append-only por padrão:</strong> o histórico só cresce — anti-join por chave (<code>Data, ncm, pais_id, ImportExport</code>). Nenhum mês já publicado é sobrescrito.</li>
+        <li><strong>Upload estrito:</strong> a fase <code>prepare_upload</code> aplica <code>Data &gt; max_data</code> (estritamente maior). Se o portal não trouxer mês novo, <code>to_upload.parquet</code> fica vazio e nada é enviado.</li>
+        <li><strong>Auditoria:</strong> a cada run, o <code>manifest_v2_{date}.json</code> registra parâmetros usados, totais por filtro e quantos pontos foram para upload. Junto com <code>dropped.parquet</code> e <code>silver.parquet</code>, dá rastro completo do run.</li>
+        <li><strong>Herança mínima do v1:</strong> só para reaproveitar storage helpers, data-contract e tabela de IDs. Toda fase com regra de negócio (<code>update_historical</code>, <code>filter_data</code>, <code>calculate</code>, <code>prepare_upload</code>, <code>upload</code>) é sobrescrita.</li>
+    </ul>
+
+    <div class="footer">
+        Refatoração COMEX NM v2 · base + Brasil concluídos · arquivos originais preservados
+    </div>
+
+</div>
+</body>
+</html>

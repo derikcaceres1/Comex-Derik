@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>COMEX NM v2 — Filtro de upload (alinhamento)</title>
+  <style>
+    :root {
+      --fg: #1a1a1a;
+      --muted: #555;
+      --bg: #fff;
+      --border: #e4e4e4;
+      --accent: #0a4d8c;
+      --warn-bg: #fff7e6;
+      --warn-bd: #f0c674;
+      --good-bg: #effaf1;
+      --good-bd: #9bd1a3;
+      --code-bg: #f6f8fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      line-height: 1.55;
+    }
+    h1 { font-size: 1.7rem; margin: 0 0 4px; color: var(--accent); }
+    h2 { font-size: 1.2rem; margin: 32px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    h3 { font-size: 1.02rem; margin: 20px 0 4px; color: var(--accent); }
+    p, li { font-size: 0.97rem; }
+    .lead { color: var(--muted); margin: 0 0 24px; }
+    code, pre {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.88rem;
+      background: var(--code-bg);
+      border-radius: 4px;
+    }
+    code { padding: 2px 5px; }
+    pre { padding: 10px 12px; overflow-x: auto; border: 1px solid var(--border); }
+    .box {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 14px 0;
+    }
+    .box.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+    .box.good { background: var(--good-bg); border-color: var(--good-bd); }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.92rem;
+      margin: 10px 0;
+    }
+    th, td { padding: 8px 10px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { background: #f0f4f8; }
+    .small { font-size: 0.85rem; color: var(--muted); }
+    .label {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .label.q  { background: #e7f0fa; color: #0a4d8c; }
+    .label.eq { background: #effaf1; color: #2c6e3a; }
+  </style>
+</head>
+<body>
+
+<h1>COMEX NM v2 — Filtro de upload</h1>
+<p class="lead">Alinhamento sobre o filtro que decide o que sobe para a plataforma. Validação rápida antes de mexermos.</p>
+
+<h2>Contexto</h2>
+<p>
+  Antes de subir o gold para a plataforma, o pipeline já <strong>consulta a API Cost Drivers</strong>
+  para descobrir, por ID, qual é a maior data já publicada (<code>max_data</code>). O upload então
+  é filtrado por essa data — só sobe o que estiver "à frente" do que já existe.
+</p>
+<p>
+  A linha que faz isso, hoje, na <code>costdrivers_comex_NM.py</code> (v1) é:
+</p>
+<pre>df_fob_id = df_fob_id[df_fob_id['Data'] <strong>&gt;=</strong> max_data]</pre>
+
+<h2>O ponto de atenção</h2>
+<div class="box warn">
+  <p style="margin:0">
+    O operador é <code>&gt;=</code> (maior <em>ou igual</em>). Isso significa que, todo upload, o
+    <strong>último mês de cada ID já publicado é re-enviado</strong> — porque a Data dele é igual
+    a <code>max_data</code> e cai dentro do filtro.
+  </p>
+</div>
+
+<h3>Exemplo prático</h3>
+<table>
+  <tr><th>Cenário</th><th>Comportamento</th></tr>
+  <tr>
+    <td>Plataforma já tem <strong>Out/2025</strong> publicado para o ID X.<br>
+        Pipeline calcula gold com Out/2025 e Nov/2025.</td>
+    <td>
+      Upload envia <strong>Out/2025</strong> (sobrescreve o publicado) <em>e</em> Nov/2025 (novo).<br>
+      <span class="small">Comportamento: revisão do mês já publicado.</span>
+    </td>
+  </tr>
+</table>
+
+<h2>O que precisamos confirmar com vocês</h2>
+
+<div class="box">
+  <p><span class="label q">Pergunta</span> Esse comportamento — <strong>re-enviar todo o último mês já publicado a cada upload</strong> — é o esperado?</p>
+  <ul>
+    <li>Se a plataforma faz <strong>deduplicação</strong> ou <strong>aceita sobrescrita silenciosamente</strong>, o efeito é nulo e podemos manter como está.</li>
+    <li>Se a regra é "<em>dados de COMEX não devem ser revisados</em>" (no sentido estrito de não tocar mês já publicado), basta trocar <code>&gt;=</code> por <code>&gt;</code> em uma linha — sem nenhum outro impacto.</li>
+  </ul>
+</div>
+
+<h3>As duas opções, lado a lado</h3>
+<table>
+  <tr>
+    <th>Opção</th>
+    <th>Linha</th>
+    <th>Efeito</th>
+  </tr>
+  <tr>
+    <td><strong>Manter (como hoje)</strong></td>
+    <td><code>Data &gt;= max_data</code></td>
+    <td>Re-envia o último mês publicado a cada execução. Se a plataforma deduplica, ok.</td>
+  </tr>
+  <tr>
+    <td><strong>Trocar (mínimo)</strong></td>
+    <td><code>Data &gt; max_data</code></td>
+    <td>Só sobe meses estritamente novos. Mês publicado nunca é tocado.</td>
+  </tr>
+</table>
+
+<h2>Posição atual no v2</h2>
+<div class="box good">
+  <p style="margin:0">
+    <span class="label eq">decisão</span>
+    Por enquanto o método <code>upload()</code> do v2 está <strong>idêntico ao da v1</strong>
+    (mantido o <code>&gt;=</code>). A única adição é a guarda <code>NMConfig.allow_upload</code>,
+    que por padrão é <code>False</code> — nada sobe sem aprovação explícita. Aguardamos a
+    confirmação de vocês para decidir se trocamos ou não.
+  </p>
+</div>
+
+<h2>Resumo</h2>
+<ul>
+  <li><strong>Pergunta única:</strong> a plataforma deduplica o último mês ou precisamos trocar <code>&gt;=</code> por <code>&gt;</code>?</li>
+  <li><strong>Custo da troca:</strong> 1 caractere. Sem impacto no cálculo, no histórico, nos filtros, no gold.</li>
+  <li><strong>Risco de manter:</strong> revisão silenciosa do último mês a cada upload (se a plataforma não dedup).</li>
+</ul>
+
+<p class="small">Documento preparado pela equipe de Data Science · COMEX NM v2</p>
+
+</body>
+</html>

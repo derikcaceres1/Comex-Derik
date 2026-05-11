@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>COMEX NM v2 — Como rodar</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f7fa; color: #2c3e50; line-height: 1.6; padding: 24px;
+}
+.page { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 10px; padding: 40px 52px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+h1 { font-size: 1.65em; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-bottom: 6px; }
+.sub { color: #7f8c8d; font-size: .93em; margin-bottom: 30px; }
+h2 { font-size: 1em; color: #34495e; margin: 30px 0 10px; text-transform: uppercase; letter-spacing: .4px; font-weight: 700; }
+p  { margin: 6px 0 10px; }
+ul, ol { margin: 6px 0 10px 20px; }
+li { margin: 4px 0; }
+code {
+    font-family: "Cascadia Code", Consolas, monospace;
+    background: #eef2f7; color: #c0392b; padding: 1px 6px; border-radius: 3px; font-size: .87em;
+}
+pre {
+    background: #1e2732; color: #cdd9e5; border-radius: 7px;
+    padding: 14px 18px; overflow-x: auto; font-size: .84em; margin: 8px 0 14px;
+    font-family: "Cascadia Code", Consolas, monospace; line-height: 1.65;
+}
+pre .c  { color: #6a9955; }
+pre .kw { color: #79c0ff; }
+pre .s  { color: #a5d6ff; }
+.box {
+    border-radius: 7px; padding: 13px 18px; margin: 12px 0; font-size: .92em;
+}
+.info { background: #eef6fb; border-left: 4px solid #3498db; }
+.warn { background: #fff8e1; border-left: 4px solid #f4c430; }
+.ok   { background: #eefbf0; border-left: 4px solid #27ae60; }
+strong.tag { color: #1f6391; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: .9em; }
+th, td { padding: 8px 12px; border-bottom: 1px solid #e3e8ee; text-align: left; vertical-align: top; }
+th { background: #f8f9fa; font-size: .77em; text-transform: uppercase; letter-spacing: .4px; color: #34495e; font-weight: 700; }
+.tree { font-family: "Cascadia Code", Consolas, monospace; background: #f8f9fa; border: 1px solid #e3e8ee; border-radius: 6px; padding: 16px 20px; font-size: .86em; line-height: 1.9; }
+.footer { margin-top: 30px; padding-top: 14px; border-top: 1px solid #ecf0f1; color: #95a5a6; font-size: .8em; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>COMEX NM v2</h1>
+<p class="sub">Pipeline da Nova Metodologia refatorado — standalone, filtros explícitos, histórico append-only, upload opt-in.<br>Documentação técnica detalhada: <code>REFATORACAO_NM_V2.html</code></p>
+
+<!-- ============================================================ -->
+<h2>Pré-requisitos</h2>
+
+<ul>
+    <li>Python 3.10+</li>
+    <li>Pacotes: <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>pyyaml</code>, <code>openpyxl</code>, <code>pyarrow</code>, <code>requests</code>, <code>beautifulsoup4</code></li>
+    <li>Arquivos de referência presentes no repositório: <code>library/IDS_comex.xlsx</code> e <code>NM/serie_temporal/data-contract.yaml</code></li>
+    <li>Dados históricos em disco: <code>NM/dados/BRA/database/historical.parquet</code> (Brasil) e <code>NM/dados/EUR/database/historical.parquet</code> (Itália / países EUR)</li>
+</ul>
+
+<div class="box info">
+    <strong>Working directory.</strong> Todos os comandos abaixo devem ser executados a partir da pasta <code>comex/</code> (raiz do projeto, onde ficam as pastas <code>NM/</code>, <code>library/</code>, etc.). O v2 resolve todos os paths com base na sua própria localização — não depende do CWD, mas é boa prática manter consistência.
+</div>
+
+<!-- ============================================================ -->
+<h2>Como rodar — Desenvolvimento (sem upload)</h2>
+
+<p>Por padrão os scripts rodam em <strong>modo desenvolvimento</strong>: leem/escrevem apenas em disco, nunca enviam dados à plataforma.</p>
+
+<h2 style="text-transform:none; font-size:.92em; margin-top:18px;">▶ Execução completa (com coleta de dados novos)</h2>
+<pre><span class="c"># Brasil — faz download do portal gov.br + filtros + cálculo</span>
+python NM\serie_temporal\COMEX_BRA\COMEX_BRA_NM_v2.py
+
+<span class="c"># Itália — usa o historical.parquet EUR já em disco</span>
+python NM\serie_temporal\COMEX_ITA\COMEX_ITA_NM_v2.py</pre>
+
+<h2 style="text-transform:none; font-size:.92em; margin-top:18px;">▶ Rerun rápido (pula a coleta, usa o histórico que já está em disco)</h2>
+<pre><span class="c"># Útil para re-testar filtros ou cálculo sem re-fazer o download (~10 min de diferença)</span>
+python NM\serie_temporal\tests\BRA\rerun_calc_v2.py
+python NM\serie_temporal\tests\ITA\rerun_calc_v2.py</pre>
+
+<h2 style="text-transform:none; font-size:.92em; margin-top:18px;">▶ Comparar gold v2 com gold v1 (validação)</h2>
+<pre>python NM\serie_temporal\tests\BRA\comparar_gold_v1_v2.py
+python NM\serie_temporal\tests\ITA\comparar_gold_v1_v2_ita.py</pre>
+
+<h2 style="text-transform:none; font-size:.92em; margin-top:18px;">▶ Rodar tudo de uma vez (rerun + comparação)</h2>
+<pre>powershell -ExecutionPolicy Bypass -File "NM\serie_temporal\tests\run_all.ps1"</pre>
+
+<!-- ============================================================ -->
+<h2>Como habilitar upload (produção)</h2>
+
+<p>O upload tem dois bloqueios por segurança:</p>
+<ol>
+    <li><code>NMConfig.allow_upload</code> — padrão <code>False</code></li>
+    <li>Flag <code>developing=True</code> — bloqueia mesmo se <code>allow_upload=True</code></li>
+</ol>
+<p>Para subir à plataforma, edite o <code>main()</code> do arquivo do país:</p>
+<pre><span class="c"># COMEX_BRA_NM_v2.py — trecho do main()</span>
+pipeline = COMEX_BRA_NM_v2(
+    start_date=start,
+    developing=<span class="s">False</span>,                          <span class="c"># ← desliga modo dev</span>
+    config=NMConfig(allow_upload=<span class="s">True</span>)          <span class="c"># ← habilita upload</span>
+)
+pipeline.run()                                   <span class="c"># ← sem skip_phases</span></pre>
+
+<div class="box warn">
+    <strong>Atenção:</strong> com <code>developing=False</code> o pipeline tentará ler/gravar no Azure Storage. Garanta que as credenciais estejam configuradas antes.
+</div>
+
+<!-- ============================================================ -->
+<h2>Saídas geradas por execução</h2>
+
+<table>
+    <thead><tr><th>Arquivo</th><th>Onde</th><th>Conteúdo</th></tr></thead>
+    <tbody>
+        <tr><td><code>silver_{date}.parquet</code></td><td><code>NM/dados/{ISO}/silver/</code></td><td>IDs válidos após filtros F1–F4, com FOB_80 e CIF_80</td></tr>
+        <tr><td><code>dropped_{date}.parquet</code></td><td><code>NM/dados/{ISO}/silver/</code></td><td>IDs descartados com <code>reason</code> e <code>detail</code></td></tr>
+        <tr><td><code>gold_NM_v2_{date}.parquet</code></td><td><code>NM/dados/{ISO}/gold/</code></td><td>Resultado final: ID, Data, Valor, Valor_Cif</td></tr>
+        <tr><td><code>to_upload_{date}.parquet</code></td><td><code>NM/dados/{ISO}/gold/</code></td><td>Subconjunto do gold — só meses que ainda não estão na plataforma</td></tr>
+        <tr><td><code>manifest_v2_{date}.json</code></td><td><code>NM/dados/{ISO}/gold/</code></td><td>Auditoria: config usada, contagens por fase, timestamps</td></tr>
+    </tbody>
+</table>
+
+<!-- ============================================================ -->
+<h2>Estrutura de arquivos</h2>
+
+<div class="tree">
+serie_temporal/<br>
+&nbsp;&nbsp;costdrivers_comex_NM_v2.py &nbsp; ← <em>classe base standalone — toda a lógica aqui</em><br>
+&nbsp;&nbsp;nm_config.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>NMConfig — parâmetros centralizados</em><br>
+&nbsp;&nbsp;nm_reasons.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>DropReason — enum de motivos de descarte</em><br>
+&nbsp;&nbsp;nm_filters.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>filtros F1–F3 como funções puras</em><br>
+&nbsp;&nbsp;data-contract.yaml &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>mapeamento de colunas por país</em><br>
+<br>
+&nbsp;&nbsp;COMEX_BRA/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;COMEX_BRA_NM_v2.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>subclasse Brasil (scraping portal gov.br)</em><br>
+<br>
+&nbsp;&nbsp;COMEX_ITA/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;COMEX_ITA_NM_v2.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>subclasse Itália / template para outros países EUR</em><br>
+<br>
+&nbsp;&nbsp;tests/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;run_all.ps1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>roda tudo (rerun BRA + ITA + comparações)</em><br>
+&nbsp;&nbsp;&nbsp;&nbsp;BRA/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rerun_calc_v2.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>rerun BRA sem coleta</em><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparar_gold_v1_v2.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>compara gold v1 vs v2 BRA</em><br>
+&nbsp;&nbsp;&nbsp;&nbsp;ITA/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rerun_calc_v2.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← <em>rerun ITA sem coleta</em><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparar_gold_v1_v2_ita.py &nbsp;&nbsp; ← <em>compara gold v1 vs v2 ITA</em>
+</div>
+
+<!-- ============================================================ -->
+<h2>Adicionar um novo país EUR (DEU, FRA, NLD…)</h2>
+
+<p>Copie <code>COMEX_ITA_NM_v2.py</code>, renomeie e troque 3 linhas:</p>
+<pre>class COMEX_DEU_NM_v2(ComexPipelineNMv2):
+    def __init__(self, ...):
+        super().__init__(
+            iso_code=<span class="s">"DEU"</span>,       <span class="c"># ← trocar</span>
+            iso_database=<span class="s">"EUR"</span>,   <span class="c"># ← manter para países EUR</span>
+            ...
+        )
+    def _get_country_name(self) -> str:
+        return <span class="s">"Alemanha"</span>       <span class="c"># ← trocar</span></pre>
+<p>O <code>_country_specific_treatment</code> é idêntico para todos os países EUR — não precisa mudar.</p>
+
+<!-- ============================================================ -->
+<h2>Resultados de validação</h2>
+
+<div class="box ok">
+    BRA: <strong>8.615 IDs</strong> processados · Valor idêntico ao v1 em <strong>85% dos pontos</strong> · diff relativa média <strong>0,03%</strong> · Valor_Cif <strong>100%</strong> idêntico<br>
+    ITA: <strong>13.185 IDs</strong> processados · Valor idêntico ao v1 em <strong>95,7% dos pontos</strong> · diff relativa mediana <strong>0%</strong> · Valor_Cif <strong>100%</strong> idêntico<br><br>
+    IDs descartados (ausentes no v2) têm <code>gap_too_large</code> no <code>dropped.parquet</code> — séries com buracos > 3 meses consecutivos, conforme regra acordada com o cliente.
+</div>
+
+<div class="footer">COMEX NM v2 · standalone · sem dependência do v1 · BRA + ITA validados</div>
+
+</div>
+</body>
+</html>

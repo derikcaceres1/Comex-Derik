@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Técnica — COMEX BRA (Nova Metodologia)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px 48px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-top: 0;
+            font-size: 2.3em;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 50px;
+            border-bottom: 3px solid #ecf0f1;
+            padding-bottom: 10px;
+            font-size: 1.7em;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+            font-size: 1.3em;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h4 {
+            color: #555;
+            margin-top: 22px;
+            font-size: 1.1em;
+        }
+        p { margin: 12px 0; }
+        ul, ol { margin: 12px 0 12px 24px; }
+        li { margin: 6px 0; }
+        .subtitle {
+            font-size: 1.05em;
+            color: #6c757d;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+        .meta {
+            color: #95a5a6;
+            font-size: 0.9em;
+            margin-top: 4px;
+            margin-bottom: 28px;
+        }
+        .nav-links {
+            margin: 25px 0;
+            padding: 16px 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            font-size: 0.95em;
+        }
+        .nav-links a {
+            margin-right: 18px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-links a:hover { text-decoration: underline; }
+        .info-box {
+            background: #e8f4f8;
+            padding: 18px 22px;
+            border-left: 4px solid #3498db;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            padding: 18px 22px;
+            border-left: 4px solid #ffc107;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+        .danger-box {
+            background: #fdecea;
+            padding: 18px 22px;
+            border-left: 4px solid #e74c3c;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+        .success-box {
+            background: #d4edda;
+            padding: 18px 22px;
+            border-left: 4px solid #28a745;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+        .neutral-box {
+            background: #f1f3f5;
+            padding: 18px 22px;
+            border-left: 4px solid #6c757d;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 18px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: "Fira Code", "Courier New", "Consolas", monospace;
+            font-size: 13px;
+            line-height: 1.55;
+            margin: 14px 0;
+        }
+        .code-block pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: white;
+            font-size: 0.95em;
+        }
+        table th, table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+        table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        table tr:hover { background: #fafbfc; }
+        .col-chk { width: 64px; text-align: center !important; font-weight: 600; }
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .tag-ok { background: #d4edda; color: #155724; }
+        .tag-ko { background: #f8d7da; color: #721c24; }
+        .tag-warn { background: #fff3cd; color: #856404; }
+        .tag-info { background: #cce5ff; color: #004085; }
+        code {
+            font-family: "Fira Code", "Courier New", "Consolas", monospace;
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.88em;
+            color: #c7254e;
+        }
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 18px 0;
+            font-size: 14px;
+        }
+        .flow-step {
+            padding: 10px 16px;
+            margin: 6px 0;
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .flow-step.danger {
+            background: #fdecea;
+            border-left-color: #e74c3c;
+        }
+        .flow-step.ok {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        .flow-step .step-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .flow-step .step-detail {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .arrow {
+            text-align: center;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 4px 0;
+        }
+        .section { margin: 36px 0; }
+        .toc {
+            background: #f8f9fa;
+            padding: 22px 26px;
+            border-radius: 8px;
+            margin: 26px 0;
+        }
+        .toc h3 { border-left: none; padding-left: 0; margin-top: 0; }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .toc li {
+            padding: 7px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .toc li:last-child { border-bottom: none; }
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .toc a:hover { text-decoration: underline; }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .file-ref {
+            display: inline-block;
+            background: #eef2f7;
+            border: 1px solid #d3dbe5;
+            color: #2c3e50;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: "Fira Code", "Courier New", monospace;
+            font-size: 0.82em;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        @media (max-width: 900px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .container { padding: 24px; }
+        }
+        .kbd {
+            display: inline-block;
+            padding: 1px 7px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: #f7f7f7;
+            font-family: "Fira Code", monospace;
+            font-size: 0.85em;
+            box-shadow: inset 0 -1px 0 #e1e1e1;
+        }
+        .pillar {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin: 14px 0;
+        }
+        .pillar h4 { margin-top: 0; color: #2c3e50; }
+        .status-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="nav-links">
+        <a href="documentacao_NM.html">← Doc. Nova Metodologia</a>
+        <a href="documentacao_OM.html">Doc. Metodologia Antiga</a>
+        <a href="documentacao_projecao_cif.html">Projeção CIF (SQL)</a>
+    </div>
+
+    <h1>Análise Técnica — COMEX BRA (Nova Metodologia)</h1>
+    <p class="subtitle">Diagnóstico dos problemas reportados pelo cliente, plano de correção e análise de impacto nos demais países NM e no pipeline OM.</p>
+    <p class="meta">Escopo principal: <code>comex/NM/serie_temporal/costdrivers_comex_NM.py</code> e <code>comex/NM/serie_temporal/COMEX_BRA/*</code>. Seções 12 e 13 estendem a análise para <em>todos os países NM</em> e para o <code>comex/OM/costdrivers_comex_OM.py</code> em modo comparativo.</p>
+
+    <div class="info-box">
+        <strong>Como ler este documento:</strong> cada problema listado pelo cliente é rastreado até a função e linha que o causa. Para cada um há (1) causa técnica, (2) teste de validação que confirma o diagnóstico e (3) onde a correção deve ir — sempre indicando se a mudança fica em arquivo <em>geral</em> (afeta todos os países NM) ou apenas no <em>BRA</em>.
+    </div>
+
+    <div class="toc">
+        <h3>Índice</h3>
+        <ul>
+            <li><a href="#decisoes">1. Regras de negócio consolidadas com o cliente</a></li>
+            <li><a href="#arquitetura">2. Arquitetura do pipeline NM do Brasil</a></li>
+            <li><a href="#fluxo">3. Fluxo completo — do portal COMEX à API Cost Drivers</a></li>
+            <li><a href="#mapa">4. Mapa de transformações (função, linha, o que faz)</a></li>
+            <li><a href="#pilares">5. Análise dos 3 pilares exigidos pelo cliente</a></li>
+            <li><a href="#queixas">6. Rastreamento das queixas específicas dos clientes</a></li>
+            <li><a href="#escopo">7. BRA ou arquivo geral? Impacto em outros robôs</a></li>
+            <li><a href="#plano">8. Plano de correção sugerido</a></li>
+            <li><a href="#testes">9. Testes de validação</a></li>
+            <li><a href="#extra">10. Observações complementares</a></li>
+            <li><a href="#resumo">11. Resumo executivo</a></li>
+            <li><a href="#outros-nm">12. Impacto nos demais países NM (varredura do arquivo base)</a></li>
+            <li><a href="#om-comparativo">13. Esses mesmos problemas acontecem no OM?</a></li>
+        </ul>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="decisoes">
+        <h2>1. Regras de negócio consolidadas com o cliente</h2>
+
+        <p>Estas são as 3 diretrizes não-negociáveis, após a rodada de dúvidas:</p>
+
+        <table>
+            <thead>
+                <tr><th style="width:60px;">#</th><th>Regra</th><th>Decisão validada</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>R1</strong></td>
+                    <td>Os dados de COMEX <strong>não devem ser revisados</strong>.</td>
+                    <td>A plataforma só deve receber <strong>dados novos</strong> (meses que ela ainda não possui). Dados já publicados <strong>nunca</strong> podem ser sobrescritos pelo pipeline — nem por outlier, nem por suavização, nem por atualização de histórico.</td>
+                </tr>
+                <tr>
+                    <td><strong>R2</strong></td>
+                    <td>Manter os <strong>dados brutos disponíveis</strong>, em especial os 80% da nova metodologia.</td>
+                    <td>Conforme validado, o pipeline atual já persiste o bruto (<code>historical.parquet</code>) e a agregação top-80 em memória no cálculo. Mantém-se do jeito que está.</td>
+                </tr>
+                <tr>
+                    <td><strong>R3</strong></td>
+                    <td>Interpolação/missing values limitada a, <strong>no máximo, 3 meses</strong>.</td>
+                    <td>Aplica-se a todas as etapas onde o pipeline preenche valores faltantes. Pendência sinalizada ao cliente: decidir se o limite de 3 meses também vale para a <em>cauda</em> da série (extrapolação do final). Ver seção 5.3.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>Escopo deste trabalho:</strong> apenas NM. O OM tem mecânicas próprias (cálculo determinístico por peso, <code>limit=3</code> já aplicado, sem STL), é tratado em documento separado e não está em contradição com as regras acima na mesma medida.
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="arquitetura">
+        <h2>2. Arquitetura do pipeline NM do Brasil</h2>
+
+        <p>O pipeline NM do Brasil é uma <strong>subclasse</strong> do framework base. Praticamente toda a lógica de negócio mora no framework compartilhado.</p>
+
+        <div class="grid-2">
+            <div class="pillar">
+                <h4>Arquivo geral (compartilhado)</h4>
+                <p><span class="file-ref">comex/NM/serie_temporal/costdrivers_comex_NM.py</span></p>
+                <p>Define a classe-base <code>ComexPipelineNM</code>. Contém <strong>toda</strong> a matemática: <code>top_n_percent</code>, <code>preprocess_data</code>, <code>outlier_testing_stl</code>, <code>interpolation_iqr_stl</code>, <code>fix_last_month_high_residual</code>, <code>fix_negative_values</code>, <code>find_alpha</code>, guard-rails de interpolação, upload para a API, gestão do <code>historical.parquet</code>.</p>
+                <p><strong>Usado por:</strong> Brasil e todos os países europeus (EUR).</p>
+            </div>
+            <div class="pillar">
+                <h4>Arquivo específico do Brasil</h4>
+                <p><span class="file-ref">comex/NM/serie_temporal/COMEX_BRA/COMEX_BRA_NM.py</span></p>
+                <p>Subclasse <code>COMEX_BRA_NM</code>. Só implementa (1) coleta do portal <code>comexstat.mdic.gov.br</code> e (2) tratamento país-específico (monta a coluna <code>Data</code> a partir de <code>CO_MES</code>/<code>CO_ANO</code>). <strong>Nenhuma</strong> regra de outlier, interpolação ou CIF vive aqui — tudo é herdado.</p>
+            </div>
+        </div>
+
+        <h3>Separação de IDs entre OM e NM</h3>
+        <p>No Brasil, a mesma tabela <code>IDS_comex.xlsx</code> alimenta os dois pipelines, separados por faixa de ID:</p>
+        <div class="code-block"><pre># Em costdrivers_comex_NM.py, método load_ids_table (linha ~1181)
+ids_mapping = ids_mapping[ids_mapping['IDIndicePrincipal'] >= 382958]   # NM
+
+# Em costdrivers_comex_OM.py, método load_ids_table (linha ~401)
+ids = ids[ids['IDIndicePrincipal'] < 382958]                            # OM</pre></div>
+
+        <h3>Pontos de entrada</h3>
+        <ul>
+            <li><code>comex/NM/serie_temporal/COMEX_BRA/run_upload_bra_nm.py</code> — executa o pipeline completo (coleta → atualiza histórico → normaliza → calcula → sobe).</li>
+            <li><code>comex/NM/serie_temporal/COMEX_BRA/upload_gold_existente.py</code> — sobe um parquet gold já validado sem rodar o resto.</li>
+            <li><code>comex/NM/serie_temporal/COMEX_BRA/diagnostico_historical.py</code> — diagnóstico do <code>historical.parquet</code> (gaps, tamanho, simulação do merge).</li>
+        </ul>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="fluxo">
+        <h2>3. Fluxo completo — do portal COMEX à API Cost Drivers</h2>
+
+        <div class="flow-diagram">
+            <div class="flow-step">
+                <div class="step-title">1 · collect()</div>
+                <div class="step-detail">Baixa dados de importação e exportação do portal <code>comexstat.mdic.gov.br</code>. Salva em <code>NM/dados/BRA/raw/import_raw_{data}.parquet</code> e <code>export_raw_{data}.parquet</code>. <span class="tag tag-ok">Bruto preservado</span></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">2 · _update_historical_data()</div>
+                <div class="step-detail">Lê <code>historical.parquet</code>, remove os últimos <code>update_months</code> (default 3) e os substitui pelos dados recém-coletados. <span class="tag tag-ko">Sobrescreve meses já publicados</span></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">3 · normalize_historical_data()</div>
+                <div class="step-detail">Aplica o <code>data-contract.yaml</code> ao <code>historical.parquet</code> para padronizar colunas.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">4 · calculate() — top_n_percent()</div>
+                <div class="step-detail">Agrega o bruto mantendo apenas os países que somados atingem 80% do peso. Gera <code>FOB_80</code>, <code>CIF_80</code>, <code>kg_ratio</code>. <em>Artefato em memória — não é salvo.</em></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">5 · calculate() — find_IDs()</div>
+                <div class="step-detail">Descarta IDs com menos de 24 meses de histórico.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">6 · calculate() — marca Type='historic' × 'target'</div>
+                <div class="step-detail">Dados antes de <strong>2022-01-01</strong> viram <code>historic</code> (imutáveis). Dados a partir de 2022-01-01 viram <code>target</code> e ficam elegíveis à revisão nas etapas seguintes. <span class="tag tag-warn">Definição crítica</span></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">7 · calculate() — find_alpha()</div>
+                <div class="step-detail">Para cada linha (ID × Data) calcula <code>alpha = CIF_80 / FOB_80</code>, mas só onde <code>CIF_80 &gt; 0</code>. Linhas com CIF zero/NaN ficam sem alpha.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step danger">
+                <div class="step-title">8 · calculate() — preprocess_data()</div>
+                <div class="step-detail">Reindex mensal + <code>fill_tail_nan</code> (média móvel de 3 na cauda NaN, <strong>sem limite</strong>) + <code>interpolate_series</code> (<code>method='linear'</code>, <strong>sem limite</strong>).</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step danger">
+                <div class="step-title">9 · calculate() — outlier_testing_stl()</div>
+                <div class="step-detail">Decompõe em trend+seasonality+resid, marca outlier por z-score&gt;2.5 do resíduo e substitui por <code>trend + season + média(3 resíduos anteriores)</code>. <strong>Atua em dados target, inclusive realizados pós-2022.</strong></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step danger">
+                <div class="step-title">10 · calculate() — final_interpolation()</div>
+                <div class="step-detail">Roda <code>outlier_testing_iqr</code> (IQR 1.5×) e depois <code>interpolation_iqr_stl</code>: marca IQR-outliers em linhas <em>não-historic</em> como NaN e interpola linearmente <strong>sem limite</strong>; fallback por <code>trend+season+resid</code>.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step danger">
+                <div class="step-title">11 · calculate() — fix_last_month_high_residual()</div>
+                <div class="step-detail">Se o último mês está acima de um limiar, substitui por média móvel de 3 ou por <code>trend+season+resid</code>. <strong>Pode reescrever o mês realizado mais recente.</strong></div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step">
+                <div class="step-title">12 · calculate() — fix_negative_values()</div>
+                <div class="step-detail">Troca <code>Valor_final</code> negativo por <code>trend+season+resid</code>.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step danger">
+                <div class="step-title">13 · calculate() — merge alpha + guardrail</div>
+                <div class="step-detail">Faz <code>Valor_Cif = Valor · alpha</code>. Mas o alpha foi calculado só em meses onde <code>CIF_80&gt;0</code> (passado) — em meses futuros fica NaN. O guard-rail final usa <code>interpolate(limit_area='inside')</code> <strong>sem limit</strong>, ou seja, não extrapola para a direita e interpola internamente sem teto.</div>
+            </div>
+            <div class="arrow">▼</div>
+            <div class="flow-step ok">
+                <div class="step-title">14 · upload()</div>
+                <div class="step-detail">Busca a API, pega o último mês já publicado e <strong>envia apenas os meses mais recentes</strong> (diferença). Já respeita R1 parcialmente, mas o gold em si pode conter revisões.</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>Leitura rápida do diagrama:</strong> os passos em vermelho (8, 9, 10, 11, 13) são onde o pipeline atualmente <em>revisa dados</em> ou <em>interpola sem limite</em>. É nesses pontos que as correções precisam acontecer.
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="mapa">
+        <h2>4. Mapa de transformações — função, arquivo, linha, comportamento</h2>
+
+        <p>Todas as referências abaixo apontam para <span class="file-ref">comex/NM/serie_temporal/costdrivers_comex_NM.py</span>.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Etapa</th>
+                    <th>Função</th>
+                    <th>Linha</th>
+                    <th>Comportamento atual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Reindex mensal</td>
+                    <td><code>reindex_series</code></td>
+                    <td>~100</td>
+                    <td>Cria índice contínuo mensal. Sem issues.</td>
+                </tr>
+                <tr>
+                    <td>Fill da cauda</td>
+                    <td><code>fill_tail_nan</code></td>
+                    <td>~130–155</td>
+                    <td>Preenche NaN no final da série usando <code>mean</code> dos 3 anteriores. Roda em loop usando valores recém-preenchidos → <strong>extrapola sem limite de meses</strong>.</td>
+                </tr>
+                <tr>
+                    <td>Interpolação linear interna</td>
+                    <td><code>interpolate_series</code></td>
+                    <td>169</td>
+                    <td><code>interpolate(method='linear')</code> <strong>sem</strong> parâmetro <code>limit</code>. Enche qualquer gap interno.</td>
+                </tr>
+                <tr>
+                    <td>Pré-processamento</td>
+                    <td><code>preprocess_data</code></td>
+                    <td>177–196</td>
+                    <td>Encadeia reindex + fill_tail + interpolate. Herda os dois problemas acima.</td>
+                </tr>
+                <tr>
+                    <td>Top 80%</td>
+                    <td><code>top_n_percent</code></td>
+                    <td>198–388</td>
+                    <td>Agrega países até atingir 80% do peso. Gera <code>FOB_80</code>/<code>CIF_80</code>/<code>kg_ratio</code>. Exporta um XLSX em <code>~/Downloads/top_80_percent_{ts}.xlsx</code> com <code>time.sleep(30)</code>, o que <strong>atrasa cada execução em 30s</strong>.</td>
+                </tr>
+                <tr>
+                    <td>Mínimo de histórico</td>
+                    <td><code>find_IDs</code></td>
+                    <td>390–407</td>
+                    <td>Descarta IDs com menos de 24 meses. Parâmetro <code>min_months_required</code>.</td>
+                </tr>
+                <tr>
+                    <td>Outlier STL</td>
+                    <td><code>outlier_testing_stl</code></td>
+                    <td>409–478</td>
+                    <td>STL robusto; outlier se <code>|z_resid| &gt; 2.5</code> e valor &gt; mediana×2 ou &lt; mediana×0.5. Substitui por <code>trend + season + média(3 resíduos anteriores)</code>. <strong>Revisa realizados pós-2022</strong> porque o filtro exclui só linhas com <code>Type == 'historic'</code>.</td>
+                </tr>
+                <tr>
+                    <td>Outlier IQR</td>
+                    <td><code>outlier_testing_iqr</code></td>
+                    <td>480–517</td>
+                    <td>Bounds <code>Q1 − 1.5·IQR</code> e <code>Q3 + 1.5·IQR</code>. Só marca, não substitui (a substituição vem na função seguinte).</td>
+                </tr>
+                <tr>
+                    <td>Interpolação IQR pós-STL</td>
+                    <td><code>interpolation_iqr_stl</code></td>
+                    <td>519–575</td>
+                    <td>Outliers IQR de linhas não-historic viram NaN; depois <code>interpolate(method='linear')</code> <strong>sem limit</strong>. Se sobrar NaN, usa <code>trend+season+resid</code>. Para outliers na cauda, média móvel de 3.</td>
+                </tr>
+                <tr>
+                    <td>Interpolação final</td>
+                    <td><code>final_interpolation</code></td>
+                    <td>577–583</td>
+                    <td>Chama as duas funções acima em sequência.</td>
+                </tr>
+                <tr>
+                    <td>Ajuste último mês</td>
+                    <td><code>fix_last_month_high_residual</code></td>
+                    <td>585–668</td>
+                    <td>Três regras para último mês: valor &gt; mediana×2, resíduo &gt; threshold, ou negativo. Substitui por média móvel ou modelo. Pode reescrever um mês <strong>realizado</strong>.</td>
+                </tr>
+                <tr>
+                    <td>Valores negativos</td>
+                    <td><code>fix_negative_values</code></td>
+                    <td>670–693</td>
+                    <td>Qualquer <code>Valor_final</code> negativo é substituído por <code>trend+season+resid</code>.</td>
+                </tr>
+                <tr>
+                    <td>Alpha (razão CIF/FOB)</td>
+                    <td><code>find_alpha</code></td>
+                    <td>695–698</td>
+                    <td><code>alpha = CIF_80 / FOB_80</code>, mas só onde <code>CIF_80 &gt; 0</code>. Não preenche meses futuros, nem meses sem CIF histórico.</td>
+                </tr>
+                <tr>
+                    <td>Histórico incremental</td>
+                    <td><code>_update_historical_data</code></td>
+                    <td>1390–1491</td>
+                    <td>Remove os últimos <code>update_months</code> meses (default 3) do histórico e escreve o novo coletado no lugar. <strong>Substitui meses já publicados</strong>. Tem guard-rail para evitar histórico menor, mas isso também pode mascarar falhas de coleta.</td>
+                </tr>
+                <tr>
+                    <td>Merge alpha × cálculo CIF</td>
+                    <td>dentro de <code>calculate</code></td>
+                    <td>1992–2001</td>
+                    <td>Merge <code>how='left'</code> por ID+Data. Alpha ausente → CIF vira NaN. Sem extrapolação do alpha.</td>
+                </tr>
+                <tr>
+                    <td>Guard-rail final</td>
+                    <td><code>guardrail_interpolate_time_series</code></td>
+                    <td>2008–2092</td>
+                    <td><code>interpolate(method='linear', limit_area='inside')</code> <strong>sem limit</strong>. Levanta exceção se sobrar NaN interno. Não extrapola bordas.</td>
+                </tr>
+                <tr>
+                    <td>Upload</td>
+                    <td><code>upload</code></td>
+                    <td>2109–2350</td>
+                    <td>Para cada ID, pega a última data publicada na API e envia só meses mais recentes. <strong>Respeita R1 parcialmente</strong>: não repõe meses antigos — mas se o gold atual tem o mês “atual” com valor diferente do último upload, o próximo upload vai publicar o novo valor porque a comparação é só de data, não de conteúdo.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="pilares">
+        <h2>5. Análise dos 3 pilares exigidos pelo cliente</h2>
+
+        <h3 id="r1">5.1 · R1 — dados de COMEX não devem ser revisados</h3>
+
+        <p>O pipeline atualmente revisa dados em <strong>cinco pontos distintos</strong> — sempre em linhas marcadas como <code>target</code> (data ≥ 2022-01-01), incluindo meses já realizados e já publicados:</p>
+
+        <table>
+            <thead>
+                <tr><th>#</th><th>Local</th><th>Linha</th><th>Tipo de revisão</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td><code>outlier_testing_stl</code></td><td>437–473</td><td>Substitui valor real por <code>trend + season + média(resíduos)</code>.</td></tr>
+                <tr><td>2</td><td><code>interpolation_iqr_stl</code></td><td>530–545</td><td>Zera valor outlier IQR e interpola; fallback via modelo STL.</td></tr>
+                <tr><td>3</td><td><code>fix_last_month_high_residual</code></td><td>585–668</td><td>Reescreve último mês se ele for considerado fora da norma.</td></tr>
+                <tr><td>4</td><td><code>fix_negative_values</code></td><td>670–693</td><td>Substitui qualquer negativo por valor modelado.</td></tr>
+                <tr><td>5</td><td><code>_update_historical_data</code></td><td>1438–1491</td><td>Apaga os últimos N meses e reescreve com nova coleta — mesmo que o mês já tenha sido publicado.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="danger-box">
+            <strong>Causa-raiz comum:</strong> o pipeline só trata como imutável o que é <code>Type == 'historic'</code>, definição essa que corresponde apenas a <em>dados anteriores a 2022-01-01</em>. Tudo de 2022-01-01 em diante é considerado <code>target</code> e entra como candidato à reescrita. Para atender R1 é preciso estender o conceito de imutável: <strong>qualquer mês cuja data seja menor ou igual ao último fechamento oficial não pode ser tocado</strong>.
+        </div>
+
+        <h3 id="r2">5.2 · R2 — manter o bruto disponível (80%)</h3>
+
+        <p>Confirmado com o cliente: <strong>o bruto 80% como está hoje atende</strong>. Apenas registrando o estado atual para futura auditoria:</p>
+
+        <ul>
+            <li><strong>Raw coletado</strong> — salvo em <code>NM/dados/BRA/raw/{import,export}_raw_{data}.parquet</code>. <span class="tag tag-ok">OK</span></li>
+            <li><strong>Histórico 100%</strong> — salvo em <code>NM/dados/BRA/database/historical.parquet</code>. <span class="tag tag-ok">OK</span></li>
+            <li><strong>Top 80% agregado</strong> — hoje existe apenas em memória durante <code>calculate()</code> e é exportado como <em>side effect</em> para <code>~/Downloads/top_80_percent_{ts}.xlsx</code>. <span class="tag tag-info">Mantido como está</span></li>
+        </ul>
+
+        <div class="warning-box">
+            <strong>Sugestão (não bloqueante):</strong> o XLSX em <code>~/Downloads</code> tem um <code>time.sleep(30)</code> (linhas 372–385) que atrasa cada execução em 30 segundos e polui a pasta do operador. Não é parte das 3 regras, mas é uma melhoria quase gratuita.
+        </div>
+
+        <h3 id="r3">5.3 · R3 — interpolação limitada a 3 meses</h3>
+
+        <p>Mapa do que existe hoje:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Função</th>
+                    <th>Linha</th>
+                    <th>Tem <code>limit</code>?</th>
+                    <th class="col-chk">Conforme?</th>
+                    <th>O que faz na prática</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>interpolate_series</code></td>
+                    <td>169</td>
+                    <td>Não</td>
+                    <td class="col-chk"><span class="tag tag-ko">Não</span></td>
+                    <td>Preenche qualquer gap interno, não importa o tamanho.</td>
+                </tr>
+                <tr>
+                    <td><code>fill_tail_nan</code></td>
+                    <td>130–155</td>
+                    <td>Não</td>
+                    <td class="col-chk"><span class="tag tag-ko">Não</span></td>
+                    <td>Preenche toda a cauda NaN usando média dos 3 valores anteriores — inclusive valores recém-preenchidos. Pode estender dezenas de meses.</td>
+                </tr>
+                <tr>
+                    <td><code>interpolation_iqr_stl</code> (interpolate)</td>
+                    <td>536</td>
+                    <td>Não</td>
+                    <td class="col-chk"><span class="tag tag-ko">Não</span></td>
+                    <td>Idem <code>interpolate_series</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>guardrail_interpolate_time_series</code></td>
+                    <td>2065–2068</td>
+                    <td>Só <code>limit_area='inside'</code></td>
+                    <td class="col-chk"><span class="tag tag-ko">Não</span></td>
+                    <td>Restringe à região interna, mas dentro dela preenche tudo.</td>
+                </tr>
+                <tr>
+                    <td>Fallback por <code>trend+season+resid</code></td>
+                    <td>539–545, 660–666, 680–690</td>
+                    <td>Não aplica</td>
+                    <td class="col-chk"><span class="tag tag-ko">Não</span></td>
+                    <td>Não é interpolação, é <em>reconstrução</em> via modelo STL — preenche qualquer NaN restante sem teto.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <strong>Pendência para o cliente (única pergunta aberta sobre R3):</strong>
+            <p style="margin-top:8px;">Hoje o código preenche a <em>cauda</em> da série (meses mais recentes sem dado) usando média móvel dos 3 anteriores. Isso pode estender 4, 6, 10 meses — quantos meses NaN existirem no final. A regra dos 3 meses foi formulada para <em>gaps internos</em>, mas precisamos decidir:</p>
+            <ul>
+                <li><strong>Opção A</strong> — aplicar o limite de 3 meses também para a cauda (não extrapola além disso; série fica NaN até chegar coleta nova).</li>
+                <li><strong>Opção B</strong> — manter a extrapolação da cauda como está hoje (sem limite), tratando cauda como um mecanismo diferente de interpolação.</li>
+            </ul>
+            <p>Minha recomendação é <strong>Opção A</strong>: ela é coerente com o espírito da regra e evita o problema “CIF sem valor” se arrastando por muito tempo. Mas precisa do aval do cliente.</p>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="queixas">
+        <h2>6. Rastreamento das queixas específicas dos clientes</h2>
+
+        <p>Abaixo cada queixa citada é conectada à função que a causa, com a evidência observável no gold e o que muda em disco/API.</p>
+
+        <h3>6.1 · “CIF sem valores”</h3>
+        <table>
+            <tbody>
+                <tr><td><strong>Causa</strong></td><td>Em <code>find_alpha</code> (linha 695–698), o <code>alpha</code> só é calculado onde <code>CIF_80 &gt; 0</code>. Quando o país top-80 de um NCM não tem frete+seguro declarados em algum mês, o <code>CIF_80</code> fica zero e o alpha fica NaN. No merge por ID+Data, o <code>Valor_Cif</code> vira NaN. O guard-rail final usa <code>limit_area='inside'</code> — <strong>não preenche bordas</strong>.</td></tr>
+                <tr><td><strong>Evidência</strong></td><td>No gold: <code>ImportExport=1</code>, <code>Valor</code> preenchido, <code>Valor_Cif = NaN</code>.</td></tr>
+                <tr><td><strong>Onde corrigir</strong></td><td><code>calculate()</code> — após calcular alpha, aplicar <code>groupby('ID')['alpha'].transform(lambda s: s.ffill().bfill())</code> ou usar a razão média por mês-calendário (mesma lógica da <code>projecao_cif.sql</code>) para cobrir meses sem alpha histórico.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>6.2 · “Projetado no meio de realizado”</h3>
+        <table>
+            <tbody>
+                <tr><td><strong>Causa 1</strong></td><td><code>outlier_testing_stl</code> (437–473) marca um valor realizado como outlier e o substitui por <code>trend+season+média(resid)</code>. Para o cliente, isso <em>é</em> uma projeção inserida no meio do realizado.</td></tr>
+                <tr><td><strong>Causa 2</strong></td><td><code>interpolation_iqr_stl</code> (530–545) interpola <strong>sem limite de meses</strong> após marcar outliers IQR como NaN. Um gap de 6-12 meses entre dois meses realizados é preenchido por uma reta linear, sem que o cliente consiga distinguir o que foi medido do que foi inferido.</td></tr>
+                <tr><td><strong>Causa 3</strong></td><td><code>fix_last_month_high_residual</code> (585–668) reescreve o último mês se ele foge do modelo — mesmo quando o mês é realizado e correto.</td></tr>
+                <tr><td><strong>Evidência</strong></td><td>No gold, o <code>Valor</code> de um mês passado está diferente do <code>historical.parquet</code> bruto para o mesmo ID/Data. O diagnóstico T1 (seção 9) detecta isso diretamente.</td></tr>
+                <tr><td><strong>Onde corrigir</strong></td><td>Dentro das 3 funções acima: aplicar a regra R1 — se <code>Data &lt; mês-corrente</code>, mantém o valor original independentemente do resultado do STL. Alternativa: preservar o valor original em uma coluna <code>Valor_original</code> e escrever a modificação em <code>Valor_modelado</code>, deixando o cliente escolher qual publicar.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>6.3 · “CIF sem projeção”</h3>
+        <table>
+            <tbody>
+                <tr><td><strong>Causa</strong></td><td>O FOB é extrapolado para o futuro via <code>trend+season+resid</code> (STL). Já o alpha, como visto em 6.1, <strong>não</strong> é extrapolado — só existe em meses com CIF histórico. Logo, <code>Valor_Cif = Valor × NaN = NaN</code> para todos os meses futuros projetados.</td></tr>
+                <tr><td><strong>Ponto importante</strong></td><td>Existe uma rotina SQL em produção (<code>NM/projecao_cif/processamento_BR.sql</code>) que faz essa projeção depois no banco, usando média CIF/FOB por mês-calendário. Mas o <em>gold</em> que sai da DS já vai incompleto — é esse gold que o cliente consegue ver antes do SQL rodar.</td></tr>
+                <tr><td><strong>Onde corrigir</strong></td><td>No <code>calculate()</code>, trazer a lógica do SQL para dentro do Python: calcular <code>alpha_mes = mean(CIF/FOB)</code> por mês-calendário usando apenas <code>Type='historic'</code> onde <code>CIF &gt; FOB</code> (mesma condição do SQL), e usar esse <code>alpha_mes</code> como fallback quando o alpha linha-a-linha for NaN. Isso alinha o Python com a especificação já validada da SQL.</td></tr>
+            </tbody>
+        </table>
+
+        <h3>6.4 · Revisão silenciosa dos últimos meses a cada execução</h3>
+        <table>
+            <tbody>
+                <tr><td><strong>Causa</strong></td><td><code>_update_historical_data</code> (1390–1491) com <code>update_months=3</code>: a cada run, os últimos 3 meses do <code>historical.parquet</code> são descartados e reescritos com a nova coleta. Se a coleta do mês N vier parcial ou corrigida, o histórico muda sem que ninguém seja alertado.</td></tr>
+                <tr><td><strong>Evidência</strong></td><td>Executar o pipeline duas vezes no mesmo dia e comparar o <code>historical.parquet</code>. Mudanças em meses antes do mês-corrente violam R1.</td></tr>
+                <tr><td><strong>Onde corrigir</strong></td><td>Reduzir <code>update_months</code> para <strong>1</strong> (só o mês em aberto) ou parametrizar por país. Alternativa mais robusta: o histórico <em>só acrescenta</em> meses novos; meses já gravados ficam congelados.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="escopo">
+        <h2>7. BRA ou arquivo geral? Impacto em outros robôs</h2>
+
+        <div class="warning-box">
+            Como o cliente confirmou: <strong>as correções são para o NM</strong> (o OM tem regras próprias e fica fora). Dentro do NM, o arquivo <code>costdrivers_comex_NM.py</code> é compartilhado pelo Brasil e pelos países europeus (EUR). Portanto, qualquer mudança em função genérica <strong>afeta todos</strong>.
+        </div>
+
+        <h3>Estratégia recomendada: flags por país, defaults seguros</h3>
+        <p>Em vez de alterar a lógica hardcoded, introduzir parâmetros no <code>__init__</code> da <code>ComexPipelineNM</code>:</p>
+
+        <div class="code-block"><pre>class ComexPipelineNM:
+    def __init__(
+        self,
+        ...,
+        revise_realized: bool = False,        # R1: proíbe revisão em meses já fechados
+        max_interpolation_months: int = 3,    # R3: limite de gap interpolado
+        max_tail_extrapolation_months: int = 3,  # R3 opcional, ver pendência
+        historical_update_months: int = 1,    # só o mês em aberto é reescrito
+        alpha_fallback: str = 'monthly_mean', # 'ffill' | 'monthly_mean' | 'none'
+    ):
+        ...</pre></div>
+
+        <p>A subclasse <code>COMEX_BRA_NM</code> seta os valores que o cliente exige. Os países europeus continuam com o comportamento anterior até haver decisão explícita sobre eles.</p>
+
+        <table>
+            <thead>
+                <tr><th>Problema</th><th>Correção vai em</th><th>Afeta outros países NM?</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>R1 — congelar realizados</td><td><code>costdrivers_comex_NM.py</code> (funções 8–11 do fluxo)</td><td>Sim, por flag. Default mantém comportamento atual.</td></tr>
+                <tr><td>R3 — limit=3 na interpolação</td><td><code>costdrivers_comex_NM.py</code> (169, 536, 2065)</td><td>Sim, por flag.</td></tr>
+                <tr><td>R3 opcional — limit de 3 na cauda</td><td><code>costdrivers_comex_NM.py</code> (<code>fill_tail_nan</code>)</td><td>Sim, por flag.</td></tr>
+                <tr><td>CIF sem projeção</td><td><code>costdrivers_comex_NM.py</code> (<code>calculate</code> linhas 1992–2001)</td><td>Sim — trazer lógica equivalente ao SQL para o Python resolve todos os países de uma vez.</td></tr>
+                <tr><td>Revisão silenciosa do histórico</td><td><code>costdrivers_comex_NM.py</code> (<code>_update_historical_data</code>)</td><td>Sim, por flag (<code>historical_update_months</code>).</td></tr>
+                <tr><td>Especialização de coleta BRA</td><td><code>COMEX_BRA/COMEX_BRA_NM.py</code></td><td>Não.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            Em resumo: <strong>nenhuma das correções deve ir no arquivo do BRA</strong>. Todas vivem no arquivo geral, mas ficam atrás de flags ativadas pelo BRA. Isso isola risco, permite A/B e deixa os europeus inalterados até que o cliente decida.
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="plano">
+        <h2>8. Plano de correção sugerido</h2>
+
+        <p>Ordem por custo × impacto. Nada nesta seção foi implementado — apenas proposto.</p>
+
+        <div class="pillar">
+            <h4>Passo 1 · Introduzir as flags no <code>ComexPipelineNM</code></h4>
+            <p><strong>O que muda:</strong> só a assinatura do <code>__init__</code> ganha novos parâmetros com defaults iguais ao comportamento atual. Ninguém quebra.</p>
+            <p><strong>Valida com teste T6.</strong></p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 2 · Aplicar <code>max_interpolation_months=3</code></h4>
+            <p><strong>Arquivos/linhas:</strong> linhas 169, 536 e 2065. Trocar <code>interpolate(method='linear')</code> por <code>interpolate(method='linear', limit=self.max_interpolation_months, limit_area='inside')</code>.</p>
+            <p><strong>Atende:</strong> R3 (gaps internos). <strong>Valida:</strong> T2.</p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 3 · Aplicar <code>max_tail_extrapolation_months=3</code> em <code>fill_tail_nan</code></h4>
+            <p><strong>Condicional à resposta do cliente.</strong> Se Opção A (recomendada): limitar o loop em <code>fill_tail_nan</code> ao número de meses configurado, deixando NaN depois disso. Opção B: manter.</p>
+            <p><strong>Valida:</strong> T2 estendido para cauda.</p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 4 · Congelar realizados (R1)</h4>
+            <p><strong>Regra:</strong> criar um timestamp <code>last_closed_month = date.today().replace(day=1) - relativedelta(months=1)</code> e, em cada função de revisão (<code>outlier_testing_stl</code>, <code>interpolation_iqr_stl</code>, <code>fix_last_month_high_residual</code>, <code>fix_negative_values</code>), pular qualquer linha com <code>Data &lt;= last_closed_month</code> quando <code>revise_realized=False</code>.</p>
+            <p><strong>Atende:</strong> R1. <strong>Valida:</strong> T1 e T4.</p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 5 · Reduzir janela de reescrita do histórico</h4>
+            <p><strong>O que muda:</strong> setar <code>historical_update_months=1</code> no BRA. O pipeline só vai reescrever o mês em aberto.</p>
+            <p><strong>Atende:</strong> R1 na camada de histórico. <strong>Valida:</strong> T5.</p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 6 · Resolver "CIF sem projeção" no Python</h4>
+            <p><strong>Implementação:</strong> antes do merge alpha × Valor (linhas 1992–2001), calcular <code>alpha_fallback_por_mes = mean(Valor_Cif/Valor)</code> sobre <code>Type='historic'</code> + <code>CIF &gt; FOB</code>, agrupado por <code>(ID, month_of_year)</code>. No merge, aplicar <code>alpha.combine_first(alpha_fallback_por_mes)</code>.</p>
+            <p><strong>Atende:</strong> queixa 6.1 e 6.3. <strong>Valida:</strong> T3.</p>
+        </div>
+
+        <div class="pillar">
+            <h4>Passo 7 · Ativar as flags no BRA</h4>
+            <p><strong>Onde:</strong> <code>COMEX_BRA_NM.py</code> — no <code>super().__init__(...)</code>, passar <code>revise_realized=False, max_interpolation_months=3, historical_update_months=1, alpha_fallback='monthly_mean'</code>.</p>
+            <p>Os demais países continuam rodando como estavam.</p>
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="testes">
+        <h2>9. Testes de validação</h2>
+
+        <p>Todos os testes usam os parquets já existentes em <code>comex/NM/dados/BRA/</code>. São diagnósticos de leitura — não modificam nada.</p>
+
+        <h3>T1 · Inventário de realizados que foram reescritos</h3>
+        <div class="code-block"><pre>import pandas as pd, pathlib
+hist = pd.read_parquet("comex/NM/dados/BRA/database/historical.parquet")
+gold_path = sorted(pathlib.Path("comex/NM/dados/BRA/gold").glob("gold_NM_*.parquet"))[-1]
+gold = pd.read_parquet(gold_path)
+
+# Reconstituir FOB_80 de referência do histórico bruto (ID, Data)
+ref = (hist.groupby(['IDIndicePrincipal','Data']).agg(
+    v=('valor','sum'), p=('peso','sum')).reset_index())
+ref['FOB_ref'] = ref['v'] / ref['p']
+
+cmp = gold.merge(ref, left_on=['ID','Data'],
+                 right_on=['IDIndicePrincipal','Data'], how='left')
+cmp['diff_pct'] = (cmp['Valor'] - cmp['FOB_ref']).abs() / cmp['FOB_ref']
+# Qualquer diff_pct &gt; 1% em Data &lt; mês-corrente indica realizado reescrito.
+print(cmp[cmp['diff_pct'] &gt; 0.01].head(50))</pre></div>
+        <p><strong>Valida:</strong> R1. Espera-se zero antes da correção: provavelmente haverá centenas.</p>
+
+        <h3>T2 · Tamanho de gap preenchido</h3>
+        <div class="code-block"><pre>import pandas as pd
+gold = pd.read_parquet(gold_path)
+# Detectar sequências consecutivas de meses interpolados por ID.
+# No gold corrente, procurar por FOB variando em linha reta por &gt; 3 meses
+#   (indício de interpolação linear) e gaps preenchidos contra histórico com NaN.</pre></div>
+        <p><strong>Valida:</strong> R3.</p>
+
+        <h3>T3 · CIF faltante no gold</h3>
+        <div class="code-block"><pre>import pandas as pd
+gold = pd.read_parquet(gold_path)
+imp = gold[gold['ImportExport'] == 1]
+missing_cif = imp[imp['Valor'].notna() &amp; imp['Valor_Cif'].isna()]
+by_when = missing_cif.assign(
+    periodo=lambda d: (d['Data'] &gt;= pd.Timestamp.today().normalize().replace(day=1))
+    .map({True:'futuro', False:'passado'}))
+print(by_when.groupby('periodo').size())</pre></div>
+        <p><strong>Valida:</strong> queixas 6.1 e 6.3.</p>
+
+        <h3>T4 · Projetado no meio de realizado</h3>
+        <p>Identificar IDs onde <code>historical.parquet</code> tem valor não-nulo em M, M+1, M+2 e o gold difere em mais de 5% em algum desses meses. Lista candidatos a revisão indevida (STL ou IQR).</p>
+
+        <h3>T5 · Mudança silenciosa do histórico</h3>
+        <div class="code-block"><pre># Rodar o pipeline duas vezes no mesmo dia.
+# Comparar hashes do historical.parquet no início e no fim.
+# Meses com Data &lt; mês-corrente devem ter hash idêntico.</pre></div>
+
+        <h3>T6 · Regressão por flag</h3>
+        <p>Rodar o pipeline com as novas flags ligadas e desligadas sobre o mesmo histórico e comparar o gold linha a linha. Esperado: com <code>revise_realized=False</code>, o gold para meses fechados bate exatamente o histórico bruto agregado.</p>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="extra">
+        <h2>10. Observações complementares</h2>
+
+        <ul>
+            <li><strong>XLSX em <code>~/Downloads</code>:</strong> <code>top_n_percent</code> exporta um Excel e chama <code>time.sleep(30)</code>. Fora do escopo das 3 regras, mas custa 30s por execução.</li>
+            <li><strong>Guard-rail do histórico:</strong> <code>_update_historical_data</code> rejeita substituições que diminuiriam o histórico (linhas 1629-1648). Bom para integridade, mas <strong>silencia falhas de coleta</strong>. Logar esses casos com severidade alta ajudaria.</li>
+            <li><strong>Credenciais hardcoded:</strong> <code>pass_word</code>, <code>identity</code>, <code>key</code> estão no código-fonte (linhas 2153, 2183). Não está no escopo desta tarefa, mas é dívida de segurança.</li>
+            <li><strong>Upload já é incremental:</strong> o <code>upload()</code> (linha 2109) busca a última data publicada e só envia o que for mais recente. Isso já ajuda no R1 — mas <em>somente</em> para meses futuros. Os meses já publicados continuam no gold e voltariam para a API se alguém forçasse um re-envio completo.</li>
+            <li><strong><code>projecao_cif.sql</code>:</strong> se a lógica dessa SQL for incorporada ao <code>calculate()</code> do Python (passo 6 do plano), o SQL fica redundante. Vale alinhar com o pessoal de banco.</li>
+        </ul>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="resumo">
+        <h2>11. Resumo executivo</h2>
+
+        <div class="success-box">
+            <strong>O que está saudável hoje:</strong>
+            <ul>
+                <li>O bruto raw e o <code>historical.parquet</code> estão preservados (R2 ✅).</li>
+                <li>O <code>upload()</code> já é incremental na direção futura.</li>
+                <li>A estrutura do pipeline (coleta → histórico → cálculo → upload) é limpa e a separação OM/NM via ID (<code>382958</code>) é consistente.</li>
+            </ul>
+        </div>
+
+        <div class="danger-box">
+            <strong>O que precisa mudar — resumo em 5 pontos:</strong>
+            <ol>
+                <li><strong>R3 não está implementada no NM.</strong> Três funções interpolam sem limite (linhas 169, 536, 2065) e <code>fill_tail_nan</code> extrapola a cauda sem teto.</li>
+                <li><strong>Realizados pós-2022 não são tratados como imutáveis.</strong> A classificação <code>target</code> libera reescrita em 4 funções — isso é a origem de "projetado no meio de realizado" e da revisão contínua.</li>
+                <li><strong><code>_update_historical_data</code> sobrescreve meses já publicados</strong> a cada execução (<code>update_months=3</code>).</li>
+                <li><strong>Alpha não é extrapolado</strong> — meses futuros ficam com <code>Valor_Cif = NaN</code>, gerando "CIF sem projeção".</li>
+                <li><strong>Todas as correções vão no arquivo geral</strong> <code>costdrivers_comex_NM.py</code>, <strong>atrás de flags</strong>, com defaults que preservam o comportamento atual. O arquivo do BRA só liga as flags. Zero risco para os países europeus.</li>
+            </ol>
+        </div>
+
+        <div class="info-box">
+            <strong>Pendência única para confirmar com o cliente:</strong> o limite de 3 meses vale também para a <em>cauda</em> da série (Opção A, recomendada) ou só para gaps internos (Opção B)?
+        </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="outros-nm">
+        <h2>12. Impacto nos demais países NM — varredura do arquivo base</h2>
+
+        <div class="warning-box">
+            <strong>Conclusão de topo:</strong> todos os problemas descritos nas seções 5 e 6 vivem em funções do arquivo <code>costdrivers_comex_NM.py</code>. Como esse arquivo é a <strong>classe-base de todos</strong> os pipelines NM (Brasil + Europa + qualquer país futuro), <strong>os mesmos bugs se manifestam em todos os países NM</strong>, não só no Brasil. A diferença é só quantitativa (quantos IDs, quanto volume).
+        </div>
+
+        <h3>12.1 · Países que hoje usam a <code>ComexPipelineNM</code></h3>
+
+        <table>
+            <thead>
+                <tr><th>País</th><th>Subclasse</th><th><code>iso_code</code></th><th><code>iso_database</code></th><th>Coleta própria?</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Brasil</td><td><code>COMEX_BRA_NM</code></td><td>BRA</td><td>BRA</td><td>Sim (portal comexstat)</td></tr>
+                <tr><td>Alemanha</td><td><code>COMEX_DEU_NM</code></td><td>DEU</td><td>EUR</td><td>Não — consome histórico EUR</td></tr>
+                <tr><td>França / Itália / Espanha / Holanda / Bélgica / Suécia / Polônia etc.</td><td><code>COMEX_{ISO}_NM</code></td><td>vários</td><td>EUR</td><td>Não — consome histórico EUR</td></tr>
+                <tr><td>EUR (histórico compartilhado)</td><td><code>COMEX_EUR_NM</code></td><td>EUR</td><td>EUR</td><td>Sim (fonte Eurostat)</td></tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            Como o cluster europeu todo compartilha <strong>o mesmo <code>historical.parquet</code></strong> via <code>iso_database='EUR'</code>, qualquer bug que afete o arquivo base afeta todos os países europeus <em>simultaneamente</em> — inclusive a atualização de histórico, o STL, o cálculo do alpha e o upload bugado. Brasil é o único país que tem o próprio histórico isolado.
+        </div>
+
+        <h3>12.2 · Pontos do arquivo base que afetam <strong>todos</strong> os países</h3>
+
+        <p>Lista completa dos pontos problemáticos, em ordem de execução dentro da pipeline. Todos em <span class="file-ref">comex/NM/serie_temporal/costdrivers_comex_NM.py</span>.</p>
+
+        <table>
+            <thead>
+                <tr><th>#</th><th>Função / trecho</th><th>Linha</th><th>Problema</th><th>Afeta R1</th><th>Afeta R3</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td><code>fill_tail_nan</code></td>
+                    <td>130–155</td>
+                    <td>Preenche toda a cauda NaN com média móvel de 3, em loop cumulativo — sem limite de meses.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td><code>interpolate_series</code></td>
+                    <td>169</td>
+                    <td><code>interpolate(method='linear')</code> sem <code>limit</code>; enche qualquer gap interno.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td><code>top_n_percent</code></td>
+                    <td>370–385</td>
+                    <td>Exporta XLSX em <code>~/Downloads</code> e chama <code>time.sleep(30)</code> — 30 s perdidos por execução em <strong>todos</strong> os países. Em Airflow, isso acumula.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td><code>find_IDs</code></td>
+                    <td>391</td>
+                    <td>Merge <code>inner</code>; IDs do <code>IDS_comex.xlsx</code> que não aparecerem no histórico são descartados <em>silenciosamente</em>. Pode esconder falhas de coleta em países europeus inteiros.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>E</td>
+                    <td><code>find_IDs</code></td>
+                    <td>404</td>
+                    <td>Exige ≥ 24 meses de histórico. IDs recém-criados ficam fora do pipeline mesmo tendo dado válido.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td><code>outlier_testing_stl</code></td>
+                    <td>437–473</td>
+                    <td>Substitui valor real por <code>trend+season+média(resid)</code> sem checar se é mês realizado. Atua em qualquer data.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>G</td>
+                    <td><code>interpolation_iqr_stl</code></td>
+                    <td>530–545</td>
+                    <td>Marca outliers IQR como NaN em linhas <code>Type='target'</code> (≥ 2022-01-01), interpola linearmente <strong>sem limit</strong>, e usa <code>trend+season+resid_smoothed</code> como fallback.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>H</td>
+                    <td><code>interpolation_iqr_stl</code> (trailing)</td>
+                    <td>548–569</td>
+                    <td>Se o último mês é outlier IQR, substitui toda a sequência trailing por média móvel de 3.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>I</td>
+                    <td><code>fix_last_month_high_residual</code></td>
+                    <td>585–668</td>
+                    <td>Três regras para último mês; reescreve valor realizado sem checar se é mês já publicado.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>J</td>
+                    <td><code>fix_negative_values</code></td>
+                    <td>670–693</td>
+                    <td>Substitui qualquer negativo por <code>trend+season+resid</code>; preenche NaN restantes (não-historic) via modelo sem teto.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>K</td>
+                    <td><code>find_alpha</code> + filtro em <code>calculate</code></td>
+                    <td>695–698, 1889</td>
+                    <td>Alpha só existe onde <code>CIF_80 &gt; 0</code>. Meses sem CIF histórico (ou futuros) ficam com <code>alpha = NaN</code> → <code>Valor_Cif = NaN</code>.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>L</td>
+                    <td><code>calculate</code> — marca <code>Type</code></td>
+                    <td>1883–1884</td>
+                    <td>Tudo &lt; 2022-01-01 vira <code>historic</code> (imutável). Tudo a partir de 2022-01-01 vira <code>target</code> — inclusive meses já realizados e publicados. Essa é a origem conceitual da revisão de realizados.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>M</td>
+                    <td><code>calculate</code> — drop histórico após STL</td>
+                    <td>1939</td>
+                    <td>Remove todas as linhas <code>Type != 'target'</code> antes da interpolação final. Os dados &lt; 2022 só existem para alimentar a decomposição STL — mas depois somem do gold.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>N</td>
+                    <td><code>calculate</code> — merge alpha</td>
+                    <td>1992–2001</td>
+                    <td>Merge <code>left</code> on ID+Data. Alpha ausente → <code>Valor_Cif = NaN</code> sem fallback.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>O</td>
+                    <td><code>guardrail_interpolate_time_series</code></td>
+                    <td>2065–2068</td>
+                    <td><code>interpolate(method='linear', limit_area='inside')</code> — sem <code>limit</code>. Valida ausência de buracos e <strong>levanta exceção</strong> se sobrar NaN interno (linha 2079–2083). Ou seja: ou interpola tudo sem teto, ou quebra.</td>
+                    <td class="col-chk">—</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>P</td>
+                    <td><code>run</code> — chamada fixa</td>
+                    <td>2596</td>
+                    <td><code>self.update_historical(update_months=3)</code> hardcoded. Não é parâmetro da instância; países não conseguem configurar sem redefinir o <code>run</code>. Cada execução reescreve os últimos 3 meses do histórico, inclusive meses já publicados na API.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+                <tr>
+                    <td>Q</td>
+                    <td><code>upload</code> — filtro de novidade</td>
+                    <td>2244–2246</td>
+                    <td>
+                        <strong>Bug grave encontrado na varredura.</strong> O filtro usado é
+                        <code>df_fob_id = df_fob_id[df_fob_id['Data'] &gt;= max_data]</code>
+                        — condição de <em>maior ou igual</em>. Isso significa que <strong>o último mês já publicado na API é re-enviado a cada execução</strong> com o valor atualizado do gold. Como o gold pode ter sido revisado por F, G, I ou J, o mês anterior é silenciosamente reescrito na plataforma a cada run. Deveria ser <code>&gt;</code> (estritamente maior).
+                    </td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>12.3 · Consequências práticas para cada país</h3>
+
+        <table>
+            <thead>
+                <tr><th>Item</th><th>Brasil</th><th>Países europeus</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Revisão de realizados pós-2022 (F, G, I, J)</td>
+                    <td>Ocorre. Cliente BRA reportou.</td>
+                    <td>Ocorre igual. Se ninguém reportou, é porque o volume de consulta ao gold europeu é menor — o bug está lá.</td>
+                </tr>
+                <tr>
+                    <td>Interpolação de gaps grandes (B, G, J, O)</td>
+                    <td>Ocorre. Qualquer ID com gap de 4+ meses no histórico vira linha reta no gold.</td>
+                    <td>Ocorre. Histórico Eurostat também tem meses faltantes por revisão; esses gaps são preenchidos sem alerta.</td>
+                </tr>
+                <tr>
+                    <td>Sobreposição de histórico (P)</td>
+                    <td>A cada run, últimos 3 meses do <code>BRA/database/historical.parquet</code> são reescritos.</td>
+                    <td>A cada run do EUR, últimos 3 meses do <code>EUR/database/historical.parquet</code> — que serve <strong>9 países europeus</strong> — são reescritos. Um único run do EUR impacta 9 pipelines.</td>
+                </tr>
+                <tr>
+                    <td>Upload re-enviando mês publicado (Q)</td>
+                    <td>Sim.</td>
+                    <td>Sim. Mesmo quando não há dado novo para um ID, o mês da fronteira é re-enviado com valor possivelmente diferente do anterior.</td>
+                </tr>
+                <tr>
+                    <td>CIF sem valor/projeção (K, N)</td>
+                    <td>Cliente BRA reportou.</td>
+                    <td>Ocorre também em importações europeias com frete/seguro zerados em algum mês — mas a <code>projecao_cif.sql</code> só cobre Brasil (paisID=27), então os europeus não têm rede de segurança.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="danger-box">
+            <strong>Importante:</strong> a <code>projecao_cif.sql</code> documentada em <code>documentacao_projecao_cif.html</code> filtra por <code>paisID = 27</code>. Ou seja, <strong>só o Brasil</strong> hoje tem a rede de segurança SQL que preenche CIF projetado no banco. Os países europeus ficam com o gold incompleto saindo direto para a API.
+        </div>
+
+        <h3>12.4 · Estratégia de correção aplicada a todos os NM</h3>
+
+        <p>O plano da seção 8 continua válido — só precisa ser tomado como <strong>obrigatório para todo o cluster NM</strong>, não uma melhoria específica do Brasil. As flags propostas no <code>__init__</code> da <code>ComexPipelineNM</code> devem ter defaults seguros (comportamento atual) para não quebrar retrocompatibilidade, mas <strong>todas as subclasses (BRA + EUR + países individuais)</strong> devem ativá-las o mais breve possível.</p>
+
+        <p>Prioridades sugeridas:</p>
+        <ol>
+            <li><strong>Corrigir o filtro Q</strong> (linha 2246: <code>&gt;=</code> para <code>&gt;</code>). É a correção de menor custo e maior impacto imediato em R1. Não precisa de flag — é um bug.</li>
+            <li><strong>Adicionar flag <code>max_interpolation_months=3</code></strong> nas funções A, B, G, J, O. Defaults podem ser <code>None</code> (comportamento atual).</li>
+            <li><strong>Adicionar flag <code>revise_realized=False</code></strong> em F, G, H, I, J. Default <code>True</code> (comportamento atual).</li>
+            <li><strong>Parametrizar P</strong> via <code>historical_update_months</code> no <code>__init__</code> (default 3). BRA passaria a usar 1.</li>
+            <li><strong>Alpha fallback</strong> (K/N) para cobrir a lacuna deixada pela SQL.</li>
+        </ol>
+    </div>
+
+    <!-- ======================================================= -->
+    <div class="section" id="om-comparativo">
+        <h2>13. Esses mesmos problemas acontecem no OM?</h2>
+
+        <p>Fiz a varredura equivalente em <span class="file-ref">comex/OM/costdrivers_comex_OM.py</span> para responder essa pergunta de frente. Resposta curta: <strong>alguns sim, outros não</strong> — o OM é arquiteturalmente menos agressivo, mas ainda tem 2 problemas reais.</p>
+
+        <h3>13.1 · Pontos onde o OM é diferente do NM (por design)</h3>
+
+        <div class="grid-2">
+            <div class="pillar">
+                <h4>Não tem histórico incremental</h4>
+                <p>O OM recalcula tudo a partir do raw coletado em cada execução. Não existe <code>historical.parquet</code> nem <code>_update_historical_data</code>. Portanto <strong>o problema P do NM não existe no OM</strong>.</p>
+                <p>Trade-off: se a coleta falha, o OM simplesmente não atualiza — o que é melhor do que reescrever silenciosamente o passado.</p>
+            </div>
+            <div class="pillar">
+                <h4>Não usa STL</h4>
+                <p>Sem decomposição trend+season+resid. Os problemas F, J (usam modelo STL para reconstruir valor) <strong>não existem no OM</strong>. A única forma de revisão é por IQR.</p>
+            </div>
+            <div class="pillar">
+                <h4>Não agrega por 80%</h4>
+                <p>No OM a função equivalente é <code>treat()</code> (linha 478-570), que simplesmente agrega por <code>groupby(ID, Data, ImportExport).sum()</code> e divide. É o bruto 100% — não existe nenhuma seleção parcial. Portanto R2 do cliente está plenamente atendida no OM.</p>
+            </div>
+            <div class="pillar">
+                <h4>Projeção só para frente</h4>
+                <p><code>calculate_new_values</code> (linha 1566–1675) explicitamente filtra <code>sub_df['Data'] &gt; max_plataforma</code>. Ou seja, <strong>o OM só preenche meses futuros — nunca reescreve o passado</strong>. Isso elimina a principal queixa "projetado no meio de realizado" na parte de projeção.</p>
+            </div>
+            <div class="pillar">
+                <h4>Upload comentado no <code>run()</code></h4>
+                <p>Linha 999: <code># self.upload()</code>. O DAG do OM <strong>não faz upload automático</strong>. O upload é manual via <code>run_upload_bra.py</code> com gold previamente validado. Isso é uma proteção operacional que o NM não tem.</p>
+            </div>
+            <div class="pillar">
+                <h4><code>preencher_lacunas_com_media</code> respeita <code>limit=3</code></h4>
+                <p>Linhas 1253 e 1255: <code>interpolate(method='linear', limit=3)</code>. Respeita R3 para gaps internos gerais.</p>
+            </div>
+        </div>
+
+        <h3>13.2 · Mas o OM <strong>ainda revisa</strong> em 2 pontos</h3>
+
+        <table>
+            <thead>
+                <tr><th>Função</th><th>Arquivo:linha</th><th>O que faz</th><th>Viola R1?</th><th>Viola R3?</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>outlier_testing_iqr</code> — substituição</td>
+                    <td><code>costdrivers_comex_OM.py:737-745</code></td>
+                    <td>Para cada ponto, calcula Q1/Q3/IQR cumulativos com bounds <code>Q1-2·IQR</code> e <code>Q3+2·IQR</code> (note: <strong>2·IQR</strong>, mais folgado que o <strong>1.5·IQR</strong> do NM). Valores fora viram NaN. <strong>Em seguida, interpola com <code>interpolate(method='linear')</code> sem <code>limit</code></strong>. Mesmo padrão do NM.</td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                    <td class="col-chk"><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td><code>treat</code> — recálculo a cada run</td>
+                    <td><code>costdrivers_comex_OM.py:550-561</code></td>
+                    <td>Recalcula <code>FOB=valor/peso</code> e <code>CIF=(valor+frete+seguro)/peso</code> a cada execução a partir do raw. Se o portal (ex.: Siscomex BR ou INDEC AR) publicar uma retificação da série bruta, o OM <strong>incorpora a retificação silenciosamente</strong>. Não reescreve o gold passado diretamente (o gold é gerado do zero), mas o valor sai diferente da execução anterior.</td>
+                    <td class="col-chk"><span class="tag tag-warn">Indireto</span></td>
+                    <td class="col-chk">—</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="warning-box">
+            <strong>Descoberta contra-intuitiva:</strong> eu tinha dito na primeira rodada que o OM respeitava R3. Revisando o código com mais cuidado, <strong>a interpolação que substitui outliers dentro de <code>outlier_testing_iqr</code> não tem <code>limit</code></strong>. Ou seja, se um ID tem 6 outliers consecutivos no OM, todos viram NaN e são interpolados em linha reta, independentemente do tamanho do gap. Este ponto deve entrar no escopo de correção quando o cliente estender R3 ao OM.
+        </div>
+
+        <h3>13.3 · Queixas do cliente no contexto do OM</h3>
+
+        <table>
+            <thead>
+                <tr><th>Queixa</th><th>Ocorre no OM?</th><th>Onde</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CIF sem valores</td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                    <td>
+                        <code>treat()</code> linha 557–560: CIF só é calculado se <code>frete</code> e <code>seguro</code> estão presentes. Se o NCM importou mas sem frete/seguro declarados, <code>CIF = NaN</code>. Depois em <code>calculate_new_values</code> (linha 1639–1642), <code>Valor_Cif = pd.NA</code> se <code>ImportExport != 1</code> ou alpha ausente.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Projetado no meio de realizado</td>
+                    <td><span class="tag tag-warn">Parcial</span></td>
+                    <td>
+                        Via <code>calculate_new_values</code>: <strong>não ocorre</strong> (só preenche <code>Data &gt; max_plataforma</code>).<br>
+                        Via <code>outlier_testing_iqr</code>: <strong>ocorre</strong> — substitui valor real por interpolação linear. É o mesmo efeito visual para o cliente.
+                    </td>
+                </tr>
+                <tr>
+                    <td>CIF sem projeção</td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                    <td>
+                        <code>calculate_new_values</code> linha 1640: <code>Valor_Cif = alpha_FOB2CIF * Valor</code>. Se o último mês antes da projeção tem <code>alpha_FOB2CIF = NaN</code> (CIF daquele mês era NaN), toda a projeção futura fica com CIF NaN também. É o mesmo mecanismo do NM, apenas com cálculo de alpha por mês direto em vez de via <code>CIF_80/FOB_80</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Histórico sobrescrito</td>
+                    <td><span class="tag tag-ok">Não</span></td>
+                    <td>OM não tem histórico persistente. Cada run gera silver e gold do zero.</td>
+                </tr>
+                <tr>
+                    <td>Upload re-enviando mês publicado</td>
+                    <td><span class="tag tag-ok">Não (automaticamente)</span></td>
+                    <td>O <code>run()</code> do OM não chama <code>upload()</code> (linha 999 comentada). Upload é manual por <code>run_upload_bra.py</code>, operador decide o que subir.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>13.4 · Quadro-resumo OM × NM</h3>
+
+        <table>
+            <thead>
+                <tr><th>Problema</th><th>NM</th><th>OM</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Revisa realizado substituindo por modelo/interpolação</td>
+                    <td><span class="tag tag-ko">Sim</span> — 4 funções (STL, IQR pós-STL, fix_last, fix_neg)</td>
+                    <td><span class="tag tag-warn">Sim, apenas via IQR</span> — 1 função</td>
+                </tr>
+                <tr>
+                    <td>Interpolação sem limite de 3 meses</td>
+                    <td><span class="tag tag-ko">4 pontos</span> (linhas 169, 536, 2065 + fill_tail)</td>
+                    <td><span class="tag tag-warn">1 ponto</span> (linha 745 em outlier_testing_iqr)</td>
+                </tr>
+                <tr>
+                    <td>Histórico persistente reescrito</td>
+                    <td><span class="tag tag-ko">Sim</span> (últimos 3 meses, hardcoded)</td>
+                    <td><span class="tag tag-ok">Não aplicável</span></td>
+                </tr>
+                <tr>
+                    <td>Upload automático re-envia mês já publicado</td>
+                    <td><span class="tag tag-ko">Sim (bug &gt;= na linha 2246)</span></td>
+                    <td><span class="tag tag-ok">Não</span> (upload manual e filtrado no <code>calculate_new_values</code>)</td>
+                </tr>
+                <tr>
+                    <td>Projeção sobrepõe mês realizado</td>
+                    <td><span class="tag tag-ko">Sim</span> (via STL em target)</td>
+                    <td><span class="tag tag-ok">Não</span> (filtro explícito <code>Data &gt; max_plataforma</code>)</td>
+                </tr>
+                <tr>
+                    <td>CIF sem valor (frete/seguro ausentes)</td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>CIF sem projeção (alpha NaN em meses futuros)</td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                    <td><span class="tag tag-ko">Sim</span></td>
+                </tr>
+                <tr>
+                    <td>Bruto disponível para validação</td>
+                    <td><span class="tag tag-ok">Sim</span> (raw + historical.parquet)</td>
+                    <td><span class="tag tag-ok">Sim</span> (raw + silver.parquet)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>13.5 · Recomendação para o OM</h3>
+
+        <div class="info-box">
+            <p>O OM precisa de <strong>menos correções</strong> que o NM, mas não é imune:</p>
+            <ol>
+                <li><strong>Adicionar <code>limit=3</code> na interpolação do <code>outlier_testing_iqr</code></strong> (linha 745). Correção direta e coerente com o que já existe em <code>preencher_lacunas_com_media</code>.</li>
+                <li><strong>Avaliar se substituir outlier IQR por NaN+interpolação está alinhado com R1.</strong> Se o cliente estender a regra "não revisar" ao OM, essa função precisa ser desligada ou ficar atrás de uma flag.</li>
+                <li><strong>Cobrir "CIF sem projeção" para os países OM</strong> — a <code>projecao_cif.sql</code> existente no projeto só cobre Brasil (paisID=27). Países como ARG, COL, IND, MEX, USA no OM podem ter o mesmo buraco e não ter rede SQL.</li>
+                <li><strong>Manter o <code>upload()</code> comentado no <code>run()</code> intencionalmente.</strong> É uma proteção operacional contra upload automático de gold não-validado. Não é bug, é design — só vale deixar documentado para não ser "consertado" por engano.</li>
+            </ol>
+            <p><strong>Prioridade:</strong> se o cliente só está pedindo para o NM agora, o OM pode ficar para uma segunda onda — mas o item 1 é de risco baixo e vale fazer junto por coerência.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        Documento gerado a partir da análise dos arquivos fonte — nenhuma modificação foi feita no código.<br>
+        Arquivos analisados: <code>costdrivers_comex_NM.py</code> (varredura completa), <code>costdrivers_comex_OM.py</code> (comparativo), <code>COMEX_BRA_NM.py</code>, <code>run_upload_bra_nm.py</code>, <code>upload_gold_existente.py</code>, <code>diagnostico_historical.py</code>, <code>processamento_BR.sql</code> + documentação técnica (PDF e HTML).
+    </div>
+
+</div>
+</body>
+</html>
