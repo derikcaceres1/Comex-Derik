@@ -108,7 +108,6 @@ def optimize_dtypes(df):
 
     end_memory = df.memory_usage(deep=True).sum() / 1024 ** 2  # Memória final em MB
     memory_reduction = 100 * (start_memory - end_memory) / start_memory
-    print(f'Memória reduzida de {start_memory:.2f} MB para {end_memory:.2f} MB ({memory_reduction:.2f}%).')
     return df
 
 def reindex_series(series, date_column, value_column):
@@ -384,29 +383,6 @@ def top_n_percent(df: pd.DataFrame, threshold: float) -> pd.DataFrame:
     colunas_finais = grupo_cols + ['FOB_100', 'FOB_80', 'CIF_80', 'kg_ratio', 'pais_id_CUMUL']
     resultado = resultado[colunas_finais].reset_index(drop=True)
     
-    # Exportar dados dos top N% — tenta Excel, cai para CSV se falhar
-    import time
-    _downloads = Path.home() / "Downloads"
-    _ts = datetime.now().strftime('%Y%m%d_%H%M%S')
-    _base = f"top_{int(threshold * 100)}_percent_{_ts}"
-    _log_path = _downloads / f"{_base}_export_log.txt"
-    try:
-        _excel_path = _downloads / f"{_base}.xlsx"
-        resultado.to_excel(_excel_path, index=False)
-        _log_path.write_text(f"OK - Excel gerado: {_excel_path}\n")
-        print(f"FOI CRIADO O EXCEL VERIFIQUE: {_excel_path}")
-        time.sleep(30)
-    except Exception as e_xlsx:
-        try:
-            _csv_path = _downloads / f"{_base}.csv"
-            resultado.to_csv(_csv_path, index=False)
-            _log_path.write_text(f"Excel falhou ({e_xlsx}). CSV gerado: {_csv_path}\n")
-            print(f"FOI CRIADO O CSV VERIFIQUE: {_csv_path}")
-            time.sleep(30)
-        except Exception as e_csv:
-            _log_path.write_text(f"Excel falhou: {e_xlsx}\nCSV falhou: {e_csv}\n")
-            print(f"[top_n_percent] ERRO ao exportar: xlsx={e_xlsx} | csv={e_csv}")
-    
     resultado.drop(columns=['kg_ratio'], inplace=True)
     return resultado
 
@@ -613,82 +589,104 @@ def fix_last_month_high_residual(df, date_column='Data', value_column='Valor_fin
     Regra 2: Se é último mês E outlier por resíduos -> tendência + sazonalidade + resíduos suavizados
     Regra 3: Se é último mês E outlier por IQR -> média móvel 3 meses
     Fix the last available month for an ID based on multiple conditions.
+
+    Returns (df_processed, correction_record) where correction_record is a dict with
+    columns: ID, date, rule, prev_value, new_value, residual_zscore, iqr_outlier.
     """
     df_processed = df.copy()
-    
+
+    _id = df_processed[id_column].iloc[0] if (len(df_processed) > 0 and id_column in df_processed.columns) else 'Unknown'
+
     if len(df_processed) == 0:
-        return df_processed
-    
+        return df_processed, {'ID': _id, 'date': np.nan, 'rule': 'empty_df',
+                               'prev_value': np.nan, 'new_value': np.nan,
+                               'residual_zscore': np.nan, 'iqr_outlier': np.nan}
+
     df_processed = df_processed.sort_values(date_column).reset_index(drop=True)
-    
+
     last_idx = len(df_processed) - 1
-    
+
     required_columns_basic = ['residuals_zscore']
     missing_basic = [col for col in required_columns_basic if col not in df_processed.columns]
-    
+
     if missing_basic:
-        print(f"Warning: Missing basic columns {missing_basic} for ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}. Skipping fixes.")
-        return df_processed
-    
+        return df_processed, {'ID': _id, 'date': np.nan, 'rule': 'missing_columns',
+                               'prev_value': np.nan, 'new_value': np.nan,
+                               'residual_zscore': np.nan, 'iqr_outlier': np.nan}
+
     # Calcula últimos 3 meses
     def get_last_3_average(idx):
         if idx == 0:
-            return np.nan  
+            return np.nan
         prev_values = df_processed.loc[max(0, idx-3):idx-1, value_column]
         prev_values = prev_values.dropna()
         return prev_values.mean() if len(prev_values) > 0 else np.nan
-    
+
     idx = last_idx
-    
+    _date = df_processed.loc[idx, date_column] if date_column in df_processed.columns else np.nan
+    prev_value = df_processed.loc[idx, value_column]
+
     # Não mexe no histórico
     if 'Type' in df_processed.columns and df_processed.loc[idx, 'Type'] == 'historic':
-        print(f"Skipping last month fix for ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}: last value is historic")
-        return df_processed
-        
+        return df_processed, {'ID': _id, 'date': _date, 'rule': 'skipped_historic',
+                               'prev_value': prev_value, 'new_value': prev_value,
+                               'residual_zscore': np.nan, 'iqr_outlier': np.nan}
+
     residual_zscore = df_processed.loc[idx, 'residuals_zscore']
     iqr_outlier = df_processed.loc[idx, 'iqr_outlier'] if 'iqr_outlier' in df_processed.columns else False
-    
+
     # Regra 1:
     if (pd.notna(residual_zscore) and abs(residual_zscore) > 2.5 and iqr_outlier):
-        
         avg_value = get_last_3_average(idx)
         if not pd.isna(avg_value):
             df_processed.loc[idx, value_column] = avg_value
             df_processed.loc[idx, 'fix_applied'] = 'last_month_high_resid_iqr_avg3'
-            print(f"Applied fix 1 for ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}: "
-                  f"avg of last 3 = {avg_value:.3f}")
-    
+            rule, new_value = 'last_month_high_resid_iqr_avg3', avg_value
+        else:
+            df_processed.loc[idx, 'fix_applied'] = 'no_fix_needed'
+            rule, new_value = 'no_fix_needed', prev_value
+
     # Regra 2:
     elif (pd.notna(residual_zscore) and abs(residual_zscore) > 2.5):
-        
         trend_cols = ['trend', 'seasonality', 'residuals_smoothed']
         if all(col in df_processed.columns for col in trend_cols):
             new_value = (
-                df_processed.loc[idx, 'trend'] + 
-                df_processed.loc[idx, 'seasonality'] + 
+                df_processed.loc[idx, 'trend'] +
+                df_processed.loc[idx, 'seasonality'] +
                 df_processed.loc[idx, 'residuals_smoothed']
             )
             df_processed.loc[idx, value_column] = new_value
             df_processed.loc[idx, 'fix_applied'] = 'last_month_high_resid_trend_seasonal'
-            print(f"Applied fix 2 for ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}: "
-                  f"trend+seasonal+resid_smooth = {new_value:.3f}")
+            rule = 'last_month_high_resid_trend_seasonal'
         else:
-            print(f"Warning: Missing trend/seasonality columns for fix 2 on ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}")
-    
-    # Regra 3: 
+            rule, new_value = 'missing_trend_cols', prev_value
+
+    # Regra 3:
     elif iqr_outlier:
         avg_value = get_last_3_average(idx)
         if not pd.isna(avg_value):
             df_processed.loc[idx, value_column] = avg_value
             df_processed.loc[idx, 'fix_applied'] = 'last_month_iqr_outlier_avg3'
-            print(f"Applied fix 3 for ID {df_processed[id_column].iloc[0] if id_column in df_processed.columns else 'Unknown'}: "
-                  f"avg of last 3 = {avg_value:.3f}")
-    
+            rule, new_value = 'last_month_iqr_outlier_avg3', avg_value
+        else:
+            df_processed.loc[idx, 'fix_applied'] = 'no_fix_needed'
+            rule, new_value = 'no_fix_needed', prev_value
+
     else:
         df_processed.loc[idx, 'fix_applied'] = 'no_fix_needed'
-    
+        rule, new_value = 'no_fix_needed', prev_value
+
     # df_processed.drop(columns=['residuals_smoothed'], inplace=True)
-    return df_processed
+    correction_record = {
+        'ID': _id,
+        'date': _date,
+        'rule': rule,
+        'prev_value': prev_value,
+        'new_value': new_value,
+        'residual_zscore': residual_zscore,
+        'iqr_outlier': iqr_outlier,
+    }
+    return df_processed, correction_record
 
 def fix_negative_values(df):
     """Substitui de volta valores negativos que podem ter sido gerados em alguma das manipulações."""
@@ -811,6 +809,7 @@ class ComexPipelineNMv2(ABC):
             self.raw_path = f"NM/dados/{self.iso_code}/raw"
             self.silver_path = f"NM/dados/{self.iso_code}/silver"
             self.gold_path = f"NM/dados/{self.iso_code}/gold"
+            self.reports_path = f"NM/dados/{self.iso_code}/reports"
             # Usar iso_database para histórico compartilhado
             self.historical_data_path = f"NM/dados/{historical_db}/database"
         else:
@@ -818,6 +817,7 @@ class ComexPipelineNMv2(ABC):
             self.raw_path = f"{storage_base_path}/{self.iso_code}/raw"
             self.silver_path = f"{storage_base_path}/{self.iso_code}/silver"
             self.gold_path = f"{storage_base_path}/{self.iso_code}/gold"
+            self.reports_path = f"{storage_base_path}/{self.iso_code}/reports"
             # Usar iso_database para histórico compartilhado
             self.historical_data_path = f"{storage_base_path}/{historical_db}/database"
         
@@ -1927,6 +1927,8 @@ class ComexPipelineNMv2(ABC):
         # F4 — top_n_percent (mesma função/lógica do v1, sem efeito colateral aqui)
         df, dr = self._apply_top_n_percent(df, threshold=self.config.top_percent_threshold)
         drops.append(dr)
+        _date_str = pd.Timestamp.now().strftime('%Y%m%d')
+        self._save_to_storage(df, self.reports_path, f"top_n_percent_{self.iso_code}_{_date_str}.parquet")
         self.logger.info(
             "F4 (top_percent): %s pontos agregados, %s IDs com países descartados",
             len(df), len(dr),
@@ -2118,11 +2120,20 @@ class ComexPipelineNMv2(ABC):
         self.logger.info("Aplicando fix_last_month_high_residual...")
         try:
             _results = []
+            _correction_records = []
             for _, group in series_final.groupby('ID'):
-                _results.append(fix_last_month_high_residual(group.copy(), date_column='Data', value_column='Valor_final', id_column='ID'))
+                df_fixed, rec = fix_last_month_high_residual(group.copy(), date_column='Data', value_column='Valor_final', id_column='ID')
+                _results.append(df_fixed)
+                _correction_records.append(rec)
             series_final3 = pd.concat(_results, ignore_index=True) if _results else pd.DataFrame()
             series_final3['ID'] = series_final3['ID'].astype(np.int32)
-            self.logger.info(f"Séries após correção do último mês: {series_final3['ID'].nunique()} IDs")
+            if _correction_records:
+                corrections_df = pd.DataFrame(_correction_records)
+                _date_str = pd.Timestamp.now().strftime('%Y%m%d')
+                self._save_to_storage(corrections_df, self.reports_path, f"fix_last_month_corrections_{self.iso_code}_{_date_str}.parquet")
+            _fixes_applied = [r for r in _correction_records if r['rule'] not in ('no_fix_needed', 'skipped_historic', 'missing_columns', 'empty_df')]
+            _rule_counts = pd.Series([r['rule'] for r in _fixes_applied]).value_counts().to_dict() if _fixes_applied else {}
+            self.logger.info("fix_last_month_high_residual: %s IDs processados, %s correções aplicadas %s", len(_correction_records), len(_fixes_applied), _rule_counts)
         except Exception as e:
             self.logger.error(f"Erro ao executar fix_last_month_high_residual: {str(e)}")
             return pd.DataFrame()
