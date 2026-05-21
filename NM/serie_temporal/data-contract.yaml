@@ -263,17 +263,19 @@ COL:
 
 IND:
   export:
-    NCM: ncm
-    Pais: pais_name
-    Peso: peso
-    Valor: valor
-    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+    hs_code: ncm
+    country_id: pais_id
+    country_name: pais_name
+    quantity: peso
+    valor_raw_usd: valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
   import:
-    NCM: ncm
-    Pais: pais_name
-    Peso: peso
-    Valor: valor
-    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+    hs_code: ncm
+    country_id: pais_id
+    country_name: pais_name
+    quantity: peso
+    valor_raw_usd: valor
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
 
 JPN:
   export:
@@ -290,3 +292,24 @@ JPN:
     peso: peso
     valor: valor
     columns: ['Data', 'ncm', 'ImportExport', 'pais_id', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+
+MEX:
+  # Source: Banco de Mexico — Cubo de Comercio Exterior (banxico.org.mx)
+  # fecha    : parsed to Data by normalize_columns (e.g. "Enero 2021" -> 2021-01-01)
+  # ncm      : TIGIE fracción — variable length (6/8/10 digits), preserved as-is
+  # region   : Spanish country/region name — no pais_id available in source
+  # valor_usd: FOB value in USD — maps to valor
+  # valor_vol: volume in kilograms — maps to peso (no unit conversion needed)
+  # frete / seguro: not provided by source
+  export:
+    ncm: ncm
+    region: pais_name
+    valor_usd: valor
+    valor_vol: peso
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
+  import:
+    ncm: ncm
+    region: pais_name
+    valor_usd: valor
+    valor_vol: peso
+    columns: ['Data', 'ncm', 'ImportExport', 'pais_name', 'peso', 'valor', 'frete', 'seguro']
