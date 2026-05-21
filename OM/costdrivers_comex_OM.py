@@ -741,8 +741,13 @@ class ComexPipeline(ABC):
         series_clean.loc[iqr_outliers, 'suavisado'] = True
         series_clean.loc[~iqr_outliers, 'suavisado'] = False
         
-        # Interpolar valores faltantes usando método linear
-        series_clean[value_column] = series_clean[value_column].interpolate(method="linear")
+        # Interpolar valores faltantes usando método linear.
+        # limit_area="inside" garante que NaN no FIM da série (último mês outlier)
+        # permanece NaN — o tratamento desse caso é feito em preencher_lacunas_com_media
+        # via média dos 3 meses anteriores válidos (regra acordada com o cliente).
+        series_clean[value_column] = series_clean[value_column].interpolate(
+            method="linear", limit_area="inside"
+        )
         
         # Resetar índice e adicionar ID
         series_clean.reset_index(inplace=True)
@@ -1477,7 +1482,7 @@ def get_costdrivers_data(df: pd.DataFrame, n_months: int = 3) -> pd.DataFrame:
                 sys.path.insert(0, str(old_path))
                         
             endpoint_cost = 'https://api-costdrivers.gep.com/costdrivers-api'
-            pass_word = 'i2024nb4'
+            pass_word = 'r39ie8'
             
             def make_lista_requisicao(lista_ids: list, data_min: str, data_max: str):
                 """Cria lista de requisições para a API de cost drivers."""
@@ -1634,7 +1639,17 @@ def calculate_new_values(df_resultado: pd.DataFrame, dataframe_costdriver: pd.Da
             
             ultimo_valor_plataforma = group['Valor'].iloc[-1]
             sub_df['Valor'] = sub_df['variacao_percentual_FOB_cum'] * ultimo_valor_plataforma
-            
+
+            # Regra acordada com o cliente: quando o último mês do silver foi detectado
+            # como outlier, a variação fica NaN e o Valor projetado também. Nesse caso,
+            # usar a média dos até 3 valores publicados mais recentes da plataforma
+            # (em vez de copiar silenciosamente o último valor — bug histórico).
+            nan_mask = sub_df['Valor'].isna()
+            if nan_mask.any():
+                media_3 = group['Valor'].dropna().tail(3).mean()
+                if pd.notna(media_3):
+                    sub_df.loc[nan_mask, 'Valor'] = media_3
+
             # Calcular Valor_Cif apenas para importação usando alpha_FOB2CIF
             if ImportExport == 1 and has_alpha:
                 sub_df['Valor_Cif'] = sub_df['alpha_FOB2CIF'] * sub_df['Valor']
